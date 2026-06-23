@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>dyeary Privacy Policy</title>
+<link rel="icon" href="logo.png" />
+<link rel="apple-touch-icon" href="logo.png" />
+<style>
+  :root {
+    --bg: #F4EFE6;
+    --card: #FBF8F1;
+    --ink: #2E2A24;
+    --muted: #6F685C;
+    --line: #E4DCCC;
+    --accent: #C58A86;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    line-height: 1.65;
+    font-size: 18px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px 96px; }
+  header { margin-bottom: 48px; }
+  .mark {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .logo {
+    width: 30px; height: 30px; border-radius: 8px; display: block;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  }
+  .mark strong { font-size: 20px; font-weight: 600; }
+  h1 { font-size: 34px; line-height: 1.2; margin: 28px 0 6px; font-weight: 600; }
+  .eff { color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; }
+  h2 {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted); margin: 44px 0 12px; font-weight: 600;
+  }
+  p { margin: 0 0 16px; }
+  ul { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(197,138,134,0.4); }
+  a:hover { border-bottom-color: var(--accent); }
+  .lead { font-size: 20px; color: var(--ink); }
+  table {
+    width: 100%; border-collapse: collapse; margin: 8px 0 16px;
+    font-size: 16px; font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  footer {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line);
+    color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px;
+  }
+  strong.in { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark"><img class="logo" src="logo.png" alt="" /><strong>dyeary</strong></div>
+    <h1>Privacy Policy</h1>
+    <div class="eff">Last updated: June 22, 2026</div>
+  </header>
+
+  <p class="lead">dyeary is a voice journaling app. You speak, and the app turns what you said into a written entry and a sense of how you were feeling, building a private, year-long map of your moods over time. This page explains exactly what we collect, why, who helps us process it, and how you stay in control of it.</p>
+
+  <h2>Who we are</h2>
+  <p>dyeary is operated by an independent developer (Affan Khokhar). If you have any question about this policy or your data, contact us at <a href="mailto:affankhokhar@gmail.com">affankhokhar@gmail.com</a>.</p>
+
+  <h2>What we collect</h2>
+  <table>
+    <tr><th>Data</th><th>Why</th></tr>
+    <tr><td>Account identifier: your email address, or the private relay identifier from Sign in with Apple</td><td>To create your account and let only you access your journal</td></tr>
+    <tr><td>Your voice, while you are recording an entry</td><td>Streamed in real time to our voice-analysis provider to produce a transcript and a measure of emotional tone. <strong class="in">dyeary does not store raw audio recordings on its servers.</strong></td></tr>
+    <tr><td>Transcripts and refined entry text</td><td>The written version of your entry that you read back and keep</td></tr>
+    <tr><td>Mood &amp; emotion data</td><td>Derived emotion scores and a daily mood label/color that power your mood map</td></tr>
+    <tr><td>Basic technical data</td><td>Standard server logs (e.g. request times, errors) needed to operate and secure the service</td></tr>
+  </table>
+
+  <h2>How we use your data</h2>
+  <ul>
+    <li>To transcribe your spoken entries and refine them into readable journal entries.</li>
+    <li>To estimate the emotional tone of an entry and build your private mood map over the year.</li>
+    <li>To authenticate you and keep your journal accessible only to you.</li>
+    <li>To operate, secure, debug, and improve the app.</li>
+  </ul>
+  <p>We do <strong class="in">not</strong> sell your personal data, and we do <strong class="in">not</strong> use your journal content to show you advertising.</p>
+
+  <h2>Service providers we share data with</h2>
+  <p>We use a small number of trusted providers to run dyeary. They process your data only to provide their service to us, under their own privacy and security terms:</p>
+  <table>
+    <tr><th>Provider</th><th>What it handles</th></tr>
+    <tr><td>Hume AI</td><td>Receives your voice audio during a recording to produce a transcript and emotional-tone measurements.</td></tr>
+    <tr><td>Anthropic (Claude)</td><td>Receives the text transcript of an entry to generate the title, refined wording, summary, and highlights.</td></tr>
+    <tr><td>Supabase</td><td>Authentication and the database where your account, entries, and mood data are stored.</td></tr>
+    <tr><td>Render</td><td>Hosting for the dyeary backend service.</td></tr>
+  </table>
+  <p>We may also disclose information if required by law, or to protect the rights, safety, and security of our users and the service.</p>
+
+  <h2>Voice data, specifically</h2>
+  <p>Because dyeary is built around your voice, we want to be clear: your audio is captured only while you are actively recording an entry, is streamed to Hume AI for real-time processing, and is used to generate your transcript and emotion measurements. dyeary itself stores the resulting <em>transcript and emotion scores</em>, not the underlying audio file.</p>
+
+  <h2>Data retention &amp; deletion</h2>
+  <ul>
+    <li>Your entries and mood data are kept until you delete them or delete your account.</li>
+    <li>You can delete any individual entry from within the app at any time; its associated mood data is removed with it.</li>
+    <li>To delete your entire account and all associated data, email <a href="mailto:affankhokhar@gmail.com">affankhokhar@gmail.com</a> and we will remove it.</li>
+  </ul>
+
+  <h2>Security</h2>
+  <p>Your data is transmitted over encrypted connections (HTTPS) and stored with our database provider. Access to your journal requires authentication, and entries are scoped to your account so other users cannot read them. No method of transmission or storage is ever perfectly secure, but we take reasonable measures to protect your information.</p>
+
+  <h2>Children</h2>
+  <p>dyeary is not directed to children under 13, and we do not knowingly collect personal data from them. If you believe a child has provided us data, contact us and we will delete it.</p>
+
+  <h2>Your rights</h2>
+  <p>Depending on where you live, you may have the right to access, correct, export, or delete your personal data, and to object to or restrict certain processing. To exercise any of these, email <a href="mailto:affankhokhar@gmail.com">affankhokhar@gmail.com</a>.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>We may update this policy as the app evolves. When we do, we will revise the "Last updated" date above. Material changes will be reflected here before they take effect.</p>
+
+  <h2>Contact</h2>
+  <p>Questions, requests, or concerns: <a href="mailto:affankhokhar@gmail.com">affankhokhar@gmail.com</a></p>
+
+  <footer>
+    © 2026 dyeary. This policy describes the practices of the dyeary app and its backend service.
+  </footer>
+</div>
+</body>
+</html>
