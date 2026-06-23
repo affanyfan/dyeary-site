@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>dyeary — a voice journal that remembers how you felt</title>
+<meta name="description" content="Talk for a minute. dyeary writes the entry for you and quietly maps your mood across the whole year." />
+
+<!-- ============================================================= -->
+<!--  TO EDIT LATER:                                               -->
+<!--  1. Beta link  -> find  const BETA_URL  below and paste your  -->
+<!--     TestFlight public link in place of "#".                   -->
+<!--  2. Screenshots -> replace the three .phone placeholders in   -->
+<!--     the "How it works" section with <img src="..."> of your   -->
+<!--     real app screens (a comment marks each spot).             -->
+<!-- ============================================================= -->
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23D9B98C'/%3E%3Ccircle cx='13' cy='12' r='15' fill='%23A9783F'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --paper:   #F1EADC;   /* warm parchment */
+    --paper-2: #F7F2E8;   /* raised card */
+    --ink:     #2A2520;   /* warm near-black */
+    --muted:   #6C6357;
+    --faint:   #9A9082;
+    --line:    #E0D5C1;
+
+    /* dyeary's eight moods — straight from the app palette */
+    --joy:      #D99A2B;
+    --calm:     #7E9B79;
+    --love:     #C58A86;
+    --sad:      #6E8198;
+    --anger:    #B5523C;
+    --fear:     #8A7BA0;
+    --surprise: #E0B255;
+    --tired:    #9B948A;
+
+    --accent: var(--love);
+
+    --cell: clamp(9px, 1.45vw, 15px);
+    --gap:  clamp(3px, 0.42vw, 5px);
+
+    --maxw: 1080px;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Figtree", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection { background: rgba(197,138,134,0.32); }
+
+  .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  a { color: inherit; }
+
+  /* ---- eyebrow / small-caps utility ---- */
+  .eyebrow {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* ---- display type ---- */
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; font-weight: 500; line-height: 1.04; margin: 0; }
+
+  /* ====================== NAV ====================== */
+  .nav {
+    position: sticky; top: 0; z-index: 40;
+    background: color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s ease;
+  }
+  .nav.scrolled { border-bottom-color: var(--line); }
+  .nav-in { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand .dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: radial-gradient(circle at 38% 34%, #DCBD90, #A9783F);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  }
+  .brand b { font-family: "Fraunces", serif; font-weight: 600; font-size: 20px; letter-spacing: 0.01em; }
+  .nav-right { display: flex; align-items: center; gap: 22px; }
+  .nav-link { text-decoration: none; color: var(--muted); font-size: 15px; font-weight: 500; }
+  .nav-link:hover { color: var(--ink); }
+
+  /* ---- buttons ---- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: inherit; font-size: 15px; font-weight: 600;
+    text-decoration: none; cursor: pointer;
+    padding: 11px 20px; border-radius: 999px;
+    border: 1px solid transparent;
+    transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
+  }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 22px -12px rgba(42,37,32,0.7); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-ghost:hover { background: var(--paper-2); border-color: var(--muted); }
+  .btn .arrow { transition: transform .2s ease; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* ====================== HERO ====================== */
+  .hero { padding: clamp(48px, 8vw, 96px) 0 0; text-align: center; }
+  .hero .eyebrow { display: block; margin-bottom: 22px; }
+  .hero h1 {
+    font-size: clamp(44px, 8.2vw, 92px);
+    letter-spacing: -0.02em;
+  }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .hero .sub {
+    max-width: 540px; margin: 26px auto 0;
+    font-size: clamp(17px, 2.2vw, 20px); color: var(--muted);
+  }
+  .hero-cta { margin-top: 34px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* ---- the signature: a year of moods ---- */
+  .map-frame {
+    margin-top: clamp(48px, 7vw, 86px);
+    position: relative;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .moodmap {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(7, var(--cell));
+    gap: var(--gap);
+    width: max-content;
+    margin: 0 auto;
+    padding: 4px;
+  }
+  .cell {
+    width: var(--cell); height: var(--cell);
+    border-radius: 3px;
+    background: var(--c, transparent);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.035);
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  .cell.empty { background: rgba(122,112,96,0.10); box-shadow: none; }
+  .cell.in { animation: pop .5s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: var(--d, 0ms); }
+  @keyframes pop { to { opacity: 1; transform: scale(1); } }
+
+  .map-caption {
+    margin-top: 20px; text-align: center;
+    font-size: 13.5px; color: var(--faint);
+    letter-spacing: 0.04em;
+  }
+
+  /* legend */
+  .legend { margin-top: 16px; display: flex; gap: 16px 22px; justify-content: center; flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--muted); }
+  .legend i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+  /* tooltip */
+  .tip {
+    position: fixed; z-index: 60; pointer-events: none;
+    background: var(--ink); color: var(--paper);
+    font-size: 12.5px; font-weight: 500;
+    padding: 5px 9px; border-radius: 7px;
+    transform: translate(-50%, -130%);
+    opacity: 0; transition: opacity .12s ease;
+    white-space: nowrap;
+  }
+  .tip.show { opacity: 1; }
+
+  /* ====================== SECTIONS ====================== */
+  .section { padding: clamp(72px, 11vw, 132px) 0; }
+  .section-head { max-width: 620px; }
+  .section-head.center { margin: 0 auto; text-align: center; }
+  .section-head h2 { font-size: clamp(32px, 4.6vw, 52px); letter-spacing: -0.015em; }
+  .section-head .eyebrow { display: block; margin-bottom: 16px; }
+  .section-head p { color: var(--muted); font-size: 18px; margin: 18px 0 0; }
+
+  .rule { height: 1px; background: var(--line); border: 0; margin: 0; }
+
+  /* ---- how it works: three movements ---- */
+  .steps { margin-top: clamp(44px, 6vw, 72px); display: grid; gap: clamp(40px, 6vw, 64px); }
+  .step { display: grid; grid-template-columns: 1fr 300px; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .step:nth-child(even) .step-text { order: 2; }
+  .step-text .num {
+    font-family: "Fraunces", serif; font-style: italic;
+    font-size: 19px; color: var(--accent); font-weight: 500;
+  }
+  .step-text h3 { font-size: clamp(26px, 3.4vw, 36px); margin-top: 6px; letter-spacing: -0.01em; }
+  .step-text p { color: var(--muted); margin: 14px 0 0; max-width: 40ch; }
+
+  /* phone frame (screenshot slot) */
+  .phone {
+    justify-self: center;
+    width: 248px; aspect-ratio: 248 / 510;
+    border-radius: 38px;
+    background: #15110D;
+    padding: 9px;
+    box-shadow: 0 30px 60px -28px rgba(42,37,32,0.55), inset 0 0 0 1px rgba(255,255,255,0.06);
+  }
+  .phone .screen {
+    width: 100%; height: 100%;
+    border-radius: 30px; overflow: hidden;
+    background: linear-gradient(170deg, var(--paper-2), #ECE3D2);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; position: relative;
+  }
+  .phone .screen img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .phone .ph-dot { width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 38% 34%, #DCBD90, #A9783F); }
+  .phone .ph-label { font-size: 12px; color: var(--faint); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* ---- features triptych ---- */
+  .features { margin-top: clamp(44px, 6vw, 72px); display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .feature { background: var(--paper); padding: 34px 30px; }
+  .feature .swatch { display: flex; gap: 5px; margin-bottom: 18px; }
+  .feature .swatch i { width: 14px; height: 14px; border-radius: 4px; }
+  .feature h3 { font-size: 22px; letter-spacing: -0.01em; }
+  .feature p { color: var(--muted); font-size: 15.5px; margin: 10px 0 0; }
+
+  /* ---- trust band ---- */
+  .trust { background: var(--ink); color: var(--paper); }
+  .trust .wrap { padding-top: clamp(64px, 9vw, 104px); padding-bottom: clamp(64px, 9vw, 104px); }
+  .trust .eyebrow { color: rgba(241,234,220,0.5); display: block; margin-bottom: 18px; }
+  .trust h2 { font-family: "Fraunces", serif; font-weight: 400; font-size: clamp(28px, 4.4vw, 46px); letter-spacing: -0.01em; max-width: 16ch; line-height: 1.12; }
+  .trust h2 em { font-style: italic; color: #E6BFA0; }
+  .trust p { color: rgba(241,234,220,0.7); max-width: 52ch; margin: 22px 0 0; font-size: 17px; }
+  .trust a.inline { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(241,234,220,0.4); padding-bottom: 1px; }
+  .trust a.inline:hover { border-bottom-color: var(--paper); }
+
+  /* ---- final cta ---- */
+  .cta-end { text-align: center; }
+  .cta-end h2 { font-size: clamp(40px, 6vw, 72px); letter-spacing: -0.02em; }
+  .cta-end h2 em { font-style: italic; font-weight: 400; color: var(--accent); }
+  .cta-end p { color: var(--muted); margin: 18px auto 30px; max-width: 44ch; }
+
+  /* ---- footer ---- */
+  .footer { border-top: 1px solid var(--line); }
+  .footer .wrap { padding: 44px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .footer .brand b { font-size: 17px; }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 14.5px; }
+  .footer-links a:hover { color: var(--ink); }
+  .footer .copy { color: var(--faint); font-size: 13px; width: 100%; }
+
+  /* focus */
+  a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  /* ---- responsive ---- */
+  @media (max-width: 760px) {
+    .step { grid-template-columns: 1fr; gap: 28px; }
+    .step:nth-child(even) .step-text { order: 0; }
+    .phone { width: 220px; }
+    .features { grid-template-columns: 1fr; }
+    .nav-link.hide-sm { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .cell { animation: none !important; opacity: 1; transform: none; }
+    .btn:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====================== NAV ====================== -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="dyeary home">
+      <span class="dot"></span><b>dyeary</b>
+    </a>
+    <nav class="nav-right">
+      <a class="nav-link hide-sm" href="#how">How it works</a>
+      <a class="nav-link" href="https://affanyfan.github.io/dyeary-privacy/">Privacy</a>
+      <a class="nav-link beta btn btn-primary" href="#" style="padding:9px 16px;">Join the beta</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ====================== HERO ====================== -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">A voice journal · with a memory for mood</span>
+      <h1>A year of<br><em>how you felt.</em></h1>
+      <p class="sub">Talk for a minute. dyeary writes the entry for you — and quietly colors the day by how you sounded, until a whole year takes shape.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary beta" href="#">Join the beta <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+    </div>
+
+    <!-- signature element: a real year of moods, filling in on load -->
+    <div class="map-frame">
+      <div class="moodmap" id="moodmap" role="img" aria-label="A year of moods — each day is colored by its dominant emotion, and many days are left blank."></div>
+    </div>
+    <p class="map-caption">One year in dyeary · each square is a day, colored by its mood</p>
+    <div class="legend" id="legend" aria-hidden="true"></div>
+  </section>
+
+  <div class="wrap"><hr class="rule" style="margin-top:clamp(56px,8vw,96px)" /></div>
+
+  <!-- ====================== HOW IT WORKS ====================== -->
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="section-head center">
+        <span class="eyebrow">Three small movements</span>
+        <h2>You talk. It does the rest.</h2>
+        <p>No prompts to fill in, no streak to protect. dyeary is built for the minute before you fall asleep.</p>
+      </div>
+
+      <div class="steps">
+        <!-- STEP 1 -->
+        <article class="step">
+          <div class="step-text">
+            <span class="num">i — Speak</span>
+            <h3>Open it and just talk.</h3>
+            <p>A minute, a sentence, a ramble — whatever the day was. No typing, no blank page staring back at you.</p>
+          </div>
+          <div class="phone"><div class="screen"><img src="screens/record.png" alt="Recording a voice entry in dyeary" /></div></div>
+        </article>
+
+        <!-- STEP 2 -->
+        <article class="step">
+          <div class="step-text">
+            <span class="num">ii — Read it back</span>
+            <h3>Your words, made into an entry.</h3>
+            <p>dyeary writes it up for you — a title, the moments worth keeping, the exact things you said — so you can actually look back on it.</p>
+          </div>
+          <div class="phone"><div class="screen"><img src="screens/feed.png" alt="A day of finished entries in dyeary" /></div></div>
+        </article>
+
+        <!-- STEP 3 -->
+        <article class="step">
+          <div class="step-text">
+            <span class="num">iii — Watch the year fill in</span>
+            <h3>The patterns show up on their own.</h3>
+            <p>Every entry reads your tone and colors a day on your map. You don't rate anything — you just keep talking, and the shape of your year appears.</p>
+          </div>
+          <div class="phone"><div class="screen"><img src="screens/map.png" alt="The yearly mood map in dyeary" /></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><hr class="rule" /></div>
+
+  <!-- ====================== FEATURES ====================== -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why it feels different</span>
+        <h2>A map, not a metric.</h2>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="swatch"><i style="background:var(--joy)"></i><i style="background:var(--love)"></i><i style="background:var(--calm)"></i></div>
+          <h3>Your voice does the writing</h3>
+          <p>The hardest part of journaling is starting. Here you just speak, and the entry writes itself.</p>
+        </div>
+        <div class="feature">
+          <div class="swatch"><i style="background:var(--sad)"></i><i style="background:var(--surprise)"></i><i style="background:var(--fear)"></i></div>
+          <h3>Eight moods, not a score</h3>
+          <p>dyeary doesn't grade your day from one to ten. It paints it in the color of how you actually sounded.</p>
+        </div>
+        <div class="feature">
+          <div class="swatch"><i style="background:var(--tired)"></i><i style="background:var(--anger)"></i><i style="background:var(--calm)"></i></div>
+          <h3>The long view</h3>
+          <p>A single day tells you little. A year, colored in, tells you where you've been — and quietly, where you're heading.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== TRUST BAND ====================== -->
+  <section class="trust">
+    <div class="wrap">
+      <span class="eyebrow">On your voice</span>
+      <h2>It keeps the words. <em>Not the audio.</em></h2>
+      <p>Your recording is used to write your entry and read its tone — and then it's gone. What stays is yours: the text, the moods, the year. Nothing is sold, and nothing is for sale. <a class="inline" href="https://affanyfan.github.io/dyeary-privacy/">Read the privacy policy →</a></p>
+    </div>
+  </section>
+
+  <!-- ====================== FINAL CTA ====================== -->
+  <section class="section cta-end">
+    <div class="wrap">
+      <h2>Start your <em>year.</em></h2>
+      <p>dyeary is in private beta on iOS. Join early and watch your first months fill in.</p>
+      <a class="btn btn-primary beta" href="#">Join the beta <span class="arrow">→</span></a>
+    </div>
+  </section>
+</main>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="footer">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="dot"></span><b>dyeary</b></a>
+    <nav class="footer-links">
+      <a href="#how">How it works</a>
+      <a href="https://affanyfan.github.io/dyeary-privacy/">Privacy</a>
+      <a href="mailto:affankhokhar@gmail.com">Contact</a>
+      <a class="beta" href="#">Join the beta</a>
+    </nav>
+    <div class="copy">© 2026 dyeary · Made for the minute before you fall asleep.</div>
+  </div>
+</footer>
+
+<div class="tip" id="tip" aria-hidden="true"></div>
+
+<script>
+  // ---- EDIT ME: paste your TestFlight public link here ----
+  const BETA_URL = "#";
+  document.querySelectorAll("a.beta").forEach(a => {
+    a.setAttribute("href", BETA_URL);
+    if (BETA_URL !== "#") a.setAttribute("target", "_blank");
+  });
+
+  // ---- nav shadow on scroll ----
+  const nav = document.getElementById("nav");
+  const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 8);
+  onScroll(); window.addEventListener("scroll", onScroll, { passive: true });
+
+  // ---- the mood map: a generated year ----
+  const MOODS = [
+    ["joy", "#D99A2B", "Joy"],
+    ["calm", "#7E9B79", "Calm"],
+    ["love", "#C58A86", "Love"],
+    ["surprise","#E0B255","Surprise"],
+    ["tired","#9B948A","Tired"],
+    ["sad", "#6E8198", "Sad"],
+    ["fear", "#8A7BA0", "Fear"],
+    ["anger","#B5523C","Anger"],
+  ];
+  // weighted toward a gentle year; some days left blank
+  const BAG = [
+    "joy","joy","joy","calm","calm","calm","calm","love","love",
+    "surprise","surprise","tired","tired","sad","sad","fear","anger"
+  ];
+  const byKey = Object.fromEntries(MOODS.map(m => [m[0], m]));
+
+  const WEEKS = 53, DAYS = 7;
+  const map = document.getElementById("moodmap");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const frag = document.createDocumentFragment();
+
+  // deterministic-ish but lively
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  for (let w = 0; w < WEEKS; w++) {
+    for (let d = 0; d < DAYS; d++) {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      const blank = Math.random() < 0.26;
+      if (blank) {
+        cell.classList.add("empty");
+      } else {
+        const m = byKey[pick(BAG)];
+        cell.style.setProperty("--c", m[1]);
+        cell.dataset.mood = m[2];
+      }
+      if (!reduce) {
+        // sweep left -> right, with a soft per-column ripple
+        cell.style.setProperty("--d", (w * 28 + d * 10) + "ms");
+        requestAnimationFrame(() => cell.classList.add("in"));
+      } else {
+        cell.classList.add("in");
+      }
+      frag.appendChild(cell);
+    }
+  }
+  map.appendChild(frag);
+
+  // ---- legend ----
+  const legend = document.getElementById("legend");
+  MOODS.forEach(([,hex,label]) => {
+    const s = document.createElement("span");
+    s.innerHTML = '<i style="background:'+hex+'"></i>'+label;
+    legend.appendChild(s);
+  });
+
+  // ---- hover tooltip on cells ----
+  const tip = document.getElementById("tip");
+  map.addEventListener("pointermove", (e) => {
+    const c = e.target.closest(".cell");
+    if (c && c.dataset.mood) {
+      tip.textContent = c.dataset.mood;
+      tip.style.left = e.clientX + "px";
+      tip.style.top = e.clientY + "px";
+      tip.classList.add("show");
+    } else {
+      tip.classList.remove("show");
+    }
+  });
+  map.addEventListener("pointerleave", () => tip.classList.remove("show"));
+</script>
+</body>
+</html>
