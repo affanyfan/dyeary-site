@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>dyeary — a voice journal that remembers how you felt</title>
+<title>dyeary · a voice journal that remembers how you felt</title>
 <meta name="description" content="Talk for a minute. dyeary writes the entry for you and quietly maps your mood across the whole year." />
 
 <!-- ============================================================= -->
@@ -15,7 +15,8 @@
 <!--     real app screens (a comment marks each spot).             -->
 <!-- ============================================================= -->
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23D9B98C'/%3E%3Ccircle cx='13' cy='12' r='15' fill='%23A9783F'/%3E%3C/svg%3E" />
+<link rel="icon" href="logo.png" />
+<link rel="apple-touch-icon" href="logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -29,7 +30,7 @@
     --faint:   #9A9082;
     --line:    #E0D5C1;
 
-    /* dyeary's eight moods — straight from the app palette */
+    /* dyeary's eight moods, straight from the app palette */
     --joy:      #D99A2B;
     --calm:     #7E9B79;
     --love:     #C58A86;
@@ -90,10 +91,9 @@
   .nav.scrolled { border-bottom-color: var(--line); }
   .nav-in { display: flex; align-items: center; justify-content: space-between; height: 66px; }
   .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
-  .brand .dot {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: radial-gradient(circle at 38% 34%, #DCBD90, #A9783F);
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  .brand .logo {
+    width: 26px; height: 26px; border-radius: 7px; display: block;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.07);
   }
   .brand b { font-family: "Fraunces", serif; font-weight: 600; font-size: 20px; letter-spacing: 0.01em; }
   .nav-right { display: flex; align-items: center; gap: 22px; }
@@ -240,11 +240,17 @@
   .trust a.inline { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(241,234,220,0.4); padding-bottom: 1px; }
   .trust a.inline:hover { border-bottom-color: var(--paper); }
 
-  /* ---- final cta ---- */
-  .cta-end { text-align: center; }
+  /* ---- statement line ---- */
+  .statement { text-align: center; }
+  .statement h2 { font-size: clamp(34px, 5.5vw, 64px); letter-spacing: -0.02em; max-width: 16ch; margin: 0 auto; }
+
+  /* ---- final cta (dark block) ---- */
+  .cta-end { background: var(--ink); color: var(--paper); text-align: center; }
   .cta-end h2 { font-size: clamp(40px, 6vw, 72px); letter-spacing: -0.02em; }
-  .cta-end h2 em { font-style: italic; font-weight: 400; color: var(--accent); }
-  .cta-end p { color: var(--muted); margin: 18px auto 30px; max-width: 44ch; }
+  .cta-end h2 em { font-style: italic; font-weight: 400; color: #E6BFA0; }
+  .cta-end p { color: rgba(241,234,220,0.72); margin: 18px auto 30px; max-width: 44ch; }
+  .cta-end .btn-primary { background: var(--paper); color: var(--ink); }
+  .cta-end .btn-primary:hover { box-shadow: 0 10px 26px -12px rgba(0,0,0,0.6); }
 
   /* ---- footer ---- */
   .footer { border-top: 1px solid var(--line); }
@@ -280,7 +286,7 @@
 <header class="nav" id="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#top" aria-label="dyeary home">
-      <span class="dot"></span><b>dyeary</b>
+      <img class="logo" src="logo.png" alt="" /><b>dyeary</b>
     </a>
     <nav class="nav-right">
       <a class="nav-link hide-sm" href="#how">How it works</a>
@@ -297,7 +303,7 @@
     <div class="wrap">
       <span class="eyebrow">A voice journal · with a memory for mood</span>
       <h1>A year of<br><em>how you felt.</em></h1>
-      <p class="sub">Talk for a minute. dyeary writes the entry for you — and quietly colors the day by how you sounded, until a whole year takes shape.</p>
+      <p class="sub">Talk for a minute. dyeary writes the entry for you, then quietly colors the day by how you sounded, until a whole year takes shape.</p>
       <div class="hero-cta">
         <a class="btn btn-primary beta" href="#">Join the beta <span class="arrow">→</span></a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
@@ -306,7 +312,7 @@
 
     <!-- signature element: a real year of moods, filling in on load -->
     <div class="map-frame">
-      <div class="moodmap" id="moodmap" role="img" aria-label="A year of moods — each day is colored by its dominant emotion, and many days are left blank."></div>
+      <div class="moodmap" id="moodmap" role="img" aria-label="A year of moods, each day colored by its dominant emotion, and many left blank."></div>
     </div>
     <p class="map-caption">One year in dyeary · each square is a day, colored by its mood</p>
     <div class="legend" id="legend" aria-hidden="true"></div>
@@ -320,16 +326,14 @@
       <div class="section-head center">
         <span class="eyebrow">Three small movements</span>
         <h2>You talk. It does the rest.</h2>
-        <p>No prompts to fill in, no streak to protect. dyeary is built for the minute before you fall asleep.</p>
       </div>
 
       <div class="steps">
         <!-- STEP 1 -->
         <article class="step">
           <div class="step-text">
-            <span class="num">i — Speak</span>
             <h3>Open it and just talk.</h3>
-            <p>A minute, a sentence, a ramble — whatever the day was. No typing, no blank page staring back at you.</p>
+            <p>A minute, a sentence, a ramble, whatever the day was. No typing, no blank page staring back at you.</p>
           </div>
           <div class="phone"><div class="screen"><img src="screens/record.png" alt="Recording a voice entry in dyeary" /></div></div>
         </article>
@@ -337,9 +341,8 @@
         <!-- STEP 2 -->
         <article class="step">
           <div class="step-text">
-            <span class="num">ii — Read it back</span>
-            <h3>Your words, made into an entry.</h3>
-            <p>dyeary writes it up for you — a title, the moments worth keeping, the exact things you said — so you can actually look back on it.</p>
+            <h3>Your words are a mood.</h3>
+            <p>dyeary writes your day into a real entry, then reads the tone of your voice and gives it a color. The feeling is saved right alongside the words.</p>
           </div>
           <div class="phone"><div class="screen"><img src="screens/feed.png" alt="A day of finished entries in dyeary" /></div></div>
         </article>
@@ -347,9 +350,8 @@
         <!-- STEP 3 -->
         <article class="step">
           <div class="step-text">
-            <span class="num">iii — Watch the year fill in</span>
             <h3>The patterns show up on their own.</h3>
-            <p>Every entry reads your tone and colors a day on your map. You don't rate anything — you just keep talking, and the shape of your year appears.</p>
+            <p>Every entry colors a day on your map. You don't rate anything. You just keep talking, and the shape of your year appears.</p>
           </div>
           <div class="phone"><div class="screen"><img src="screens/map.png" alt="The yearly mood map in dyeary" /></div></div>
         </article>
@@ -359,39 +361,10 @@
 
   <div class="wrap"><hr class="rule" /></div>
 
-  <!-- ====================== FEATURES ====================== -->
-  <section class="section">
+  <!-- ====================== STATEMENT ====================== -->
+  <section class="section statement">
     <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">Why it feels different</span>
-        <h2>A map, not a metric.</h2>
-      </div>
-      <div class="features">
-        <div class="feature">
-          <div class="swatch"><i style="background:var(--joy)"></i><i style="background:var(--love)"></i><i style="background:var(--calm)"></i></div>
-          <h3>Your voice does the writing</h3>
-          <p>The hardest part of journaling is starting. Here you just speak, and the entry writes itself.</p>
-        </div>
-        <div class="feature">
-          <div class="swatch"><i style="background:var(--sad)"></i><i style="background:var(--surprise)"></i><i style="background:var(--fear)"></i></div>
-          <h3>Eight moods, not a score</h3>
-          <p>dyeary doesn't grade your day from one to ten. It paints it in the color of how you actually sounded.</p>
-        </div>
-        <div class="feature">
-          <div class="swatch"><i style="background:var(--tired)"></i><i style="background:var(--anger)"></i><i style="background:var(--calm)"></i></div>
-          <h3>The long view</h3>
-          <p>A single day tells you little. A year, colored in, tells you where you've been — and quietly, where you're heading.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ====================== TRUST BAND ====================== -->
-  <section class="trust">
-    <div class="wrap">
-      <span class="eyebrow">On your voice</span>
-      <h2>It keeps the words. <em>Not the audio.</em></h2>
-      <p>Your recording is used to write your entry and read its tone — and then it's gone. What stays is yours: the text, the moods, the year. Nothing is sold, and nothing is for sale. <a class="inline" href="https://affanyfan.github.io/dyeary-privacy/">Read the privacy policy →</a></p>
+      <h2>It's a map, not a metric.</h2>
     </div>
   </section>
 
@@ -408,14 +381,14 @@
 <!-- ====================== FOOTER ====================== -->
 <footer class="footer">
   <div class="wrap">
-    <a class="brand" href="#top"><span class="dot"></span><b>dyeary</b></a>
+    <a class="brand" href="#top"><img class="logo" src="logo.png" alt="" /><b>dyeary</b></a>
     <nav class="footer-links">
       <a href="#how">How it works</a>
       <a href="https://affanyfan.github.io/dyeary-privacy/">Privacy</a>
       <a href="mailto:affankhokhar@gmail.com">Contact</a>
       <a class="beta" href="#">Join the beta</a>
     </nav>
-    <div class="copy">© 2026 dyeary · Made for the minute before you fall asleep.</div>
+    <div class="copy">© 2026 dyeary · Speak a little, see your year.</div>
   </div>
 </footer>
 
