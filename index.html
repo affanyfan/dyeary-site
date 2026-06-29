@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
 <style>
   :root {
@@ -55,7 +55,7 @@
     margin: 0;
     background: var(--paper);
     color: var(--ink);
-    font-family: "Figtree", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-family: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
     font-size: 17px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -78,7 +78,7 @@
   }
 
   /* ---- display type ---- */
-  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; font-weight: 500; line-height: 1.04; margin: 0; }
+  h1, h2, h3 { font-family: "Cormorant", Georgia, serif; font-weight: 500; line-height: 1.04; margin: 0; }
 
   /* ====================== NAV ====================== */
   .nav {
@@ -95,7 +95,7 @@
     width: 26px; height: 26px; border-radius: 7px; display: block;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.07);
   }
-  .brand b { font-family: "Fraunces", serif; font-weight: 600; font-size: 20px; letter-spacing: 0.01em; }
+  .brand b { font-family: "Cormorant", serif; font-weight: 600; font-size: 20px; letter-spacing: 0.01em; }
   .nav-right { display: flex; align-items: center; gap: 22px; }
   .nav-link { text-decoration: none; color: var(--muted); font-size: 15px; font-weight: 500; }
   .nav-link:hover { color: var(--ink); }
@@ -197,7 +197,7 @@
   .step { display: grid; grid-template-columns: 1fr 300px; gap: clamp(28px, 5vw, 64px); align-items: center; }
   .step:nth-child(even) .step-text { order: 2; }
   .step-text .num {
-    font-family: "Fraunces", serif; font-style: italic;
+    font-family: "Cormorant", serif; font-style: italic;
     font-size: 19px; color: var(--accent); font-weight: 500;
   }
   .step-text h3 { font-size: clamp(26px, 3.4vw, 36px); margin-top: 6px; letter-spacing: -0.01em; }
@@ -235,7 +235,7 @@
   .trust { background: var(--ink); color: var(--paper); }
   .trust .wrap { padding-top: clamp(64px, 9vw, 104px); padding-bottom: clamp(64px, 9vw, 104px); }
   .trust .eyebrow { color: rgba(241,234,220,0.5); display: block; margin-bottom: 18px; }
-  .trust h2 { font-family: "Fraunces", serif; font-weight: 400; font-size: clamp(28px, 4.4vw, 46px); letter-spacing: -0.01em; max-width: 16ch; line-height: 1.12; }
+  .trust h2 { font-family: "Cormorant", serif; font-weight: 400; font-size: clamp(28px, 4.4vw, 46px); letter-spacing: -0.01em; max-width: 16ch; line-height: 1.12; }
   .trust h2 em { font-style: italic; color: #E6BFA0; }
   .trust p { color: rgba(241,234,220,0.7); max-width: 52ch; margin: 22px 0 0; font-size: 17px; }
   .trust a.inline { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(241,234,220,0.4); padding-bottom: 1px; }
@@ -279,6 +279,72 @@
     .cell { animation: none !important; opacity: 1; transform: none; }
     .btn:hover { transform: none; }
   }
+
+  /* ====================== LIVE PHONE MOCKUPS ====================== */
+  /* Rendered in-page (not screenshots), sized with container-query units so
+     everything scales crisply inside the phone frame at any width. */
+  .phone .screen.mock { display: block; background: var(--paper); container-type: size; }
+  .mk { position: absolute; inset: 0; overflow: hidden; background: var(--paper); padding: 7cqw 5.5cqw 0; }
+  .mk svg { display: block; }
+
+  /* week strip */
+  .mk-week { display: flex; align-items: flex-end; gap: 1.5cqw; margin-bottom: 4cqw; }
+  .mk-week .d { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1.6cqw; }
+  .mk-week .wd { font-family: "Hanken Grotesk", sans-serif; font-size: 3cqw; color: var(--faint); }
+  .mk-week .nm { width: 8.4cqw; height: 8.4cqw; border-radius: 50%; display: grid; place-items: center;
+                 font-family: "Hanken Grotesk", sans-serif; font-size: 3.4cqw; color: var(--muted); background: var(--paper-2); }
+  .mk-week .d.has .nm { color: var(--ink); }
+  .mk-week .d.on .wd { color: var(--ink); font-weight: 700; }
+  .mk-week .d.on .nm { background: var(--joy); color: #fff; font-weight: 600; }
+
+  /* greeting */
+  .mk-greet { font-family: "Cormorant", serif; font-weight: 600; font-size: 8.6cqw; line-height: 1.04;
+              color: var(--ink); margin: 1.5cqw 0 4.5cqw; }
+  .mk-greet em { font-style: italic; color: var(--love); }
+  .mk-eyebrow { text-align: center; font-family: "Hanken Grotesk", sans-serif; font-weight: 600;
+                font-size: 2.7cqw; letter-spacing: 0.2em; text-transform: uppercase; color: var(--faint); margin-bottom: 3.5cqw; }
+
+  /* entry cards */
+  .mk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.4cqw; }
+  .mk-card { background: color-mix(in srgb, var(--mc, var(--calm)) 20%, var(--paper-2)); border-radius: 5cqw;
+             padding: 4cqw; aspect-ratio: 1 / 1; display: flex; flex-direction: column; }
+  .mk-card .t { font-family: "Cormorant", serif; font-weight: 600; font-size: 4.7cqw; line-height: 1.06; color: var(--ink); }
+  .mk-card .p { font-family: "Newsreader", serif; font-size: 3.4cqw; line-height: 1.3; color: var(--muted);
+                margin-top: 2cqw; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+  .mk-card .m { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 1.5cqw; padding-top: 3cqw; }
+  .mk-card .time { font-family: "Hanken Grotesk", sans-serif; font-size: 2.8cqw; color: var(--faint); }
+  .mk-card .pill { font-family: "Hanken Grotesk", sans-serif; font-size: 2.8cqw; font-weight: 600; color: var(--mc);
+                   background: var(--paper); border-radius: 999px; padding: 1.4cqw 3cqw; }
+
+  /* floating tab bar */
+  .mk-tab { position: absolute; left: 0; right: 0; bottom: 5cqw; display: flex; align-items: center; justify-content: center; gap: 3cqw; }
+  .mk-tab .bar { display: flex; align-items: center; gap: 4.5cqw; padding: 3cqw 5cqw; border-radius: 999px;
+                 background: color-mix(in srgb, var(--paper-2) 82%, transparent); backdrop-filter: blur(8px);
+                 box-shadow: 0 4cqw 11cqw -5cqw rgba(42,37,32,0.45); }
+  .mk-tab .bar svg { width: 5cqw; height: 5cqw; color: var(--ink); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .mk-tab .mic { width: 11cqw; height: 11cqw; border-radius: 50%; background: var(--ink); display: grid; place-items: center;
+                 box-shadow: 0 4cqw 11cqw -5cqw rgba(42,37,32,0.5); }
+  .mk-tab .mic svg { width: 5cqw; height: 5cqw; color: var(--paper); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* reflections screen */
+  .mk-rtitle { font-family: "Cormorant", serif; font-weight: 600; font-size: 8.4cqw; color: var(--ink); line-height: 1; }
+  .mk-rsub { font-family: "Newsreader", serif; font-size: 3.4cqw; color: var(--muted); margin: 1cqw 0 5cqw; }
+  .mk-buckets { display: flex; gap: 3cqw; margin-bottom: 4cqw; }
+  .mk-bucket { flex: 1; background: color-mix(in srgb, var(--mc) 18%, var(--paper-2)); border-radius: 5cqw; padding: 4cqw; }
+  .mk-bucket .h { display: flex; align-items: center; gap: 2cqw; font-family: "Cormorant", serif; font-weight: 600; font-size: 4.7cqw; color: var(--ink); margin-bottom: 2.6cqw; }
+  .mk-bucket .h i { width: 2.6cqw; height: 2.6cqw; border-radius: 50%; background: var(--mc); }
+  .mk-bucket .row { font-family: "Newsreader", serif; font-size: 3.4cqw; color: var(--muted); line-height: 1.85; }
+  .mk-subject { background: var(--paper-2); border-radius: 5cqw; padding: 4.5cqw; }
+  .mk-subject .sh { display: flex; align-items: center; justify-content: space-between; gap: 2cqw; }
+  .mk-subject .sh b { font-family: "Cormorant", serif; font-weight: 600; font-size: 6cqw; color: var(--ink); }
+  .mk-subject + .mk-subject { margin-top: 3cqw; }
+  .mk-subject .sh .pill { font-family: "Hanken Grotesk", sans-serif; font-size: 2.8cqw; font-weight: 600; color: var(--p, var(--joy));
+                          background: var(--paper); border-radius: 999px; padding: 1.6cqw 3cqw; display: inline-flex; align-items: center; gap: 1.6cqw; }
+  .mk-subject .sh .pill i { width: 2.2cqw; height: 2.2cqw; border-radius: 50%; background: var(--p, var(--joy)); }
+  .mk-subject .q { font-family: "Newsreader", serif; font-size: 3.7cqw; line-height: 1.5; color: var(--ink); margin-top: 3cqw; }
+
+  /* reflections section: reuse .step but force the phone on the right */
+  .reflect.step:nth-child(1) .step-text { order: 0; }
 </style>
 </head>
 <body>
@@ -291,6 +357,7 @@
     </a>
     <nav class="nav-right">
       <a class="nav-link hide-sm" href="#how">How it works</a>
+      <a class="nav-link hide-sm" href="#reflections">Reflections</a>
       <a class="nav-link" href="privacy/">Privacy</a>
       <a class="nav-link beta btn btn-primary" href="#" style="padding:9px 16px;">Join the beta</a>
     </nav>
@@ -345,7 +412,53 @@
             <h3>Your words are a mood.</h3>
             <p>dyeary writes your day into a real entry, then reads the tone of your voice and gives it a color. The feeling is saved right alongside the words.</p>
           </div>
-          <div class="phone"><div class="screen"><img src="screens/feed.png" alt="A day of finished entries in dyeary" /></div></div>
+          <div class="phone"><div class="screen mock">
+            <div class="mk mk-feed">
+              <div class="mk-week">
+                <div class="d"><span class="wd">Wed</span><span class="nm">17</span></div>
+                <div class="d"><span class="wd">Thu</span><span class="nm">18</span></div>
+                <div class="d has"><span class="wd">Fri</span><span class="nm">19</span></div>
+                <div class="d has"><span class="wd">Sat</span><span class="nm">20</span></div>
+                <div class="d has"><span class="wd">Sun</span><span class="nm">21</span></div>
+                <div class="d on"><span class="wd">Mon</span><span class="nm">22</span></div>
+              </div>
+              <div class="mk-greet">Good evening, <em>Affan</em></div>
+              <div class="mk-eyebrow">Today</div>
+              <div class="mk-grid">
+                <div class="mk-card" style="--mc:var(--calm)">
+                  <div class="t">A Quiet Night In</div>
+                  <div class="p">Wrapped the day slow — just me and the show, and that was enough.</div>
+                  <div class="m"><span class="time">9:02 PM</span><span class="pill">Calm</span></div>
+                </div>
+                <div class="mk-card" style="--mc:var(--love)">
+                  <div class="t">Slowly Coming Back</div>
+                  <div class="p">Felt like myself again. The things that felt heavy lifted a little.</div>
+                  <div class="m"><span class="time">8:59 PM</span><span class="pill">Love</span></div>
+                </div>
+                <div class="mk-card" style="--mc:var(--joy)">
+                  <div class="t">An Hour at the Park</div>
+                  <div class="p">Lying in the grass, watching people pass by. I always feel lighter here.</div>
+                  <div class="m"><span class="time">5:15 PM</span><span class="pill">Joy</span></div>
+                </div>
+                <div class="mk-card" style="--mc:var(--sad)">
+                  <div class="t">A Low, Quiet Day</div>
+                  <div class="p">Nothing went wrong exactly. I just felt low and let myself sit with it.</div>
+                  <div class="m"><span class="time">8:24 PM</span><span class="pill">Sad</span></div>
+                </div>
+              </div>
+              <div class="mk-tab">
+                <div class="bar">
+                  <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="mic">
+                  <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+                </div>
+              </div>
+            </div>
+          </div></div>
         </article>
 
         <!-- STEP 3 -->
@@ -355,6 +468,58 @@
             <p>Every entry colors a day on your map. You don't rate anything. You just keep talking, and the shape of your year appears.</p>
           </div>
           <div class="phone"><div class="screen"><img src="screens/map.png" alt="The yearly mood map in dyeary" /></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><hr class="rule" /></div>
+
+  <!-- ====================== REFLECTIONS ====================== -->
+  <section class="section" id="reflections">
+    <div class="wrap">
+      <div class="steps">
+        <article class="step reflect">
+          <div class="step-text">
+            <span class="eyebrow" style="display:block;margin-bottom:14px;">Reflections</span>
+            <h3 style="font-size:clamp(28px,3.8vw,42px);">The threads that run through your days.</h3>
+            <p>dyeary gathers the people, places and feelings you keep returning to — each carrying the quotes that earned it a place. No tagging, no folders; it builds itself from how you talk.</p>
+          </div>
+          <div class="phone"><div class="screen mock">
+            <div class="mk mk-reflect">
+              <div class="mk-rtitle">Reflections</div>
+              <div class="mk-rsub">The quotes that make up your day to day</div>
+              <div class="mk-buckets">
+                <div class="mk-bucket" style="--mc:var(--joy)">
+                  <div class="h"><i></i>Joy</div>
+                  <div class="row">Clem<br>The park<br>Morning runs</div>
+                </div>
+                <div class="mk-bucket" style="--mc:var(--calm)">
+                  <div class="h"><i></i>Calm</div>
+                  <div class="row">Iman<br>Sunday mornings<br>Tea</div>
+                </div>
+              </div>
+              <div class="mk-subject">
+                <div class="sh"><b>Clem</b><span class="pill"><i></i>Joy</span></div>
+                <div class="q">&ldquo;We spent the whole afternoon laughing about nothing, and I didn't check my phone once.&rdquo;</div>
+              </div>
+              <div class="mk-subject" style="--p:var(--calm)">
+                <div class="sh"><b>The park</b><span class="pill"><i></i>Calm</span></div>
+                <div class="q">&ldquo;Lying in the grass with nowhere to be — the afternoon just opened up.&rdquo;</div>
+              </div>
+              <div class="mk-tab">
+                <div class="bar">
+                  <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="mic">
+                  <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+                </div>
+              </div>
+            </div>
+          </div></div>
         </article>
       </div>
     </div>
