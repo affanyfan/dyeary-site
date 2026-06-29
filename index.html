@@ -195,13 +195,15 @@
   /* ---- how it works: three movements ---- */
   .steps { margin-top: clamp(44px, 6vw, 72px); display: grid; gap: clamp(40px, 6vw, 64px); }
   .step { display: grid; grid-template-columns: 1fr 300px; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .step:nth-child(even) { grid-template-columns: 300px 1fr; }   /* keep text in the wide column both sides */
   .step:nth-child(even) .step-text { order: 2; }
   .step-text .num {
     font-family: "Cormorant", serif; font-style: italic;
     font-size: 19px; color: var(--accent); font-weight: 500;
   }
   .step-text h3 { font-size: clamp(26px, 3.4vw, 36px); margin-top: 6px; letter-spacing: -0.01em; }
-  .step-text p { color: var(--muted); margin: 14px 0 0; max-width: 40ch; }
+  .step-text h3, .step-text p { max-width: 25rem; }   /* title + paragraph share one measure */
+  .step-text p { color: var(--muted); margin: 14px 0 0; }
 
   /* phone frame (screenshot slot) */
   .phone {
@@ -211,6 +213,7 @@
     background: #15110D;
     padding: 9px;
     box-shadow: 0 30px 60px -28px rgba(42,37,32,0.55), inset 0 0 0 1px rgba(255,255,255,0.06);
+    position: relative; z-index: 0;   /* contain inner z-indexes so the nav stays on top */
   }
   .phone .screen {
     width: 100%; height: 100%;
@@ -317,20 +320,21 @@
                    background: var(--paper); border-radius: 999px; padding: 1.4cqw 3cqw; }
 
   /* floating tab bar */
-  .mk-tab { position: absolute; left: 0; right: 0; bottom: 5cqw; display: flex; align-items: center; justify-content: center; gap: 3cqw; }
-  .mk-tab .bar { display: flex; align-items: center; gap: 4.5cqw; padding: 3cqw 5cqw; border-radius: 999px;
-                 background: color-mix(in srgb, var(--paper-2) 82%, transparent); backdrop-filter: blur(8px);
-                 box-shadow: 0 4cqw 11cqw -5cqw rgba(42,37,32,0.45); }
-  .mk-tab .bar svg { width: 5cqw; height: 5cqw; color: var(--ink); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .mk-tab .mic { width: 11cqw; height: 11cqw; border-radius: 50%; background: var(--ink); display: grid; place-items: center;
-                 box-shadow: 0 4cqw 11cqw -5cqw rgba(42,37,32,0.5); }
-  .mk-tab .mic svg { width: 5cqw; height: 5cqw; color: var(--paper); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  /* tab bar matching the Home.dc.html design: centered glass pill (active tab) + detached mic */
+  .mk-tab { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; height: 30.3cqw; pointer-events: none; padding: 10.3cqw 5.1cqw 0; background: linear-gradient(to top, var(--paper) 40%, transparent); }
+  .mk-tab .pill { position: absolute; left: 50%; top: 10.3cqw; transform: translateX(-50%); width: 54.6cqw; height: 12.8cqw; display: flex; align-items: center; justify-content: center; gap: 1cqw; padding: 1.8cqw; border-radius: 999px; background: rgba(251,248,241,0.7); backdrop-filter: blur(8px); border: 0.26cqw solid rgba(255,255,255,0.55); box-shadow: 0 2.6cqw 7cqw -3.6cqw rgba(43,32,20,0.2); }
+  .mk-tab .pill button { width: 11.3cqw; height: 9.2cqw; border: 0; background: transparent; border-radius: 999px; display: grid; place-items: center; }
+  .mk-tab .pill button.on { width: 13.8cqw; background: rgba(28,24,19,0.10); }
+  .mk-tab .pill svg { width: 5.6cqw; height: 5.6cqw; color: #1C1813; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .mk-tab .pill button.on svg { fill: #1C1813; stroke: none; }
+  .mk-mic { position: absolute; right: 5.1cqw; bottom: 7.2cqw; z-index: 7; width: 12.8cqw; height: 12.8cqw; border-radius: 999px; background: #1C1813; display: grid; place-items: center; box-shadow: 0 2.6cqw 7cqw -3.6cqw rgba(43,32,20,0.55); }
+  .mk-mic svg { width: 5.6cqw; height: 5.6cqw; color: #FBF8F1; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
   /* reflections screen */
   .mk-rtitle { font-family: "Cormorant", serif; font-weight: 600; font-size: 8.4cqw; color: var(--ink); line-height: 1; }
   .mk-rsub { font-family: "Newsreader", serif; font-size: 3.4cqw; color: var(--muted); margin: 1cqw 0 5cqw; }
-  .mk-buckets { display: flex; gap: 3cqw; margin-bottom: 4cqw; }
-  .mk-bucket { flex: 1; background: color-mix(in srgb, var(--mc) 18%, var(--paper-2)); border-radius: 5cqw; padding: 4cqw; }
+  .mk-buckets { display: flex; gap: 3cqw; margin-bottom: 4cqw; }   /* horizontal scroller: a couple peek past the edge */
+  .mk-bucket { flex: 0 0 38cqw; background: color-mix(in srgb, var(--mc) 18%, var(--paper-2)); border-radius: 5cqw; padding: 4cqw; }
   .mk-bucket .h { display: flex; align-items: center; gap: 2cqw; font-family: "Cormorant", serif; font-weight: 600; font-size: 4.7cqw; color: var(--ink); margin-bottom: 2.6cqw; }
   .mk-bucket .h i { width: 2.6cqw; height: 2.6cqw; border-radius: 50%; background: var(--mc); }
   .mk-bucket .row { font-family: "Newsreader", serif; font-size: 3.4cqw; color: var(--muted); line-height: 1.85; }
@@ -343,8 +347,142 @@
   .mk-subject .sh .pill i { width: 2.2cqw; height: 2.2cqw; border-radius: 50%; background: var(--p, var(--joy)); }
   .mk-subject .q { font-family: "Newsreader", serif; font-size: 3.7cqw; line-height: 1.5; color: var(--ink); margin-top: 3cqw; }
 
-  /* reflections section: reuse .step but force the phone on the right */
-  .reflect.step:nth-child(1) .step-text { order: 0; }
+  /* ---- record screen ---- */
+  .mk-rec { display: flex; flex-direction: column; height: 100%; padding-top: 5cqw; }
+  .mk-rec .top { display: flex; align-items: center; justify-content: space-between; }
+  .mk-rec .x { width: 8.4cqw; height: 8.4cqw; border-radius: 50%; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; }
+  .mk-rec .x svg { width: 3.6cqw; height: 3.6cqw; fill: none; stroke: var(--muted); stroke-width: 2.2; stroke-linecap: round; }
+  .mk-rec .date { font-family: "Hanken Grotesk", sans-serif; font-size: 2.7cqw; letter-spacing: 0.16em; text-transform: uppercase; color: var(--faint); }
+  .mk-rec .hero { font-family: "Cormorant", serif; font-style: italic; font-size: 6.6cqw; line-height: 1.26; text-align: center; color: var(--ink); padding: 0 3cqw; margin: 11cqw 0 7cqw; }
+  .mk-rec .pills { display: flex; gap: 2.2cqw; justify-content: center; margin-bottom: 7cqw; }
+  .mk-rec .fp { display: inline-flex; align-items: center; gap: 1.7cqw; font-family: "Hanken Grotesk", sans-serif; font-size: 2.6cqw; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 1.8cqw 3cqw; }
+  .mk-rec .fp i { width: 2cqw; height: 2cqw; border-radius: 50%; }
+  .mk-rec .wave { display: flex; align-items: center; justify-content: center; gap: 0.9cqw; height: 13cqw; margin-bottom: 6cqw; }
+  .mk-rec .wave i { width: 1cqw; border-radius: 1cqw; background: var(--calm); }
+  .mk-rec .timer { text-align: center; font-family: "Hanken Grotesk", sans-serif; font-weight: 600; font-size: 4cqw; letter-spacing: 0.12em; color: #A9783F; }
+  .mk-rec .recbtn { width: 26cqw; height: 26cqw; margin: 8cqw auto 0; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 38% 32%, #B8822E, #8A5A24); box-shadow: 0 0 0 5cqw rgba(166,107,44,0.10), 0 6cqw 14cqw -6cqw rgba(138,90,36,0.6); }
+  .mk-rec .recbtn svg { width: 7cqw; height: 7cqw; fill: var(--paper); }
+  .mk-rec .cancel { text-align: center; font-family: "Hanken Grotesk", sans-serif; font-size: 2.8cqw; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--faint); margin-top: auto; padding-bottom: 6cqw; }
+
+  /* ---- map / calendar screen ---- */
+  .mk-map { padding-top: 5cqw; }
+  .mk-map .yr { display: inline-flex; align-items: center; gap: 1.6cqw; font-family: "Hanken Grotesk", sans-serif; font-weight: 600; font-size: 3.2cqw; color: var(--ink); border-radius: 999px; padding: 1.8cqw 3.8cqw;
+    background: rgba(251,248,241,0.6); backdrop-filter: blur(8px) saturate(1.3); -webkit-backdrop-filter: blur(8px) saturate(1.3);
+    border: 0.26cqw solid rgba(255,255,255,0.6); box-shadow: 0 2.4cqw 6cqw -3cqw rgba(43,32,20,0.22), inset 0 0.26cqw 0 rgba(255,255,255,0.5); }
+  .mk-map .yr svg { width: 3cqw; height: 3cqw; fill: none; stroke: var(--muted); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .mk-map .mo { font-family: "Cormorant", serif; font-weight: 600; font-size: 8.4cqw; color: var(--ink); margin: 3cqw 0 3cqw; }
+  .mk-map .wk, .mk-map .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1.8cqw; }
+  .mk-map .wk { margin-bottom: 1.8cqw; }
+  .mk-map .wk span { text-align: center; font-family: "Hanken Grotesk", sans-serif; font-size: 2.5cqw; color: var(--faint); }
+  .mk-map .cal b { aspect-ratio: 1 / 1; border-radius: 2.6cqw; display: grid; place-items: center; font-family: "Hanken Grotesk", sans-serif; font-size: 3cqw; font-weight: 500; color: #fff; background: var(--c, transparent); }
+  .mk-map .cal b.e { background: rgba(122,112,96,0.10); color: var(--faint); font-weight: 400; }
+  .mk-map .cal b.blank { background: none; }
+  .mk-map .cal b.today { box-shadow: inset 0 0 0 1.6px var(--ink); }
+  .mk-map .mood { margin-top: 5cqw; }
+  .mk-map .mood .lbl { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1cqw; }
+  .mk-map .mood .lbl span { font-family: "Hanken Grotesk", sans-serif; font-size: 2.6cqw; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+  .mk-map .mood .seg { display: inline-flex; gap: 0.4cqw; background: var(--paper-2); border-radius: 999px; padding: 0.6cqw; }
+  .mk-map .mood .seg b { font-family: "Hanken Grotesk", sans-serif; font-size: 2.3cqw; font-weight: 600; color: var(--faint); padding: 0.8cqw 2.2cqw; border-radius: 999px; }
+  .mk-map .mood .seg b.on { background: var(--paper); color: var(--ink); }
+  .mk-map .mood svg { width: 100%; height: 12cqw; margin-top: 1.5cqw; display: block; }
+  /* popular categories list (new cal view) */
+  .mk-map .catsec { margin-top: 4.5cqw; }
+  .mk-map .catsec .ch { font-family: "Hanken Grotesk", sans-serif; font-size: 2.6cqw; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); margin-bottom: 2.6cqw; }
+  .mk-map .catcard { background: var(--paper-2); border-radius: 4cqw; padding: 0 4cqw; }
+  .mk-map .catrow { display: flex; align-items: center; gap: 3cqw; padding: 3cqw 0; border-bottom: 0.26cqw solid var(--line); }
+  .mk-map .catrow:last-child { border-bottom: 0; }
+  .mk-map .catrow .dot { width: 2.6cqw; height: 2.6cqw; border-radius: 999px; flex: none; }
+  .mk-map .catrow .nm { flex: 1; font-family: "Newsreader", serif; font-size: 4cqw; color: var(--ink); }
+  .mk-map .catrow .ct { font-family: "Hanken Grotesk", sans-serif; font-size: 3.1cqw; color: var(--faint); }
+
+  /* ---- refined home feed (ported from Home.dc.html design; px -> cqw at 390 design width) ---- */
+  .phone .screen.dc { display: block; container-type: size; background: #F4EFE4; }
+  .dc-home {
+    position: absolute; inset: 0; overflow: hidden; display: flex; flex-direction: column;
+    font-family: "Hanken Grotesk", -apple-system, system-ui, sans-serif; background: #F4EFE4;
+    --paper-0:#FBF8F1; --paper-1:#F4EFE4; --paper-2:#ECE5D6;
+    --ink-900:#1C1813; --ink-800:#211C16; --ink-700:#3D352B; --ink-500:#6B6052; --ink-300:#A89C88;
+    --hairline:#CFC6B4; --hairline-soft:#DED6C5; --ochre-400:#C08A45; --ochre-600:#8A5A24;
+    --mood-joy:#D99A2B; --mood-calm:#7E9B79; --mood-love:#C58A86; --mood-sad:#6E8198;
+    --mood-anger:#B5523C; --mood-fear:#8A7BA0; --mood-surprise:#E0B255; --mood-tired:#9B948A;
+    --glass-bg:rgba(251,248,241,0.66); --glass-border:rgba(255,255,255,0.55);
+  }
+  .dc-home .dc-grain { position: absolute; inset: 0; pointer-events: none; opacity: 0.11; mix-blend-mode: multiply; z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .dc-home > * { position: relative; z-index: 2; }
+  /* status bar */
+  .dc-home .dc-status { flex: none; height: 13.8cqw; padding: 4.6cqw 6.7cqw 0; display: flex; align-items: center; justify-content: space-between; }
+  .dc-home .dc-status .t { font-size: 4.1cqw; font-weight: 600; color: var(--ink-900); }
+  .dc-home .dc-status .island { position: absolute; left: 50%; top: 2.3cqw; transform: translateX(-50%); width: 21.5cqw; height: 6.7cqw; border-radius: 999px; background: #0b0907; }
+  .dc-home .dc-status .sb { display: flex; align-items: center; gap: 1.8cqw; }
+  .dc-home .dc-status .sb svg { display: block; height: 3cqw; width: auto; }
+  /* week strip */
+  .dc-home .dc-week { flex: none; padding: 2.1cqw 4.6cqw 1.5cqw; }
+  .dc-home .dc-week .row { display: flex; align-items: flex-end; }
+  .dc-home .dc-week .col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2.1cqw; }
+  .dc-home .dc-week .wd { height: 4.1cqw; font-size: 3.3cqw; line-height: 1; }
+  .dc-home .dc-week .flamecell { position: relative; width: 10.3cqw; height: 10.3cqw; display: grid; place-items: center; }
+  .dc-home .dc-week .flamecell svg { position: absolute; left: 50%; bottom: -2.6cqw; transform: translateX(-50%); opacity: 0.88; width: 12.3cqw; height: 16.2cqw; }
+  .dc-home .dc-week .flamecell .n { position: relative; font-size: 3.8cqw; font-weight: 700; color: var(--paper-0); transform: translateY(0.3cqw); }
+  .dc-home .dc-week .disc { width: 10.3cqw; height: 10.3cqw; border-radius: 999px; display: grid; place-items: center; }
+  .dc-home .dc-week .disc .n { font-size: 4.1cqw; font-weight: 500; }
+  .dc-home .dc-week .chev { display: flex; justify-content: center; padding-top: 2.1cqw; }
+  .dc-home .dc-week .chev svg { width: 5.1cqw; height: 5.1cqw; }
+  .dc-home .d-today .wd { color: var(--ink-800); font-weight: 700; }
+  .dc-home .d-today .disc { background: var(--ochre-400); }
+  .dc-home .d-today .disc .n { color: var(--paper-0); font-weight: 600; }
+  .dc-home .d-entry .wd { color: var(--ink-300); }
+  .dc-home .d-entry .disc { background: var(--paper-0); }
+  .dc-home .d-entry .disc .n { color: var(--ink-700); }
+  .dc-home .d-empty .wd { color: var(--ink-300); }
+  .dc-home .d-empty .disc { background: var(--paper-2); border: 0.4cqw dashed var(--hairline); }
+  .dc-home .d-empty .disc .n { color: var(--ink-300); }
+  /* scroll content */
+  .dc-home .dc-scroll { flex: 1; min-height: 0; overflow: hidden; padding: 1.5cqw 5.1cqw 0; }
+  .dc-home .dc-greet { font-family: "Cormorant", serif; font-weight: 600; font-size: 10.8cqw; line-height: 1.04; letter-spacing: -0.01em; color: var(--ink-800); margin: 1.5cqw 0 6.7cqw; }
+  .dc-home .dc-greet em { font-style: italic; color: var(--ochre-600); }
+  .dc-home .dc-sec { text-align: center; font-size: 2.8cqw; font-weight: 600; letter-spacing: 0.36cqw; text-transform: uppercase; color: var(--ink-300); margin-bottom: 3.6cqw; }
+  .dc-home .dc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5.1cqw; margin-bottom: 6.7cqw; }
+  .dc-home .dc-card { display: flex; flex-direction: column; aspect-ratio: 1/1; overflow: hidden; padding: 3.1cqw; border-radius: 5.6cqw; background: color-mix(in srgb, var(--mc) 18%, var(--paper-0)); }
+  .dc-home .dc-card .t { font-family: "Cormorant", serif; font-size: 4.6cqw; font-weight: 600; line-height: 1.08; color: var(--ink-900); }
+  .dc-home .dc-card .p { margin: 2.6cqw 0 0; font-family: "Newsreader", serif; font-size: 3.85cqw; line-height: 1.45; color: var(--ink-500); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+  .dc-home .dc-card .f { margin-top: auto; padding-top: 4.6cqw; display: flex; align-items: center; justify-content: space-between; gap: 2cqw; }
+  .dc-home .dc-card .f .time { font-size: 3.1cqw; font-weight: 500; color: var(--ink-300); }
+  .dc-home .dc-card .f .pill { padding: 1.3cqw 2.8cqw; border-radius: 999px; background: var(--paper-0); border: 0.26cqw solid var(--hairline-soft); font-size: 3.1cqw; font-weight: 600; color: var(--mc); }
+  /* tab bar + mic */
+  .dc-home .dc-tab { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; height: 30.3cqw; pointer-events: none; padding: 10.3cqw 5.1cqw 0; background: linear-gradient(to top, var(--paper-1) 40%, transparent); }
+  .dc-home .dc-tab .pill { position: absolute; left: 50%; top: 10.3cqw; transform: translateX(-50%); width: 54.6cqw; height: 12.8cqw; display: flex; align-items: center; justify-content: center; gap: 1cqw; padding: 1.8cqw; border-radius: 999px; background: var(--glass-bg); backdrop-filter: blur(8px); border: 0.26cqw solid var(--glass-border); box-shadow: 0 2.6cqw 7cqw -3.6cqw rgba(43,32,20,0.2); }
+  .dc-home .dc-tab .pill button { width: 11.3cqw; height: 9.2cqw; border: 0; background: transparent; border-radius: 999px; display: grid; place-items: center; }
+  .dc-home .dc-tab .pill button.on { width: 13.8cqw; background: rgba(28,24,19,0.10); }
+  .dc-home .dc-tab .pill svg { width: 5.6cqw; height: 5.6cqw; color: var(--ink-900); fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .dc-home .dc-tab .pill button.on svg { fill: var(--ink-900); stroke: none; }
+  .dc-home .dc-mic { position: absolute; right: 5.1cqw; bottom: 7.2cqw; z-index: 7; width: 12.8cqw; height: 12.8cqw; border-radius: 999px; background: var(--ink-900); display: grid; place-items: center; box-shadow: 0 2.6cqw 7cqw -3.6cqw rgba(43,32,20,0.55); }
+  .dc-home .dc-mic svg { width: 5.6cqw; height: 5.6cqw; color: var(--paper-0); fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---- recording overlay (Home.dc.html rec state) ---- */
+  @keyframes dcWave { 0%,100%{ transform: scaleY(0.22); } 50%{ transform: scaleY(1); } }
+  @keyframes dcDot { 0%,100%{ opacity: .35; } 50%{ opacity: 1; } }
+  .dc-rec { position: absolute; inset: 0; z-index: 40; background: rgba(11,8,5,0.7); backdrop-filter: blur(5cqw) saturate(1.2); -webkit-backdrop-filter: blur(5cqw) saturate(1.2); }
+  .dc-rec .sensing { position: absolute; top: 33.8cqw; left: 0; right: 0; text-align: center; padding: 0 6.7cqw; font-size: 2.8cqw; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,236,221,0.42); }
+  .dc-rec .listen { position: absolute; top: 64cqw; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 6cqw; padding: 0 6.7cqw; }
+  .dc-rec .listen .words { font-family: "Cormorant", serif; font-style: italic; font-size: 7.7cqw; line-height: 1.2; color: #F4ECDD; text-align: center; }
+  .dc-rec .pills { display: flex; flex-wrap: wrap; gap: 2cqw; justify-content: center; max-width: 72cqw; }
+  .dc-rec .pills span.fp { display: inline-flex; align-items: center; gap: 1.8cqw; padding: 1.8cqw 3.6cqw; border-radius: 999px; background: rgba(247,240,228,0.08); border: 0.26cqw solid rgba(247,240,228,0.16); font-size: 3.3cqw; font-weight: 600; color: #F4ECDD; }
+  .dc-rec .pills span.fp i { width: 2.05cqw; height: 2.05cqw; border-radius: 999px; }
+  .dc-rec .lower { position: absolute; left: 0; right: 0; bottom: 56cqw; display: flex; flex-direction: column; align-items: center; gap: 4.1cqw; padding: 0 6.7cqw; }
+  .dc-rec .wave { display: flex; align-items: center; justify-content: center; gap: 0.77cqw; height: 22cqw; width: 100%; }
+  .dc-rec .wave i { width: 0.77cqw; height: 22cqw; border-radius: 0.77cqw; background: var(--mood-joy); transform-origin: center; animation: dcWave 0.85s ease-in-out infinite; }
+  .dc-rec .wave i:nth-child(5n+1){ animation-duration: .62s; } .dc-rec .wave i:nth-child(5n+2){ animation-duration: .8s; }
+  .dc-rec .wave i:nth-child(5n+3){ animation-duration: .96s; } .dc-rec .wave i:nth-child(5n+4){ animation-duration: 1.1s; }
+  .dc-rec .wave i:nth-child(2n){ animation-delay: .2s; } .dc-rec .wave i:nth-child(3n){ animation-delay: .42s; } .dc-rec .wave i:nth-child(7n){ animation-delay: .1s; }
+  .dc-rec .clock { font-variant-numeric: tabular-nums; font-size: 4.1cqw; font-weight: 600; letter-spacing: 0.12em; color: var(--ochre-400); }
+  .dc-rec .cancel { position: absolute; left: 5.1cqw; bottom: 7.2cqw; width: 12.8cqw; height: 12.8cqw; border-radius: 999px; display: grid; place-items: center; background: var(--mood-anger); box-shadow: 0 2.6cqw 7cqw -3.6cqw rgba(0,0,0,0.5); }
+  .dc-rec .cancel svg { width: 5.1cqw; height: 5.1cqw; color: #fff; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .dc-rec .status { position: absolute; left: 0; right: 0; bottom: 7.2cqw; height: 12.8cqw; display: flex; align-items: center; justify-content: center; gap: 2.3cqw; }
+  .dc-rec .status .dot { width: 2.05cqw; height: 2.05cqw; border-radius: 999px; background: var(--ochre-400); animation: dcDot 1.4s ease-in-out infinite; }
+  .dc-rec .status .txt { font-size: 3.1cqw; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,236,221,0.72); }
+  .dc-rec .micsend { position: absolute; right: 5.1cqw; bottom: 7.2cqw; width: 12.8cqw; height: 12.8cqw; border-radius: 999px; background: var(--ochre-600); display: grid; place-items: center; box-shadow: 0 6cqw 15cqw -6cqw rgba(0,0,0,0.6); }
+  .dc-rec .micsend svg { width: 5.4cqw; height: 5.4cqw; color: var(--paper-0); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -392,7 +530,6 @@
   <section class="section" id="how">
     <div class="wrap">
       <div class="section-head center">
-        <span class="eyebrow">Three small movements</span>
         <h2>You talk. It does the rest.</h2>
       </div>
 
@@ -403,7 +540,61 @@
             <h3>Open it and just talk.</h3>
             <p>A minute, a sentence, a ramble, whatever the day was. No typing, no blank page staring back at you.</p>
           </div>
-          <div class="phone"><div class="screen"><img src="screens/record.png" alt="Recording a voice entry in dyeary" /></div></div>
+          <div class="phone"><div class="screen dc">
+            <div class="dc-home">
+              <div class="dc-grain"></div>
+              <div class="dc-status">
+                <span class="t">9:41</span>
+                <div class="island"></div>
+                <div class="sb">
+                  <svg viewBox="0 0 18 12" fill="#1C1813"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+                  <svg viewBox="0 0 17 12" fill="none" stroke="#1C1813" stroke-width="1.4" stroke-linecap="round"><path d="M1 4.2C3.4 2 5.8 1 8.5 1s5.1 1 7.5 3.2"/><path d="M3.4 6.8C5 5.4 6.7 4.7 8.5 4.7s3.5 .7 5.1 2.1"/><path d="M5.8 9.3c.8-.7 1.7-1 2.7-1s1.9 .3 2.7 1"/></svg>
+                  <svg viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="#1C1813"/><rect x="2" y="2" width="17" height="8" rx="1.5" fill="#1C1813"/><rect x="23" y="4" width="1.5" height="4" rx="0.75" fill="#1C1813"/></svg>
+                </div>
+              </div>
+              <div class="dc-week">
+                <div class="row">
+                  <div class="col"><span class="wd"></span><div class="flamecell"><svg viewBox="0 0 512 512"><path fill="#1C1813" d="M394.23,197.56a300.43,300.43,0,0,0-53.37-90C301.2,61.65,249.05,32,208,32a16,16,0,0,0-15.48,20c13.87,53-14.88,97.07-45.31,143.72C122,234.36,96,274.27,96,320c0,88.22,71.78,160,160,160s160-71.78,160-160C416,276.7,408.68,235.51,394.23,197.56Z"/></svg><span class="n">3</span></div></div>
+                  <div class="col d-empty"><span class="wd">Sat</span><div class="disc"><span class="n">20</span></div></div>
+                  <div class="col d-empty"><span class="wd">Sun</span><div class="disc"><span class="n">21</span></div></div>
+                  <div class="col d-empty"><span class="wd">Mon</span><div class="disc"><span class="n">22</span></div></div>
+                  <div class="col d-entry"><span class="wd">Tue</span><div class="disc"><span class="n">23</span></div></div>
+                  <div class="col d-entry"><span class="wd">Wed</span><div class="disc"><span class="n">24</span></div></div>
+                  <div class="col d-today"><span class="wd">Thu</span><div class="disc"><span class="n">25</span></div></div>
+                </div>
+              </div>
+              <div class="dc-scroll">
+                <div class="dc-greet">Good evening, <em>Affan</em></div>
+                <div class="dc-sec">Today</div>
+                <div class="dc-grid">
+                  <div class="dc-card" style="--mc:var(--mood-calm)">
+                    <div class="t">Hoping for Some Calm</div>
+                    <p class="p">At the park with Louis, who's having a great time, which is really nice to see.</p>
+                    <div class="f"><span class="time">3:09 PM</span><span class="pill">Calm</span></div>
+                  </div>
+                </div>
+              </div>
+              <!-- recording overlay -->
+              <div class="dc-rec">
+                <div class="sensing">Sensing your mood</div>
+                <div class="listen">
+                  <div class="words">I'm listening&hellip;</div>
+                  <div class="pills">
+                    <span class="fp"><i style="background:var(--mood-calm)"></i>Calm</span>
+                    <span class="fp"><i style="background:var(--mood-surprise)"></i>Surprise</span>
+                    <span class="fp"><i style="background:var(--mood-joy)"></i>Joy</span>
+                  </div>
+                </div>
+                <div class="lower">
+                  <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="clock">0:10</div>
+                </div>
+                <div class="cancel"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+                <div class="status"><span class="dot"></span><span class="txt">Recording</span></div>
+                <div class="micsend"><svg viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2z"/></svg></div>
+              </div>
+            </div>
+          </div></div>
         </article>
 
         <!-- STEP 2 -->
@@ -412,51 +603,73 @@
             <h3>Your words are a mood.</h3>
             <p>dyeary writes your day into a real entry, then reads the tone of your voice and gives it a color. The feeling is saved right alongside the words.</p>
           </div>
-          <div class="phone"><div class="screen mock">
-            <div class="mk mk-feed">
-              <div class="mk-week">
-                <div class="d"><span class="wd">Wed</span><span class="nm">17</span></div>
-                <div class="d"><span class="wd">Thu</span><span class="nm">18</span></div>
-                <div class="d has"><span class="wd">Fri</span><span class="nm">19</span></div>
-                <div class="d has"><span class="wd">Sat</span><span class="nm">20</span></div>
-                <div class="d has"><span class="wd">Sun</span><span class="nm">21</span></div>
-                <div class="d on"><span class="wd">Mon</span><span class="nm">22</span></div>
-              </div>
-              <div class="mk-greet">Good evening, <em>Affan</em></div>
-              <div class="mk-eyebrow">Today</div>
-              <div class="mk-grid">
-                <div class="mk-card" style="--mc:var(--calm)">
-                  <div class="t">A Quiet Night In</div>
-                  <div class="p">Wrapped the day slow — just me and the show, and that was enough.</div>
-                  <div class="m"><span class="time">9:02 PM</span><span class="pill">Calm</span></div>
-                </div>
-                <div class="mk-card" style="--mc:var(--love)">
-                  <div class="t">Slowly Coming Back</div>
-                  <div class="p">Felt like myself again. The things that felt heavy lifted a little.</div>
-                  <div class="m"><span class="time">8:59 PM</span><span class="pill">Love</span></div>
-                </div>
-                <div class="mk-card" style="--mc:var(--joy)">
-                  <div class="t">An Hour at the Park</div>
-                  <div class="p">Lying in the grass, watching people pass by. I always feel lighter here.</div>
-                  <div class="m"><span class="time">5:15 PM</span><span class="pill">Joy</span></div>
-                </div>
-                <div class="mk-card" style="--mc:var(--sad)">
-                  <div class="t">A Low, Quiet Day</div>
-                  <div class="p">Nothing went wrong exactly. I just felt low and let myself sit with it.</div>
-                  <div class="m"><span class="time">8:24 PM</span><span class="pill">Sad</span></div>
+          <div class="phone"><div class="screen dc">
+            <div class="dc-home">
+              <div class="dc-grain"></div>
+              <div class="dc-status">
+                <span class="t">9:41</span>
+                <div class="island"></div>
+                <div class="sb">
+                  <svg viewBox="0 0 18 12" fill="#1C1813"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+                  <svg viewBox="0 0 17 12" fill="none" stroke="#1C1813" stroke-width="1.4" stroke-linecap="round"><path d="M1 4.2C3.4 2 5.8 1 8.5 1s5.1 1 7.5 3.2"/><path d="M3.4 6.8C5 5.4 6.7 4.7 8.5 4.7s3.5 .7 5.1 2.1"/><path d="M5.8 9.3c.8-.7 1.7-1 2.7-1s1.9 .3 2.7 1"/></svg>
+                  <svg viewBox="0 0 25 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="#1C1813"/><rect x="2" y="2" width="17" height="8" rx="1.5" fill="#1C1813"/><rect x="23" y="4" width="1.5" height="4" rx="0.75" fill="#1C1813"/></svg>
                 </div>
               </div>
-              <div class="mk-tab">
-                <div class="bar">
-                  <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
-                  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                  <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                  <svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <div class="dc-week">
+                <div class="row">
+                  <div class="col"><span class="wd"></span><div class="flamecell"><svg viewBox="0 0 512 512"><path fill="#1C1813" d="M394.23,197.56a300.43,300.43,0,0,0-53.37-90C301.2,61.65,249.05,32,208,32a16,16,0,0,0-15.48,20c13.87,53-14.88,97.07-45.31,143.72C122,234.36,96,274.27,96,320c0,88.22,71.78,160,160,160s160-71.78,160-160C416,276.7,408.68,235.51,394.23,197.56Z"/></svg><span class="n">3</span></div></div>
+                  <div class="col d-empty"><span class="wd">Sat</span><div class="disc"><span class="n">20</span></div></div>
+                  <div class="col d-empty"><span class="wd">Sun</span><div class="disc"><span class="n">21</span></div></div>
+                  <div class="col d-empty"><span class="wd">Mon</span><div class="disc"><span class="n">22</span></div></div>
+                  <div class="col d-entry"><span class="wd">Tue</span><div class="disc"><span class="n">23</span></div></div>
+                  <div class="col d-entry"><span class="wd">Wed</span><div class="disc"><span class="n">24</span></div></div>
+                  <div class="col d-today"><span class="wd">Thu</span><div class="disc"><span class="n">25</span></div></div>
                 </div>
-                <div class="mic">
-                  <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+                <div class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="#A89C88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div>
+              </div>
+              <div class="dc-scroll">
+                <div class="dc-greet">Good evening, <em>Affan</em></div>
+                <div class="dc-sec">Today</div>
+                <div class="dc-grid">
+                  <div class="dc-card" style="--mc:var(--mood-calm)">
+                    <div class="t">Hoping for Some Calm</div>
+                    <p class="p">At the park with Louis, who's having a great time, which is really nice to see. I let myself slow down for once.</p>
+                    <div class="f"><span class="time">3:09 PM</span><span class="pill">Calm</span></div>
+                  </div>
+                </div>
+                <div class="dc-sec">Yesterday</div>
+                <div class="dc-grid">
+                  <div class="dc-card" style="--mc:var(--mood-joy)">
+                    <div class="t">Morning Pages</div>
+                    <p class="p">Got the journaling in before coffee. A small quiet win to start the day.</p>
+                    <div class="f"><span class="time">8:12 AM</span><span class="pill">Joy</span></div>
+                  </div>
+                  <div class="dc-card" style="--mc:var(--mood-fear)">
+                    <div class="t">A Hard Call with Mom</div>
+                    <p class="p">She worries out loud and I end up carrying it home with me all evening.</p>
+                    <div class="f"><span class="time">5:40 PM</span><span class="pill">Fear</span></div>
+                  </div>
+                  <div class="dc-card" style="--mc:var(--mood-joy)">
+                    <div class="t">Back at the Gym</div>
+                    <p class="p">Today is going pretty well. We got into the gym and I'm pumped about the routine.</p>
+                    <div class="f"><span class="time">1:22 PM</span><span class="pill">Joy</span></div>
+                  </div>
+                  <div class="dc-card" style="--mc:var(--mood-sad)">
+                    <div class="t">The Weight of It</div>
+                    <p class="p">There were so many pressures acting on me at that moment. I'm still untangling it.</p>
+                    <div class="f"><span class="time">10:05 PM</span><span class="pill">Sad</span></div>
+                  </div>
                 </div>
               </div>
+              <div class="dc-tab">
+                <div class="pill">
+                  <button class="on"><svg viewBox="0 0 24 24"><path d="M11.47 3.84a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 0 1-.53 1.28H19.5v6.25A1.75 1.75 0 0 1 17.75 22H14.5v-5a2.5 2.5 0 0 0-5 0v5H6.25A1.75 1.75 0 0 1 4.5 20.06V13.8H3.31a.75.75 0 0 1-.53-1.27z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 12a2 2 0 0 0 2-2V8H8"/><path d="M14 12a2 2 0 0 0 2-2V8h-2"/></svg></button>
+                  <button><svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></button>
+                  <button><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+                </div>
+              </div>
+              <div class="dc-mic"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
             </div>
           </div></div>
         </article>
@@ -467,23 +680,47 @@
             <h3>The patterns show up on their own.</h3>
             <p>Every entry colors a day on your map. You don't rate anything. You just keep talking, and the shape of your year appears.</p>
           </div>
-          <div class="phone"><div class="screen"><img src="screens/map.png" alt="The yearly mood map in dyeary" /></div></div>
+          <div class="phone"><div class="screen mock">
+            <div class="mk mk-map">
+              <div class="yr"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>2026</div>
+              <div class="mo">June</div>
+              <div class="wk"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+              <div class="cal">
+                <b class="blank"></b>
+                <b class="e">1</b><b class="e">2</b><b class="e">3</b><b class="e">4</b><b class="e">5</b><b class="e">6</b>
+                <b class="e">7</b><b class="e">8</b><b class="e">9</b><b class="e">10</b><b class="e">11</b><b class="e">12</b><b class="e">13</b>
+                <b class="e">14</b><b class="e">15</b><b class="e">16</b><b class="e">17</b><b class="e">18</b><b class="e">19</b><b class="e">20</b>
+                <b style="--c:var(--joy)">21</b><b style="--c:var(--joy)">22</b><b style="--c:var(--sad)">23</b><b style="--c:var(--joy)">24</b><b style="--c:var(--calm)">25</b><b style="--c:var(--joy)">26</b><b style="--c:var(--calm)">27</b>
+                <b style="--c:var(--anger)">28</b><b class="today" style="--c:var(--joy)">29</b><b class="e">30</b><b class="blank"></b><b class="blank"></b><b class="blank"></b><b class="blank"></b>
+              </div>
+              <div class="catsec">
+                <div class="ch">Popular categories this month</div>
+                <div class="catcard">
+                  <div class="catrow"><span class="dot" style="background:var(--calm)"></span><span class="nm">Iman</span><span class="ct">8 quotes</span></div>
+                  <div class="catrow"><span class="dot" style="background:var(--joy)"></span><span class="nm">Diary app</span><span class="ct">7 quotes</span></div>
+                  <div class="catrow"><span class="dot" style="background:var(--love)"></span><span class="nm">Louis</span><span class="ct">4 quotes</span></div>
+                  <div class="catrow"><span class="dot" style="background:var(--sad)"></span><span class="nm">The job search</span><span class="ct">4 quotes</span></div>
+                  <div class="catrow"><span class="dot" style="background:var(--joy)"></span><span class="nm">Clem</span><span class="ct">3 quotes</span></div>
+                </div>
+              </div>
+              <div class="mk-tab">
+                <div class="pill">
+                  <button><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></button>
+                  <button><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 12a2 2 0 0 0 2-2V8H8"/><path d="M14 12a2 2 0 0 0 2-2V8h-2"/></svg></button>
+                  <button class="on"><svg viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v1h18V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2zM3 9v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+                </div>
+              </div>
+              <div class="mk-mic"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+            </div>
+          </div></div>
         </article>
-      </div>
-    </div>
-  </section>
 
-  <div class="wrap"><hr class="rule" /></div>
-
-  <!-- ====================== REFLECTIONS ====================== -->
-  <section class="section" id="reflections">
-    <div class="wrap">
-      <div class="steps">
-        <article class="step reflect">
+        <!-- STEP 4: REFLECTIONS -->
+        <article class="step" id="reflections">
           <div class="step-text">
-            <span class="eyebrow" style="display:block;margin-bottom:14px;">Reflections</span>
-            <h3 style="font-size:clamp(28px,3.8vw,42px);">The threads that run through your days.</h3>
-            <p>dyeary gathers the people, places and feelings you keep returning to — each carrying the quotes that earned it a place. No tagging, no folders; it builds itself from how you talk.</p>
+            <h3>The threads that run through your days.</h3>
+            <p>dyeary gathers the people, places and feelings you keep returning to, each one carrying the quotes that earned it a place. No tagging, no folders; it builds itself from how you talk.</p>
           </div>
           <div class="phone"><div class="screen mock">
             <div class="mk mk-reflect">
@@ -498,6 +735,22 @@
                   <div class="h"><i></i>Calm</div>
                   <div class="row">Iman<br>Sunday mornings<br>Tea</div>
                 </div>
+                <div class="mk-bucket" style="--mc:var(--love)">
+                  <div class="h"><i></i>Love</div>
+                  <div class="row">Mom<br>Old songs<br>Home</div>
+                </div>
+                <div class="mk-bucket" style="--mc:var(--tired)">
+                  <div class="h"><i></i>Tired</div>
+                  <div class="row">Work<br>The commute<br>Late nights</div>
+                </div>
+                <div class="mk-bucket" style="--mc:var(--sad)">
+                  <div class="h"><i></i>Sad</div>
+                  <div class="row">The job search<br>Rainy days<br>Bills</div>
+                </div>
+                <div class="mk-bucket" style="--mc:var(--surprise)">
+                  <div class="h"><i></i>Surprise</div>
+                  <div class="row">A letter<br>Good news<br>Old friends</div>
+                </div>
               </div>
               <div class="mk-subject">
                 <div class="sh"><b>Clem</b><span class="pill"><i></i>Joy</span></div>
@@ -505,19 +758,17 @@
               </div>
               <div class="mk-subject" style="--p:var(--calm)">
                 <div class="sh"><b>The park</b><span class="pill"><i></i>Calm</span></div>
-                <div class="q">&ldquo;Lying in the grass with nowhere to be — the afternoon just opened up.&rdquo;</div>
+                <div class="q">&ldquo;Lying in the grass with nowhere to be. The afternoon just opened up.&rdquo;</div>
               </div>
               <div class="mk-tab">
-                <div class="bar">
-                  <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
-                  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                  <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                  <svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <div class="mic">
-                  <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+                <div class="pill">
+                  <button><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></button>
+                  <button class="on"><svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM9 11H7V8h3a1 1 0 0 1-1 3zm6 0h-2V8h3a1 1 0 0 1-1 3z"/></svg></button>
+                  <button><svg viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></button>
+                  <button><svg viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
                 </div>
               </div>
+              <div class="mk-mic"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
             </div>
           </div></div>
         </article>
@@ -530,7 +781,7 @@
   <!-- ====================== STATEMENT ====================== -->
   <section class="section statement">
     <div class="wrap">
-      <h2>It's a map, not a metric.</h2>
+      <h2>It's a vibe, not a metric.</h2>
     </div>
   </section>
 
