@@ -136,9 +136,9 @@
   --paper0:#FEFCF6; --paper1:#F6F1E4; --paper2:#EDE7D6; --paper3:#E1DAC5; --canvas:#D3CCB4;
   --ink900:#101430; --ink800:#171C3A; --ink700:#303757; --ink500:#5C6280; --ink300:#9BA0B8;
   --hairline:#CFC9B8; --hairlineSoft:#E0DACA;
-  --ochre700:#1F3ED6; --ochre600:#2F5CFF; --ochre500:#5279FF; --ochre400:#7D99FF;
-  --ochre200:#D9E0FF; --ochre100:#ECF0FF;
-  --danger:#D82F04; --calloutDark:#12162E; --calloutText:#FEFCF6;
+  --ochre700:#0F5138; --ochre600:#177253; --ochre500:#2E8E6B; --ochre400:#5CAA8B;
+  --ochre200:#CDE5D9; --ochre100:#E4F1EA;
+  --danger:#D82F04; --calloutDark:#12162E; --calloutText:#FEFCF6; --iconMuted:#83868F;
   --overlayScrim:#080A1C; --overlayCream:#F4F1E6;
   --shadowC:16,18,40; --grainOpacity:.42;
   --m-joy:#EFAC00; --m-surprise:#F25C00; --m-anger:#D82F04; --m-love:#E967E2;
@@ -146,9 +146,9 @@
 @media (prefers-color-scheme: dark) { :root[data-version="v3"]:not([data-theme="light"]) { --paper0:#141833; --paper1:#0B0E22; --paper2:#1C2140; --paper3:#070917; --canvas:#05060F;
   --ink900:#F0F1F7; --ink800:#F5F6FA; --ink700:#C9CCE0; --ink500:#8388AA; --ink300:#565B7E;
   --hairline:#262B4C; --hairlineSoft:#1C2140;
-  --ochre700:#C0CBFF; --ochre600:#6F8CFF; --ochre500:#8AA1FF; --ochre400:#A5B6FF;
-  --ochre200:#25306B; --ochre100:#191F4C;
-  --danger:#FF5A2E; --calloutDark:#12162E; --calloutText:#FEFCF6;
+  --ochre700:#A5E3C9; --ochre600:#4FBE93; --ochre500:#6CCCA8; --ochre400:#8BD8BC;
+  --ochre200:#1B4534; --ochre100:#123326;
+  --danger:#FF5A2E; --calloutDark:#12162E; --calloutText:#FEFCF6; --iconMuted:#6E7280;
   --overlayScrim:#080A1C; --overlayCream:#F4F1E6;
   --shadowC:0,0,0; --grainOpacity:.16;
   --m-joy:#FEBD00; --m-surprise:#FD6400; --m-anger:#FF5A2E; --m-love:#FE83F8;
@@ -156,9 +156,9 @@
 :root[data-version="v3"][data-theme="dark"] { --paper0:#141833; --paper1:#0B0E22; --paper2:#1C2140; --paper3:#070917; --canvas:#05060F;
   --ink900:#F0F1F7; --ink800:#F5F6FA; --ink700:#C9CCE0; --ink500:#8388AA; --ink300:#565B7E;
   --hairline:#262B4C; --hairlineSoft:#1C2140;
-  --ochre700:#C0CBFF; --ochre600:#6F8CFF; --ochre500:#8AA1FF; --ochre400:#A5B6FF;
-  --ochre200:#25306B; --ochre100:#191F4C;
-  --danger:#FF5A2E; --calloutDark:#12162E; --calloutText:#FEFCF6;
+  --ochre700:#A5E3C9; --ochre600:#4FBE93; --ochre500:#6CCCA8; --ochre400:#8BD8BC;
+  --ochre200:#1B4534; --ochre100:#123326;
+  --danger:#FF5A2E; --calloutDark:#12162E; --calloutText:#FEFCF6; --iconMuted:#6E7280;
   --overlayScrim:#080A1C; --overlayCream:#F4F1E6;
   --shadowC:0,0,0; --grainOpacity:.16;
   --m-joy:#FEBD00; --m-surprise:#FD6400; --m-anger:#FF5A2E; --m-love:#FE83F8;
@@ -166,15 +166,21 @@
 :root[data-version="v3"][data-theme="light"] { --paper0:#FEFCF6; --paper1:#F6F1E4; --paper2:#EDE7D6; --paper3:#E1DAC5; --canvas:#D3CCB4;
   --ink900:#101430; --ink800:#171C3A; --ink700:#303757; --ink500:#5C6280; --ink300:#9BA0B8;
   --hairline:#CFC9B8; --hairlineSoft:#E0DACA;
-  --ochre700:#1F3ED6; --ochre600:#2F5CFF; --ochre500:#5279FF; --ochre400:#7D99FF;
-  --ochre200:#D9E0FF; --ochre100:#ECF0FF;
-  --danger:#D82F04; --calloutDark:#12162E; --calloutText:#FEFCF6;
+  --ochre700:#0F5138; --ochre600:#177253; --ochre500:#2E8E6B; --ochre400:#5CAA8B;
+  --ochre200:#CDE5D9; --ochre100:#E4F1EA;
+  --danger:#D82F04; --calloutDark:#12162E; --calloutText:#FEFCF6; --iconMuted:#83868F;
   --overlayScrim:#080A1C; --overlayCream:#F4F1E6;
   --shadowC:16,18,40; --grainOpacity:.42;
   --m-joy:#EFAC00; --m-surprise:#F25C00; --m-anger:#D82F04; --m-love:#E967E2;
   --m-sad:#2F5CFF; --m-calm:#1B7A55; --m-fear:#6C46D9; --m-tired:#8F94B3; }
 :root[data-version="v3"] .moodsquare i { mix-blend-mode:multiply; }
 :root[data-version="v3"][data-theme="dark"] .moodsquare i { mix-blend-mode:screen; }
+/* unselected icons are neutral grey, never accent-tinted */
+:root[data-version="v3"] .tabpill .tcell:not(.on) .mi { background:var(--iconMuted) !important; }
+/* the ochre-baked glass assets (streak sun, mic glass) render desaturated in
+   mockups until the set is recut for the new palette [NEEDS AFFAN: icon recut] */
+:root[data-version="v3"] .oi.sun, :root[data-version="v3"] img.sun,
+:root[data-version="v3"] .fab img { filter:grayscale(1); opacity:.8; }
 /* decorative text is ink, not accent: the greeting name, hero italic phrase */
 :root[data-version="v3"] .hero h1 em { color:var(--ink800); }
 :root[data-version="v3"] .phone em { color:var(--ink800) !important; }
