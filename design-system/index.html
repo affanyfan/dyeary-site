@@ -27,6 +27,8 @@
 /* ---------- tokens (light) ---------- */
 :root {
   --font-ui:'Hanken Grotesk',system-ui,sans-serif;
+  --font-display:'Cormorant',serif;
+  --font-reading:'Newsreader',serif;
   --paper0:#FBF8F1; --paper1:#F4EFE4; --paper2:#ECE5D6; --paper3:#E2DAC9; --canvas:#D8D3C8;
   --ink900:#1C1813; --ink800:#211C16; --ink700:#3D352B; --ink500:#6B6052; --ink300:#A89C88;
   --hairline:#CFC6B4; --hairlineSoft:#DED6C5;
@@ -94,6 +96,31 @@
 :root[data-version="v1"] {
   --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
 }
+/* v2: two fonts (Chillax display+UI, Newsreader reading), weights one notch
+   down across the board, italics become color-only (Chillax has no italic). */
+:root[data-version="v2"] {
+  --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
+  --font-display:'Chillax','Hanken Grotesk',system-ui,sans-serif;
+}
+:root[data-version="v2"] .hero h1 { font-weight:300; }
+:root[data-version="v2"] .hero h1 em, :root[data-version="v2"] .phone em { font-style:normal; }
+:root[data-version="v2"] section h2 { font-weight:400; }
+:root[data-version="v2"] .topbar .name { font-weight:500; }
+:root[data-version="v2"] .dslabel { font-weight:500; }
+:root[data-version="v2"] .btn { font-weight:400; }
+:root[data-version="v2"] .chip2, :root[data-version="v2"] .epill,
+:root[data-version="v2"] .lpill, :root[data-version="v2"] .callout { font-weight:500; }
+:root[data-version="v2"] .ecard2 .et { font-weight:500; }
+:root[data-version="v2"] .ecard2 .etime { font-weight:400; }
+:root[data-version="v2"] .areacard .an { font-weight:400; }
+:root[data-version="v2"] .sbar { font-weight:500; }
+:root[data-version="v2"] .week .lbl.on { font-weight:500; }
+:root[data-version="v2"] .phone [style*="font-weight:700"] { font-weight:600 !important; }
+:root[data-version="v2"] .phone [style*="font-weight:600"] { font-weight:500 !important; }
+:root[data-version="v2"] .phone [style*="font-weight:500"] { font-weight:400 !important; }
+:root[data-version="v2"] .phone [style*="font-style:italic"] { font-style:normal !important; }
+:root[data-version="v2"] .phone [style*="font-size:40px"],
+:root[data-version="v2"] .phone [style*="font-size:46px"] { font-weight:350 !important; }
 #verSel {
   flex:none; border:1px solid var(--hairline); background:var(--paper0); color:var(--ink700);
   font:inherit; font-family:var(--font-ui); font-size:12px; font-weight:600;
@@ -136,7 +163,7 @@ header.top {
 }
 .topbar { display:flex; align-items:center; gap:14px; padding:10px 24px; max-width:1080px; margin:0 auto; }
 .topbar .mark { width:30px; height:30px; flex:none; }
-.topbar .name { font-family:'Cormorant',serif; font-weight:600; font-size:22px; color:var(--ink800); white-space:nowrap; }
+.topbar .name { font-family:var(--font-display); font-weight:600; font-size:22px; color:var(--ink800); white-space:nowrap; }
 nav.sections { display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; margin-left:auto; }
 nav.sections::-webkit-scrollbar { display:none; }
 nav.sections a {
@@ -153,14 +180,14 @@ nav.sections a:hover { color:var(--ink800); background:var(--paper2); }
 /* ---------- hero ---------- */
 .hero { padding:64px 0 40px; }
 .hero .eyebrow { font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--ochre600); }
-.hero h1 { font-family:'Cormorant',serif; font-weight:500; font-size:clamp(38px,6vw,56px); line-height:1.08; margin:10px 0 14px; }
+.hero h1 { font-family:var(--font-display); font-weight:500; font-size:clamp(38px,6vw,56px); line-height:1.08; margin:10px 0 14px; }
 .hero h1 em { font-style:italic; color:var(--ochre600); }
 .hero .meta { font-size:13px; color:var(--ink500); }
 
 /* ---------- sections ---------- */
 section { padding:44px 0 52px; border-top:1px solid var(--hairlineSoft); }
 .snum { font-size:11px; font-weight:600; letter-spacing:2px; color:var(--ochre600); }
-section h2 { font-family:'Cormorant',serif; font-weight:600; font-size:32px; margin:6px 0 8px; }
+section h2 { font-family:var(--font-display); font-weight:600; font-size:32px; margin:6px 0 8px; }
 section .lede { margin:0 0 26px; color:var(--ink500); }
 h3.group { font-size:12px; font-weight:600; letter-spacing:1.8px; text-transform:uppercase; color:var(--ink300); margin:30px 0 12px; }
 
@@ -337,22 +364,22 @@ h3.group { font-size:12px; font-weight:600; letter-spacing:1.8px; text-transform
 .tabpill .tcell.on { background:color-mix(in srgb, var(--ink900) 10%, transparent); }
 .pfab { position:absolute; right:0; width:50px; height:50px; border-radius:50%; background:var(--ink900); display:flex; align-items:center; justify-content:center; box-shadow:var(--sh-md); }
 .ecard2 { border-radius:22px; padding:16px; min-height:184px; display:flex; flex-direction:column; gap:7px; }
-.ecard2 .et { font-family:'Cormorant',serif; font-size:19px; font-weight:600; color:var(--ink800); line-height:1.15; }
-.ecard2 .es { font-family:'Newsreader',serif; font-size:13.5px; color:var(--ink500); line-height:1.45; flex:1; }
+.ecard2 .et { font-family:var(--font-display); font-size:19px; font-weight:600; color:var(--ink800); line-height:1.15; }
+.ecard2 .es { font-family:var(--font-reading); font-size:13.5px; color:var(--ink500); line-height:1.45; flex:1; }
 .ecard2 .em { display:flex; align-items:center; justify-content:space-between; gap:6px; }
 .ecard2 .etime { font-size:12px; font-weight:500; color:var(--ink300); }
 .ecard2 .epill { font-size:12px; font-weight:600; background:var(--paper0); border-radius:999px; padding:6px 12px; }
 .qrow { display:flex; gap:14px; }
 .qrow .rule { width:3px; border-radius:2px; flex:none; }
-.qrow .qt { font-family:'Newsreader',serif; font-size:18.5px; line-height:1.4; color:var(--ink500); }
+.qrow .qt { font-family:var(--font-reading); font-size:18.5px; line-height:1.4; color:var(--ink500); }
 .wavebars { display:flex; gap:3px; align-items:center; justify-content:center; height:86px; }
 .wavebars i { width:3px; border-radius:2px; background:var(--overlayCream); }
 .lpill { display:inline-flex; align-items:center; gap:7px; padding:7px 14px; border-radius:999px; font-size:13px; font-weight:600; }
 .areacard { border-radius:22px; padding:24px 20px; display:flex; flex-direction:column; align-items:center; text-align:center; }
-.areacard .an { font-family:'Cormorant',serif; font-size:32px; font-weight:500; color:var(--ink800); line-height:1.1; }
+.areacard .an { font-family:var(--font-display); font-size:32px; font-weight:500; color:var(--ink800); line-height:1.1; }
 .areacard .ac { font-size:11px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--ink300); margin-top:6px; }
 .areacard .chips2 { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; margin-top:14px; }
-.chip3 { display:inline-flex; align-items:center; gap:7px; background:var(--paper0); border-radius:999px; padding:8px 14px; font-family:'Newsreader',serif; font-size:16px; color:var(--ink700); }
+.chip3 { display:inline-flex; align-items:center; gap:7px; background:var(--paper0); border-radius:999px; padding:8px 14px; font-family:var(--font-reading); font-size:16px; color:var(--ink700); }
 .chip3 .cd { width:7px; height:7px; border-radius:50%; flex:none; }
 
 /* ---------- motion table ---------- */
@@ -527,7 +554,13 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
   <section id="type">
     <div class="snum">04</div>
     <h2>Three voices</h2>
-    <p class="lede">Display for titles and emotional moments, reading for the diary itself, UI for everything you tap. The UI voice is under audition: use the <b>version dropdown</b> in the top bar to flip this whole document, mockups included, between the shipping Hanken Grotesk (Control) and Chillax (v1). Both cards below stay in their own face regardless.</p>
+    <p class="lede">Display for titles and emotional moments, reading for the diary itself, UI for everything you tap. Under audition via the <b>version dropdown</b>: Control is the shipping three-family system, v1 swaps only the UI voice to Chillax, and v2 is the recommended end state, two fonts total with lighter weights everywhere. The specimen cards below stay pinned to their own faces regardless.</p>
+
+
+    <div class="card voice" style="border:1px solid var(--ochre400);">
+      <div class="vhead"><span class="vname">v2 · The two-font system</span><span class="vfile">Chillax carries display + UI · Newsreader keeps the diary · Cormorant and Hanken retire</span></div>
+      <div class="spec" style="border:none;padding-top:2px;font-size:12.5px;color:var(--ink500);">Weights drop one notch across the board: big display sits at light (300 to 350), titles at medium, buttons and labels at regular to medium, and bold disappears entirely. The italic-ochre signature becomes a color-only move since Chillax has no italic cut; entry text is untouched. Flip the dropdown to v2 and judge it on the screens.</div>
+    </div>
 
     <div class="card voice">
       <div class="vhead"><span class="vname">Display · Cormorant</span><span class="vfile">Fonts/Cormorant-VF.ttf · Typography.display(size, weight, italic)</span></div>
@@ -693,7 +726,7 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
         <div class="demo" style="display:flex;flex-direction:column;gap:14px;">
           <div class="dscard">
             <span class="dslabel">Tuesday evening</span>
-            <div style="font-family:'Newsreader',serif;font-size:16px;color:var(--ink700);margin-top:6px;">Long walk after the studio, everything felt lighter.</div>
+            <div style="font-family:var(--font-reading);font-size:16px;color:var(--ink700);margin-top:6px;">Long walk after the studio, everything felt lighter.</div>
           </div>
           <div class="dscard">
             <div class="motif-arc"></div><div class="motif-disc"></div>
@@ -816,7 +849,7 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
           <!-- feed sheet -->
           <div style="flex:1;overflow:hidden;padding:10px 18px 0;display:flex;flex-direction:column;">
             <div style="text-align:center;flex:none;"><span class="mi" style="--m:var(--i-ic-chevron-right);width:13px;height:13px;background:var(--ink300);transform:rotate(90deg);"></span></div>
-            <div style="font-family:'Cormorant',serif;font-size:40px;font-weight:400;color:var(--ink800);line-height:1.05;margin-top:2px;flex:none;">Good evening <em style="color:var(--ochre600);">Affan</em></div>
+            <div style="font-family:var(--font-display);font-size:40px;font-weight:400;color:var(--ink800);line-height:1.05;margin-top:2px;flex:none;">Good evening <em style="color:var(--ochre600);">Affan</em></div>
 
             <div style="text-align:center;font-size:11px;font-weight:600;letter-spacing:1.4px;color:var(--ink300);margin:16px 0 12px;flex:none;">TODAY</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:none;">
@@ -877,7 +910,7 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
           <div style="display:flex;align-items:center;gap:12px;padding:16px 24px 24px;flex:none;">
             <div style="flex:1;display:flex;flex-direction:column;gap:10px;">
               <div style="font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;"><span style="font-weight:600;color:var(--ink300);">July 8  ·  </span><span style="font-weight:700;color:var(--m-calm);">Overall calm</span></div>
-              <div style="font-family:'Cormorant',serif;font-size:34px;font-weight:500;letter-spacing:-.3px;color:var(--ink800);line-height:1.08;">Rain on the studio roof</div>
+              <div style="font-family:var(--font-display);font-size:34px;font-weight:500;letter-spacing:-.3px;color:var(--ink800);line-height:1.08;">Rain on the studio roof</div>
             </div>
             <div style="position:relative;width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;">
               <svg width="44" height="44" viewBox="0 0 44 44" style="position:absolute;transform:rotate(-90deg);"><circle cx="22" cy="22" r="20.5" fill="none" stroke="var(--hairlineSoft)" stroke-width="3"/><circle cx="22" cy="22" r="20.5" fill="none" stroke="var(--ochre600)" stroke-width="3" stroke-linecap="round" stroke-dasharray="47 129"/></svg>
@@ -927,12 +960,12 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
           <!-- cap warning pill [NEEDS DESIGN] -->
           <div style="text-align:center;margin-top:14px;flex:none;"><span style="display:inline-block;padding:9px 16px;border-radius:999px;background:rgba(0,0,0,.45);font-size:13.5px;font-weight:500;color:var(--overlayCream);">30 seconds left</span></div>
 
-          <div style="text-align:center;padding:34px 26px 0;flex:none;"><span style="font-family:'Cormorant',serif;font-style:italic;font-size:30px;color:var(--overlayCream);line-height:1.25;">Just following up…</span></div>
+          <div style="text-align:center;padding:34px 26px 0;flex:none;"><span style="font-family:var(--font-display);font-style:italic;font-size:30px;color:var(--overlayCream);line-height:1.25;">Just following up…</span></div>
 
           <!-- prompt card -->
           <div style="flex:1;display:flex;align-items:center;justify-content:center;">
             <div style="position:relative;width:230px;height:230px;border-radius:22px;background:color-mix(in srgb, var(--overlayCream) 12%, transparent);border:1px solid color-mix(in srgb, var(--overlayCream) 20%, transparent);padding:22px;">
-              <span style="font-family:'Newsreader',serif;font-weight:300;font-size:22px;line-height:1.4;color:var(--overlayCream);">Did the rain walk help clear your head?</span>
+              <span style="font-family:var(--font-reading);font-weight:300;font-size:22px;line-height:1.4;color:var(--overlayCream);">Did the rain walk help clear your head?</span>
               <span style="position:absolute;top:-9px;right:-9px;width:28px;height:28px;border-radius:50%;background:var(--overlayCream);box-shadow:var(--sh-md);display:flex;align-items:center;justify-content:center;"><span class="mi" style="--m:var(--i-ic-xmark-sm);width:12px;height:12px;background:var(--overlayScrim);"></span></span>
             </div>
           </div>
@@ -965,8 +998,8 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
           <div class="sbar"><span>9:41</span><span class="batt"></span></div>
 
           <div style="flex:1;overflow:hidden;padding:8px 20px 0;display:flex;flex-direction:column;">
-            <div style="font-family:'Cormorant',serif;font-size:46px;font-weight:500;color:var(--ink800);line-height:1.05;flex:none;">Reflections</div>
-            <div style="font-family:'Newsreader',serif;font-size:17px;color:var(--ink500);max-width:300px;margin-top:8px;flex:none;">The quotes that make up your day to day</div>
+            <div style="font-family:var(--font-display);font-size:46px;font-weight:500;color:var(--ink800);line-height:1.05;flex:none;">Reflections</div>
+            <div style="font-family:var(--font-reading);font-size:17px;color:var(--ink500);max-width:300px;margin-top:8px;flex:none;">The quotes that make up your day to day</div>
 
             <div style="display:flex;flex-direction:column;gap:14px;margin-top:30px;flex:none;">
               <div class="areacard" style="background:color-mix(in srgb, var(--m-calm) 18%, var(--paper1));">
@@ -1144,6 +1177,7 @@ const MOODS = [
 const VERSIONS = [
   { id:"",   label:"Control \u00b7 shipping" },
   { id:"v1", label:"v1 \u00b7 Chillax UI" },
+  { id:"v2", label:"v2 \u00b7 Two fonts, lighter" },
 ];
 const verSel = document.getElementById("verSel");
 VERSIONS.forEach(v => {
