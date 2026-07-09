@@ -125,64 +125,72 @@
 :root[data-version="v2"] .phone [style*="font-size:46px"] { font-weight:350 !important; }
 
 
-/* ===== v3: Prism — the base from Affan's reference. Ivory paper, the
-   wordmark's deep navy as ink, and the eight moods remapped onto the
-   logo's own ink family (sky, royal, pink, red-orange, amber). Royal
-   blue takes the accent slots; overlapping moods blend like inks. ===== */
+/* ===== v3: Prism, second pass from Affan's palette.svg
+   (FEFCF6 / 1F275B / 00AAF8 / 2F5CFF / FE83F8 / FD6400 / FEBD00).
+   Sandy paper stays; ink goes near-black navy and text is never colored:
+   color lives only in mood pills, dots, and interactive accents. ===== */
 :root[data-version="v3"] { --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
   --font-display:'Chillax','Hanken Grotesk',system-ui,sans-serif;
   --font-reading:'Chillax','Hanken Grotesk',system-ui,sans-serif;
   font-synthesis:none; -webkit-font-synthesis:none;
-  --paper0:#FFFCF2; --paper1:#FAF6EA; --paper2:#F0EBDB; --paper3:#E4DECA; --canvas:#D6D0BB;
-  --ink900:#232963; --ink800:#282E6B; --ink700:#454B85; --ink500:#7377A5; --ink300:#ABADCB;
-  --hairline:#D3D0C4; --hairlineSoft:#E3E0D3;
-  --ochre700:#1E3BC8; --ochre600:#2E5BE6; --ochre500:#4C74EE; --ochre400:#7593F3;
-  --ochre200:#D6DEFB; --ochre100:#EAEEFD;
-  --danger:#F4390C; --calloutDark:#1D2350; --calloutText:#FAF6EA;
-  --overlayScrim:#0A0C22; --overlayCream:#F3F0E4;
-  --shadowC:35,41,99; --grainOpacity:.38;
-  --m-joy:#FFB301; --m-surprise:#FF7A00; --m-anger:#F4390C; --m-love:#F583DE;
-  --m-sad:#2E5BE6; --m-calm:#29ACEC; --m-fear:#7C55E6; --m-tired:#9CA1C4; }
-@media (prefers-color-scheme: dark) { :root[data-version="v3"]:not([data-theme="light"]) { --paper0:#1B2049; --paper1:#121637; --paper2:#252B5C; --paper3:#0D102B; --canvas:#090B20;
-  --ink900:#EEEFF8; --ink800:#F4F4FB; --ink700:#CDD0E8; --ink500:#8C90B8; --ink300:#5F6390;
-  --hairline:#2E3466; --hairlineSoft:#252B5C;
-  --ochre700:#C3CEFF; --ochre600:#7C96FF; --ochre500:#93A8FF; --ochre400:#ABBCFF;
-  --ochre200:#2A3776; --ochre100:#1E2857;
-  --danger:#FF6242; --calloutDark:#1D2350; --calloutText:#FAF6EA;
-  --overlayScrim:#0A0C22; --overlayCream:#F3F0E4;
-  --shadowC:0,0,0; --grainOpacity:.18;
-  --m-joy:#FFC53D; --m-surprise:#FF9433; --m-anger:#FF6242; --m-love:#FF9FE8;
-  --m-sad:#6D8BFF; --m-calm:#4CC0F7; --m-fear:#9B79F2; --m-tired:#A9AECE; } }
-:root[data-version="v3"][data-theme="dark"] { --paper0:#1B2049; --paper1:#121637; --paper2:#252B5C; --paper3:#0D102B; --canvas:#090B20;
-  --ink900:#EEEFF8; --ink800:#F4F4FB; --ink700:#CDD0E8; --ink500:#8C90B8; --ink300:#5F6390;
-  --hairline:#2E3466; --hairlineSoft:#252B5C;
-  --ochre700:#C3CEFF; --ochre600:#7C96FF; --ochre500:#93A8FF; --ochre400:#ABBCFF;
-  --ochre200:#2A3776; --ochre100:#1E2857;
-  --danger:#FF6242; --calloutDark:#1D2350; --calloutText:#FAF6EA;
-  --overlayScrim:#0A0C22; --overlayCream:#F3F0E4;
-  --shadowC:0,0,0; --grainOpacity:.18;
-  --m-joy:#FFC53D; --m-surprise:#FF9433; --m-anger:#FF6242; --m-love:#FF9FE8;
-  --m-sad:#6D8BFF; --m-calm:#4CC0F7; --m-fear:#9B79F2; --m-tired:#A9AECE; }
-:root[data-version="v3"][data-theme="light"] { --paper0:#FFFCF2; --paper1:#FAF6EA; --paper2:#F0EBDB; --paper3:#E4DECA; --canvas:#D6D0BB;
-  --ink900:#232963; --ink800:#282E6B; --ink700:#454B85; --ink500:#7377A5; --ink300:#ABADCB;
-  --hairline:#D3D0C4; --hairlineSoft:#E3E0D3;
-  --ochre700:#1E3BC8; --ochre600:#2E5BE6; --ochre500:#4C74EE; --ochre400:#7593F3;
-  --ochre200:#D6DEFB; --ochre100:#EAEEFD;
-  --danger:#F4390C; --calloutDark:#1D2350; --calloutText:#FAF6EA;
-  --overlayScrim:#0A0C22; --overlayCream:#F3F0E4;
-  --shadowC:35,41,99; --grainOpacity:.38;
-  --m-joy:#FFB301; --m-surprise:#FF7A00; --m-anger:#F4390C; --m-love:#F583DE;
-  --m-sad:#2E5BE6; --m-calm:#29ACEC; --m-fear:#7C55E6; --m-tired:#9CA1C4; }
+  --paper0:#FEFCF6; --paper1:#F6F1E4; --paper2:#EDE7D6; --paper3:#E1DAC5; --canvas:#D3CCB4;
+  --ink900:#101430; --ink800:#171C3A; --ink700:#303757; --ink500:#5C6280; --ink300:#9BA0B8;
+  --hairline:#CFC9B8; --hairlineSoft:#E0DACA;
+  --ochre700:#1F3ED6; --ochre600:#2F5CFF; --ochre500:#5279FF; --ochre400:#7D99FF;
+  --ochre200:#D9E0FF; --ochre100:#ECF0FF;
+  --danger:#D82F04; --calloutDark:#12162E; --calloutText:#FEFCF6;
+  --overlayScrim:#080A1C; --overlayCream:#F4F1E6;
+  --shadowC:16,18,40; --grainOpacity:.42;
+  --m-joy:#EFAC00; --m-surprise:#F25C00; --m-anger:#D82F04; --m-love:#E967E2;
+  --m-sad:#2F5CFF; --m-calm:#0298DD; --m-fear:#6C46D9; --m-tired:#8F94B3; }
+@media (prefers-color-scheme: dark) { :root[data-version="v3"]:not([data-theme="light"]) { --paper0:#141833; --paper1:#0B0E22; --paper2:#1C2140; --paper3:#070917; --canvas:#05060F;
+  --ink900:#F0F1F7; --ink800:#F5F6FA; --ink700:#C9CCE0; --ink500:#8388AA; --ink300:#565B7E;
+  --hairline:#262B4C; --hairlineSoft:#1C2140;
+  --ochre700:#C0CBFF; --ochre600:#6F8CFF; --ochre500:#8AA1FF; --ochre400:#A5B6FF;
+  --ochre200:#25306B; --ochre100:#191F4C;
+  --danger:#FF5A2E; --calloutDark:#12162E; --calloutText:#FEFCF6;
+  --overlayScrim:#080A1C; --overlayCream:#F4F1E6;
+  --shadowC:0,0,0; --grainOpacity:.16;
+  --m-joy:#FEBD00; --m-surprise:#FD6400; --m-anger:#FF5A2E; --m-love:#FE83F8;
+  --m-sad:#5E7DFF; --m-calm:#00AAF8; --m-fear:#8B63F0; --m-tired:#9CA1BE; } }
+:root[data-version="v3"][data-theme="dark"] { --paper0:#141833; --paper1:#0B0E22; --paper2:#1C2140; --paper3:#070917; --canvas:#05060F;
+  --ink900:#F0F1F7; --ink800:#F5F6FA; --ink700:#C9CCE0; --ink500:#8388AA; --ink300:#565B7E;
+  --hairline:#262B4C; --hairlineSoft:#1C2140;
+  --ochre700:#C0CBFF; --ochre600:#6F8CFF; --ochre500:#8AA1FF; --ochre400:#A5B6FF;
+  --ochre200:#25306B; --ochre100:#191F4C;
+  --danger:#FF5A2E; --calloutDark:#12162E; --calloutText:#FEFCF6;
+  --overlayScrim:#080A1C; --overlayCream:#F4F1E6;
+  --shadowC:0,0,0; --grainOpacity:.16;
+  --m-joy:#FEBD00; --m-surprise:#FD6400; --m-anger:#FF5A2E; --m-love:#FE83F8;
+  --m-sad:#5E7DFF; --m-calm:#00AAF8; --m-fear:#8B63F0; --m-tired:#9CA1BE; }
+:root[data-version="v3"][data-theme="light"] { --paper0:#FEFCF6; --paper1:#F6F1E4; --paper2:#EDE7D6; --paper3:#E1DAC5; --canvas:#D3CCB4;
+  --ink900:#101430; --ink800:#171C3A; --ink700:#303757; --ink500:#5C6280; --ink300:#9BA0B8;
+  --hairline:#CFC9B8; --hairlineSoft:#E0DACA;
+  --ochre700:#1F3ED6; --ochre600:#2F5CFF; --ochre500:#5279FF; --ochre400:#7D99FF;
+  --ochre200:#D9E0FF; --ochre100:#ECF0FF;
+  --danger:#D82F04; --calloutDark:#12162E; --calloutText:#FEFCF6;
+  --overlayScrim:#080A1C; --overlayCream:#F4F1E6;
+  --shadowC:16,18,40; --grainOpacity:.42;
+  --m-joy:#EFAC00; --m-surprise:#F25C00; --m-anger:#D82F04; --m-love:#E967E2;
+  --m-sad:#2F5CFF; --m-calm:#0298DD; --m-fear:#6C46D9; --m-tired:#8F94B3; }
 :root[data-version="v3"] .moodsquare i { mix-blend-mode:multiply; }
 :root[data-version="v3"][data-theme="dark"] .moodsquare i { mix-blend-mode:screen; }
+/* decorative text is ink, not accent: the greeting name, hero italic phrase */
+:root[data-version="v3"] .hero h1 em { color:var(--ink800); }
+:root[data-version="v3"] .phone em { color:var(--ink800) !important; }
+:root[data-version="v3"] .snum { color:var(--ink500); }
+:root[data-version="v3"] .hero .eyebrow { color:var(--ink500); }
+/* knock the mood card washes back from pastel: overlay the tint with paper */
+:root[data-version="v3"] .ecard2, :root[data-version="v3"] .areacard {
+  box-shadow:inset 0 0 0 999px color-mix(in srgb, var(--paper1) 42%, transparent);
+}
 :root[data-version="v3"] b, :root[data-version="v3"] strong, :root[data-version="v3"] h4 { font-weight:600; }
 :root[data-version="v3"] .hero h1 { font-weight:300; }
 :root[data-version="v3"] section h2 { font-weight:400; }
-:root[data-version="v3"] .hero h1 em, :root[data-version="v3"] .phone em { font-style:normal; }
+:root[data-version="v3"] .phone [style*="font-style:italic"] { font-style:normal !important; }
 :root[data-version="v3"] .dslabel, :root[data-version="v3"] .btn { font-weight:500; }
 :root[data-version="v3"] .phone [style*="font-weight:700"] { font-weight:600 !important; }
 :root[data-version="v3"] .phone [style*="font-weight:600"] { font-weight:500 !important; }
-:root[data-version="v3"] .phone [style*="font-style:italic"] { font-style:normal !important; }
 :root[data-version="v3"] .phone [style*="font-size:40px"],
 :root[data-version="v3"] .phone [style*="font-size:46px"] { font-weight:350 !important; }
 
