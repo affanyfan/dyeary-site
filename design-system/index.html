@@ -125,209 +125,66 @@
 :root[data-version="v2"] .phone [style*="font-size:46px"] { font-weight:350 !important; }
 
 
-/* ===== d5: Prism — deep navy ink, saturated spectrum moods, overlapping inks.
-   From Affan's reference: the color lives in the marks, not the paper. ===== */
-:root[data-version="d5"] { --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
+/* ===== v3: Prism — the base from Affan's reference. Ivory paper, the
+   wordmark's deep navy as ink, and the eight moods remapped onto the
+   logo's own ink family (sky, royal, pink, red-orange, amber). Royal
+   blue takes the accent slots; overlapping moods blend like inks. ===== */
+:root[data-version="v3"] { --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
   --font-display:'Chillax','Hanken Grotesk',system-ui,sans-serif;
   --font-reading:'Chillax','Hanken Grotesk',system-ui,sans-serif;
   font-synthesis:none; -webkit-font-synthesis:none;
-  --paper0:#FFFDF8; --paper1:#FBF7EF; --paper2:#F2EDE3; --paper3:#E7E1D5; --canvas:#DAD3C6;
-  --ink900:#1B2352; --ink800:#232C61; --ink700:#3D4679; --ink500:#6E77A0; --ink300:#A9AFC7;
-  --hairline:#CBCBD8; --hairlineSoft:#E0DFE8;
-  --ochre700:#1E36C4; --ochre600:#3757EF; --ochre500:#5670F2; --ochre400:#8095F6;
-  --ochre200:#D2DAFD; --ochre100:#E7ECFE;
-  --shadowC:27,35,82; --grainOpacity:.34;
-  --m-joy:#FFC021; --m-surprise:#FF8A00; --m-anger:#F0350F; --m-love:#FF6FD8;
-  --m-fear:#7A4CE3; --m-sad:#3757EF; --m-calm:#12A6EA; --m-tired:#97A0C2; }
-@media (prefers-color-scheme: dark) { :root[data-version="d5"]:not([data-theme="light"]) { --paper0:#171C41; --paper1:#0E1230; --paper2:#212853; --paper3:#0A0D24; --canvas:#070919;
-  --ink900:#F0F2FB; --ink800:#F6F7FD; --ink700:#CFD4EC; --ink500:#8E97BE; --ink300:#616A93;
-  --hairline:#2C3465; --hairlineSoft:#212853;
-  --ochre700:#B9C4FF; --ochre600:#7B93FF; --ochre500:#94A7FF; --ochre400:#AFBDFF;
-  --ochre200:#2A357A; --ochre100:#1E2760;
-  --shadowC:0,0,0; --grainOpacity:.20;
-  --m-joy:#FFCB47; --m-surprise:#FF9C2B; --m-anger:#FF5637; --m-love:#FF8CE1;
-  --m-fear:#9670EC; --m-sad:#6C86FF; --m-calm:#3FBAF0; --m-tired:#A7AFCB; } }
-:root[data-version="d5"][data-theme="dark"] { --paper0:#171C41; --paper1:#0E1230; --paper2:#212853; --paper3:#0A0D24; --canvas:#070919;
-  --ink900:#F0F2FB; --ink800:#F6F7FD; --ink700:#CFD4EC; --ink500:#8E97BE; --ink300:#616A93;
-  --hairline:#2C3465; --hairlineSoft:#212853;
-  --ochre700:#B9C4FF; --ochre600:#7B93FF; --ochre500:#94A7FF; --ochre400:#AFBDFF;
-  --ochre200:#2A357A; --ochre100:#1E2760;
-  --shadowC:0,0,0; --grainOpacity:.20;
-  --m-joy:#FFCB47; --m-surprise:#FF9C2B; --m-anger:#FF5637; --m-love:#FF8CE1;
-  --m-fear:#9670EC; --m-sad:#6C86FF; --m-calm:#3FBAF0; --m-tired:#A7AFCB; }
-:root[data-version="d5"][data-theme="light"] { --paper0:#FFFDF8; --paper1:#FBF7EF; --paper2:#F2EDE3; --paper3:#E7E1D5; --canvas:#DAD3C6;
-  --ink900:#1B2352; --ink800:#232C61; --ink700:#3D4679; --ink500:#6E77A0; --ink300:#A9AFC7;
-  --hairline:#CBCBD8; --hairlineSoft:#E0DFE8;
-  --ochre700:#1E36C4; --ochre600:#3757EF; --ochre500:#5670F2; --ochre400:#8095F6;
-  --ochre200:#D2DAFD; --ochre100:#E7ECFE;
-  --shadowC:27,35,82; --grainOpacity:.34;
-  --m-joy:#FFC021; --m-surprise:#FF8A00; --m-anger:#F0350F; --m-love:#FF6FD8;
-  --m-fear:#7A4CE3; --m-sad:#3757EF; --m-calm:#12A6EA; --m-tired:#97A0C2; }
-/* moods overlap like translucent inks rather than sitting side by side */
-:root[data-version="d5"] .moodsquare i { mix-blend-mode:multiply; }
-:root[data-version="d5"][data-theme="dark"] .moodsquare i { mix-blend-mode:screen; }
-
-/* ===== d1: Risograph ===== */
-:root[data-version="d1"] { --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  --font-display:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  --font-reading:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  font-synthesis:none; -webkit-font-synthesis:none;
-  --paper0:#FBF9FD; --paper1:#F0ECF4; --paper2:#E5DFEB; --paper3:#D8D0E0; --canvas:#CBC1D5;
-  --ink900:#1B1229; --ink800:#241833; --ink700:#443659; --ink500:#6E5F86; --ink300:#A093B5;
-  --hairline:#CFC5DB; --hairlineSoft:#E0D9E8;
-  --shadowC:40,24,72; --grainOpacity:.62; --ochre700:#3B1FA8; --ochre600:#5B3FD6; --ochre500:#7159E0; --ochre400:#907BE9; --ochre200:#DCD3F7; --ochre100:#EBE6FB; }
-@media (prefers-color-scheme: dark) { :root[data-version="d1"]:not([data-theme="light"]) {
-  --paper0:#1E1630; --paper1:#150F23; --paper2:#281E3D; --paper3:#100B1B; --canvas:#0B0714;
-  --ink900:#EFE9FA; --ink800:#F4F0FC; --ink700:#D8CFE9; --ink500:#A093B5; --ink300:#6E5F86;
-  --hairline:#362A4D; --hairlineSoft:#281E3D;
-  --shadowC:0,0,0; --grainOpacity:.30; --ochre700:#C9BAFF; --ochre600:#9B84F5; --ochre500:#AE9BF8; --ochre400:#C0B1FA; --ochre200:#3A2A6B; --ochre100:#281E4D; } }
-:root[data-version="d1"][data-theme="dark"] { --paper0:#1E1630; --paper1:#150F23; --paper2:#281E3D; --paper3:#100B1B; --canvas:#0B0714;
-  --ink900:#EFE9FA; --ink800:#F4F0FC; --ink700:#D8CFE9; --ink500:#A093B5; --ink300:#6E5F86;
-  --hairline:#362A4D; --hairlineSoft:#281E3D;
-  --shadowC:0,0,0; --grainOpacity:.30; --ochre700:#C9BAFF; --ochre600:#9B84F5; --ochre500:#AE9BF8; --ochre400:#C0B1FA; --ochre200:#3A2A6B; --ochre100:#281E4D; }
-:root[data-version="d1"][data-theme="light"] { --paper0:#FBF9FD; --paper1:#F0ECF4; --paper2:#E5DFEB; --paper3:#D8D0E0; --canvas:#CBC1D5;
-  --ink900:#1B1229; --ink800:#241833; --ink700:#443659; --ink500:#6E5F86; --ink300:#A093B5;
-  --hairline:#CFC5DB; --hairlineSoft:#E0D9E8;
-  --shadowC:40,24,72; --grainOpacity:.62; --ochre700:#3B1FA8; --ochre600:#5B3FD6; --ochre500:#7159E0; --ochre400:#907BE9; --ochre200:#DCD3F7; --ochre100:#EBE6FB; }
-/* ===== d2: Nocturne ===== */
-:root[data-version="d2"] { --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  --font-display:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  --font-reading:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  font-synthesis:none; -webkit-font-synthesis:none;
-  --paper0:#FAFCFD; --paper1:#EDF1F4; --paper2:#E1E7EC; --paper3:#D3DBE2; --canvas:#C5CFD8;
-  --ink900:#08131C; --ink800:#0E1A24; --ink700:#2C3B47; --ink500:#57697A; --ink300:#93A3B0;
-  --hairline:#C2CCD5; --hairlineSoft:#D9E1E7;
-  --shadowC:8,24,40; --grainOpacity:.26; --ochre700:#0A5C5A; --ochre600:#0E7C78; --ochre500:#14A09A; --ochre400:#35BDB5; --ochre200:#B9E6E3; --ochre100:#DBF2F0; }
-@media (prefers-color-scheme: dark) { :root[data-version="d2"]:not([data-theme="light"]) {
-  --paper0:#10202C; --paper1:#0A1620; --paper2:#17303F; --paper3:#071019; --canvas:#050C12;
-  --ink900:#E6F1F7; --ink800:#EEF6FA; --ink700:#C7D6E0; --ink500:#8A9DAB; --ink300:#5C6E7C;
-  --hairline:#21394A; --hairlineSoft:#17303F;
-  --shadowC:0,0,0; --grainOpacity:.20; --ochre700:#7FE6DF; --ochre600:#3FC9C0; --ochre500:#5AD6CD; --ochre400:#7FE1D9; --ochre200:#12403E; --ochre100:#0C2E2C; } }
-:root[data-version="d2"][data-theme="dark"] { --paper0:#10202C; --paper1:#0A1620; --paper2:#17303F; --paper3:#071019; --canvas:#050C12;
-  --ink900:#E6F1F7; --ink800:#EEF6FA; --ink700:#C7D6E0; --ink500:#8A9DAB; --ink300:#5C6E7C;
-  --hairline:#21394A; --hairlineSoft:#17303F;
-  --shadowC:0,0,0; --grainOpacity:.20; --ochre700:#7FE6DF; --ochre600:#3FC9C0; --ochre500:#5AD6CD; --ochre400:#7FE1D9; --ochre200:#12403E; --ochre100:#0C2E2C; }
-:root[data-version="d2"][data-theme="light"] { --paper0:#FAFCFD; --paper1:#EDF1F4; --paper2:#E1E7EC; --paper3:#D3DBE2; --canvas:#C5CFD8;
-  --ink900:#08131C; --ink800:#0E1A24; --ink700:#2C3B47; --ink500:#57697A; --ink300:#93A3B0;
-  --hairline:#C2CCD5; --hairlineSoft:#D9E1E7;
-  --shadowC:8,24,40; --grainOpacity:.26; --ochre700:#0A5C5A; --ochre600:#0E7C78; --ochre500:#14A09A; --ochre400:#35BDB5; --ochre200:#B9E6E3; --ochre100:#DBF2F0; }
-/* ===== d3: Oxide ===== */
-:root[data-version="d3"] { --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  --font-display:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  --font-reading:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  font-synthesis:none; -webkit-font-synthesis:none;
-  --paper0:#FAFAF8; --paper1:#EDEEE8; --paper2:#E1E3DA; --paper3:#D3D6CA; --canvas:#C5C9BB;
-  --ink900:#191B15; --ink800:#1F2119; --ink700:#3C4034; --ink500:#666B5B; --ink300:#9EA394;
-  --hairline:#C6CABB; --hairlineSoft:#DADDD0;
-  --shadowC:24,26,16; --grainOpacity:.48; --ochre700:#5E1418; --ochre600:#7D1E23; --ochre500:#9B2E33; --ochre400:#B85158; --ochre200:#E8C9CB; --ochre100:#F2E0E1; }
-@media (prefers-color-scheme: dark) { :root[data-version="d3"]:not([data-theme="light"]) {
-  --paper0:#1D2018; --paper1:#131610; --paper2:#262A1F; --paper3:#0E110B; --canvas:#0A0C08;
-  --ink900:#EBEEE3; --ink800:#F0F3E9; --ink700:#D2D6C7; --ink500:#979C8A; --ink300:#6A6F5E;
-  --hairline:#313626; --hairlineSoft:#262A1F;
-  --shadowC:0,0,0; --grainOpacity:.22; --ochre700:#F0A9AD; --ochre600:#D9646B; --ochre500:#E37F85; --ochre400:#EB979C; --ochre200:#4A1E21; --ochre100:#351518; } }
-:root[data-version="d3"][data-theme="dark"] { --paper0:#1D2018; --paper1:#131610; --paper2:#262A1F; --paper3:#0E110B; --canvas:#0A0C08;
-  --ink900:#EBEEE3; --ink800:#F0F3E9; --ink700:#D2D6C7; --ink500:#979C8A; --ink300:#6A6F5E;
-  --hairline:#313626; --hairlineSoft:#262A1F;
-  --shadowC:0,0,0; --grainOpacity:.22; --ochre700:#F0A9AD; --ochre600:#D9646B; --ochre500:#E37F85; --ochre400:#EB979C; --ochre200:#4A1E21; --ochre100:#351518; }
-:root[data-version="d3"][data-theme="light"] { --paper0:#FAFAF8; --paper1:#EDEEE8; --paper2:#E1E3DA; --paper3:#D3D6CA; --canvas:#C5C9BB;
-  --ink900:#191B15; --ink800:#1F2119; --ink700:#3C4034; --ink500:#666B5B; --ink300:#9EA394;
-  --hairline:#C6CABB; --hairlineSoft:#DADDD0;
-  --shadowC:24,26,16; --grainOpacity:.48; --ochre700:#5E1418; --ochre600:#7D1E23; --ochre500:#9B2E33; --ochre400:#B85158; --ochre200:#E8C9CB; --ochre100:#F2E0E1; }
-/* ===== d4: Chameleon — achromatic chrome, the day's mood is the only accent ===== */
-:root[data-version="d4"] { --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  --font-display:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  --font-reading:'Chillax','Hanken Grotesk',system-ui,sans-serif;
-  font-synthesis:none; -webkit-font-synthesis:none;
-  --paper0:#FCFCFC; --paper1:#F2F2F2; --paper2:#E8E8E8; --paper3:#DBDBDB; --canvas:#CECECE;
-  --ink900:#121212; --ink800:#1A1A1A; --ink700:#3A3A3A; --ink500:#6A6A6A; --ink300:#A5A5A5;
-  --hairline:#C9C9C9; --hairlineSoft:#DCDCDC;
-  --shadowC:0,0,0; --grainOpacity:.34; --accentSeed:var(--m-calm);
-  --ochre600:var(--accentSeed);
-  --ochre700:color-mix(in srgb, var(--accentSeed) 72%, #000);
-  --ochre500:color-mix(in srgb, var(--accentSeed) 88%, #fff);
-  --ochre400:color-mix(in srgb, var(--accentSeed) 74%, #fff);
-  --ochre200:color-mix(in srgb, var(--accentSeed) 26%, var(--paper1));
-  --ochre100:color-mix(in srgb, var(--accentSeed) 13%, var(--paper1)); }
-@media (prefers-color-scheme: dark) { :root[data-version="d4"]:not([data-theme="light"]) {
-  --paper0:#1C1C1C; --paper1:#121212; --paper2:#262626; --paper3:#0D0D0D; --canvas:#080808;
-  --ink900:#F0F0F0; --ink800:#F6F6F6; --ink700:#D4D4D4; --ink500:#9A9A9A; --ink300:#6A6A6A;
-  --hairline:#333333; --hairlineSoft:#262626;
-  --shadowC:0,0,0; --grainOpacity:.20; } }
-:root[data-version="d4"][data-theme="dark"] { --paper0:#1C1C1C; --paper1:#121212; --paper2:#262626; --paper3:#0D0D0D; --canvas:#080808;
-  --ink900:#F0F0F0; --ink800:#F6F6F6; --ink700:#D4D4D4; --ink500:#9A9A9A; --ink300:#6A6A6A;
-  --hairline:#333333; --hairlineSoft:#262626;
-  --shadowC:0,0,0; --grainOpacity:.20; }
-:root[data-version="d4"][data-theme="light"] { --paper0:#FCFCFC; --paper1:#F2F2F2; --paper2:#E8E8E8; --paper3:#DBDBDB; --canvas:#CECECE;
-  --ink900:#121212; --ink800:#1A1A1A; --ink700:#3A3A3A; --ink500:#6A6A6A; --ink300:#A5A5A5;
-  --hairline:#C9C9C9; --hairlineSoft:#DCDCDC;
-  --shadowC:0,0,0; --grainOpacity:.34; }
-/* every color direction inherits v2's weight discipline */
-:root[data-version="d5"] b,
-:root[data-version="d1"] b,
-:root[data-version="d2"] b,
-:root[data-version="d3"] b,
-:root[data-version="d4"] b, :root[data-version="d5"] strong,
-:root[data-version="d1"] strong,
-:root[data-version="d2"] strong,
-:root[data-version="d3"] strong,
-:root[data-version="d4"] strong, :root[data-version="d5"] h4,
-:root[data-version="d1"] h4,
-:root[data-version="d2"] h4,
-:root[data-version="d3"] h4,
-:root[data-version="d4"] h4 { font-weight:600; }
-:root[data-version="d5"] .hero h1,
-:root[data-version="d1"] .hero h1,
-:root[data-version="d2"] .hero h1,
-:root[data-version="d3"] .hero h1,
-:root[data-version="d4"] .hero h1 { font-weight:300; }
-:root[data-version="d5"] section h2,
-:root[data-version="d1"] section h2,
-:root[data-version="d2"] section h2,
-:root[data-version="d3"] section h2,
-:root[data-version="d4"] section h2 { font-weight:400; }
-:root[data-version="d5"] .hero h1 em,
-:root[data-version="d1"] .hero h1 em,
-:root[data-version="d2"] .hero h1 em,
-:root[data-version="d3"] .hero h1 em,
-:root[data-version="d4"] .hero h1 em, :root[data-version="d5"] .phone em,
-:root[data-version="d1"] .phone em,
-:root[data-version="d2"] .phone em,
-:root[data-version="d3"] .phone em,
-:root[data-version="d4"] .phone em { font-style:normal; }
-:root[data-version="d5"] .dslabel,
-:root[data-version="d1"] .dslabel,
-:root[data-version="d2"] .dslabel,
-:root[data-version="d3"] .dslabel,
-:root[data-version="d4"] .dslabel, :root[data-version="d5"] .btn,
-:root[data-version="d1"] .btn,
-:root[data-version="d2"] .btn,
-:root[data-version="d3"] .btn,
-:root[data-version="d4"] .btn { font-weight:500; }
-:root[data-version="d5"] .phone [style*="font-weight:700"],
-:root[data-version="d1"] .phone [style*="font-weight:700"],
-:root[data-version="d2"] .phone [style*="font-weight:700"],
-:root[data-version="d3"] .phone [style*="font-weight:700"],
-:root[data-version="d4"] .phone [style*="font-weight:700"] { font-weight:600 !important; }
-:root[data-version="d5"] .phone [style*="font-weight:600"],
-:root[data-version="d1"] .phone [style*="font-weight:600"],
-:root[data-version="d2"] .phone [style*="font-weight:600"],
-:root[data-version="d3"] .phone [style*="font-weight:600"],
-:root[data-version="d4"] .phone [style*="font-weight:600"] { font-weight:500 !important; }
-:root[data-version="d5"] .phone [style*="font-style:italic"],
-:root[data-version="d1"] .phone [style*="font-style:italic"],
-:root[data-version="d2"] .phone [style*="font-style:italic"],
-:root[data-version="d3"] .phone [style*="font-style:italic"],
-:root[data-version="d4"] .phone [style*="font-style:italic"] { font-style:normal !important; }
-:root[data-version="d5"] .phone [style*="font-size:40px"],
-:root[data-version="d1"] .phone [style*="font-size:40px"],
-:root[data-version="d2"] .phone [style*="font-size:40px"],
-:root[data-version="d3"] .phone [style*="font-size:40px"],
-:root[data-version="d4"] .phone [style*="font-size:40px"],
-:root[data-version="d5"] .phone [style*="font-size:46px"],
-:root[data-version="d1"] .phone [style*="font-size:46px"],
-:root[data-version="d2"] .phone [style*="font-size:46px"],
-:root[data-version="d3"] .phone [style*="font-size:46px"],
-:root[data-version="d4"] .phone [style*="font-size:46px"] { font-weight:350 !important; }
+  --paper0:#FFFCF2; --paper1:#FAF6EA; --paper2:#F0EBDB; --paper3:#E4DECA; --canvas:#D6D0BB;
+  --ink900:#232963; --ink800:#282E6B; --ink700:#454B85; --ink500:#7377A5; --ink300:#ABADCB;
+  --hairline:#D3D0C4; --hairlineSoft:#E3E0D3;
+  --ochre700:#1E3BC8; --ochre600:#2E5BE6; --ochre500:#4C74EE; --ochre400:#7593F3;
+  --ochre200:#D6DEFB; --ochre100:#EAEEFD;
+  --danger:#F4390C; --calloutDark:#1D2350; --calloutText:#FAF6EA;
+  --overlayScrim:#0A0C22; --overlayCream:#F3F0E4;
+  --shadowC:35,41,99; --grainOpacity:.38;
+  --m-joy:#FFB301; --m-surprise:#FF7A00; --m-anger:#F4390C; --m-love:#F583DE;
+  --m-sad:#2E5BE6; --m-calm:#29ACEC; --m-fear:#7C55E6; --m-tired:#9CA1C4; }
+@media (prefers-color-scheme: dark) { :root[data-version="v3"]:not([data-theme="light"]) { --paper0:#1B2049; --paper1:#121637; --paper2:#252B5C; --paper3:#0D102B; --canvas:#090B20;
+  --ink900:#EEEFF8; --ink800:#F4F4FB; --ink700:#CDD0E8; --ink500:#8C90B8; --ink300:#5F6390;
+  --hairline:#2E3466; --hairlineSoft:#252B5C;
+  --ochre700:#C3CEFF; --ochre600:#7C96FF; --ochre500:#93A8FF; --ochre400:#ABBCFF;
+  --ochre200:#2A3776; --ochre100:#1E2857;
+  --danger:#FF6242; --calloutDark:#1D2350; --calloutText:#FAF6EA;
+  --overlayScrim:#0A0C22; --overlayCream:#F3F0E4;
+  --shadowC:0,0,0; --grainOpacity:.18;
+  --m-joy:#FFC53D; --m-surprise:#FF9433; --m-anger:#FF6242; --m-love:#FF9FE8;
+  --m-sad:#6D8BFF; --m-calm:#4CC0F7; --m-fear:#9B79F2; --m-tired:#A9AECE; } }
+:root[data-version="v3"][data-theme="dark"] { --paper0:#1B2049; --paper1:#121637; --paper2:#252B5C; --paper3:#0D102B; --canvas:#090B20;
+  --ink900:#EEEFF8; --ink800:#F4F4FB; --ink700:#CDD0E8; --ink500:#8C90B8; --ink300:#5F6390;
+  --hairline:#2E3466; --hairlineSoft:#252B5C;
+  --ochre700:#C3CEFF; --ochre600:#7C96FF; --ochre500:#93A8FF; --ochre400:#ABBCFF;
+  --ochre200:#2A3776; --ochre100:#1E2857;
+  --danger:#FF6242; --calloutDark:#1D2350; --calloutText:#FAF6EA;
+  --overlayScrim:#0A0C22; --overlayCream:#F3F0E4;
+  --shadowC:0,0,0; --grainOpacity:.18;
+  --m-joy:#FFC53D; --m-surprise:#FF9433; --m-anger:#FF6242; --m-love:#FF9FE8;
+  --m-sad:#6D8BFF; --m-calm:#4CC0F7; --m-fear:#9B79F2; --m-tired:#A9AECE; }
+:root[data-version="v3"][data-theme="light"] { --paper0:#FFFCF2; --paper1:#FAF6EA; --paper2:#F0EBDB; --paper3:#E4DECA; --canvas:#D6D0BB;
+  --ink900:#232963; --ink800:#282E6B; --ink700:#454B85; --ink500:#7377A5; --ink300:#ABADCB;
+  --hairline:#D3D0C4; --hairlineSoft:#E3E0D3;
+  --ochre700:#1E3BC8; --ochre600:#2E5BE6; --ochre500:#4C74EE; --ochre400:#7593F3;
+  --ochre200:#D6DEFB; --ochre100:#EAEEFD;
+  --danger:#F4390C; --calloutDark:#1D2350; --calloutText:#FAF6EA;
+  --overlayScrim:#0A0C22; --overlayCream:#F3F0E4;
+  --shadowC:35,41,99; --grainOpacity:.38;
+  --m-joy:#FFB301; --m-surprise:#FF7A00; --m-anger:#F4390C; --m-love:#F583DE;
+  --m-sad:#2E5BE6; --m-calm:#29ACEC; --m-fear:#7C55E6; --m-tired:#9CA1C4; }
+:root[data-version="v3"] .moodsquare i { mix-blend-mode:multiply; }
+:root[data-version="v3"][data-theme="dark"] .moodsquare i { mix-blend-mode:screen; }
+:root[data-version="v3"] b, :root[data-version="v3"] strong, :root[data-version="v3"] h4 { font-weight:600; }
+:root[data-version="v3"] .hero h1 { font-weight:300; }
+:root[data-version="v3"] section h2 { font-weight:400; }
+:root[data-version="v3"] .hero h1 em, :root[data-version="v3"] .phone em { font-style:normal; }
+:root[data-version="v3"] .dslabel, :root[data-version="v3"] .btn { font-weight:500; }
+:root[data-version="v3"] .phone [style*="font-weight:700"] { font-weight:600 !important; }
+:root[data-version="v3"] .phone [style*="font-weight:600"] { font-weight:500 !important; }
+:root[data-version="v3"] .phone [style*="font-style:italic"] { font-style:normal !important; }
+:root[data-version="v3"] .phone [style*="font-size:40px"],
+:root[data-version="v3"] .phone [style*="font-size:46px"] { font-weight:350 !important; }
 
 #verSel {
   flex:none; border:1px solid var(--hairline); background:var(--paper0); color:var(--ink700);
@@ -1375,11 +1232,7 @@ const MOODS = [
 const VERSIONS = [
   { id:"",   label:"Control \u00b7 shipping" },
   { id:"v2", label:"v2 \u00b7 Chillax (adopted)" },
-  { id:"d5", label:"d5 \u00b7 Prism" },
-  { id:"d1", label:"d1 \u00b7 Risograph" },
-  { id:"d2", label:"d2 \u00b7 Nocturne" },
-  { id:"d3", label:"d3 \u00b7 Oxide" },
-  { id:"d4", label:"d4 \u00b7 Chameleon" },
+  { id:"v3", label:"v3 \u00b7 Prism" },
 ];
 const verSel = document.getElementById("verSel");
 VERSIONS.forEach(v => {
@@ -1394,7 +1247,7 @@ function applyVersion(id) {
   try { localStorage.setItem("dyeary-ds-version", id); } catch (e) {}
 }
 verSel.addEventListener("change", () => applyVersion(verSel.value));
-let initialVersion = "d5";   // the direction under discussion
+let initialVersion = "v3";   // the direction under discussion
 try {
   const saved = localStorage.getItem("dyeary-ds-version");
   if (saved !== null && VERSIONS.some(v => v.id === saved)) initialVersion = saved;
