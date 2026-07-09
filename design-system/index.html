@@ -633,47 +633,37 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
   <!-- ================= TYPE ================= -->
   <section id="type">
     <div class="snum">04</div>
-    <h2>Three voices</h2>
-    <p class="lede">Settled: <b>v2 is adopted</b>. One family, Chillax, now carries display, UI and the diary text; weights stop at semibold and the old italic-ochre signature becomes a color-only move. Use the <b>version dropdown</b> to flip between Control (what the app ships today) and v2. The specimen cards below stay pinned to their own faces regardless.</p>
+    <h2>One voice</h2>
+    <p class="lede">Adopted: a single variable family, Chillax, carries every word in the app, from the splash screen to the diary itself. Hierarchy comes from size and one step of weight, never from switching faces. The dropdown's Control shows the retired three-family system for comparison.</p>
 
-    
-
-    <div class="card voice" style="border:1px solid var(--ochre400);">
-      <div class="vhead"><span class="vname">v2 · Chillax everywhere — ADOPTED</span><span class="vfile">one family for display, UI and the diary text · Cormorant, Newsreader and Hanken all retire</span></div>
-      <div class="spec" style="border:none;padding-top:2px;font-size:12.5px;color:var(--ink500);">Weights drop one notch across the board and Chillax never exceeds semibold: big display sits at light (300 to 350), titles at medium, buttons and labels at regular to medium. Entry text sets in Chillax regular with the same generous leading; the italic-ochre signature becomes a color-only move since Chillax has no italic cut. Flip the dropdown to v2 and judge it on the screens, especially the transcript.</div>
-    </div>
-
-    <div class="card voice">
-      <div class="vhead"><span class="vname">Display · Cormorant</span><span class="vfile">Fonts/Cormorant-VF.ttf · Typography.display(size, weight, italic)</span></div>
-      <div class="spec-display">A quiet record of <em>how the days felt</em></div>
-      <div class="weights" style="font-family:'Cormorant',serif;font-size:21px;">
-        <span style="font-weight:300">Light</span><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">SemiBold</span><span style="font-weight:700">Bold</span><span style="font-style:italic;font-weight:500">Italic</span>
-      </div>
-      <div class="spec" style="border:none;padding-top:10px;font-size:12.5px;color:var(--ink500);">Screen titles, the paywall headline, onboarding moments. The signature move is medium italic in ochre600, used sparingly.</div>
-    </div>
-
-    <div class="card voice">
-      <div class="vhead"><span class="vname">Reading · Newsreader</span><span class="vfile">Fonts/Newsreader-VF.ttf · Typography.reading(size, weight, italic)</span></div>
-      <div class="spec-reading">Walked to the studio in the rain and didn't mind it. The new paywall finally feels like part of the app instead of a gate bolted on, and for the first time in weeks I closed the laptop before midnight.</div>
-      <div class="spec" style="border:none;padding-top:10px;font-size:12.5px;color:var(--ink500);">Entry text, transcripts, reflections. Set at 17 to 19 pt with generous line height; never used for chrome.</div>
-    </div>
-
-    
-
-    <div class="card voice" style="font-family:'Hanken Grotesk',system-ui,sans-serif;">
-      <div class="vhead"><span class="vname">Shipping UI · Hanken Grotesk</span><span class="vfile">Fonts/HankenGrotesk-VF.ttf · Typography.ui(size, weight, italic) · what the app uses today</span></div>
-      <div class="spec-ui" style="display:flex;flex-direction:column;gap:8px;">
-        <span class="dslabel">This week in feelings</span>
-        <span style="font-weight:600;color:var(--ink800);">Continue with email</span>
-        <span style="font-size:13px;color:var(--ink500);">Recorded Tuesday · 2 min 40 sec</span>
-      </div>
+    <div class="card voice" style="font-family:'Chillax','Hanken Grotesk',system-ui,sans-serif;">
+      <div class="vhead"><span class="vname">Chillax · variable</span><span class="vfile">design/assets/Chillax-Variable.ttf · wght 200 to 700 · Fontshare FF EULA, app embedding allowed</span></div>
+      <div style="font-size:clamp(30px,4.5vw,42px);font-weight:350;line-height:1.12;color:var(--ink800);">A quiet record of <span style="color:var(--ochre600);">how the days felt</span></div>
       <div class="weights" style="font-size:17px;">
-        <span style="font-weight:300">Light</span><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">Semibold</span><span style="font-weight:700">Bold</span><span style="font-style:italic;font-weight:500">Italic</span>
+        <span style="font-weight:200">Extralight</span><span style="font-weight:300">Light</span><span style="font-weight:350">350</span><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:600">Semibold</span>
       </div>
-      <div class="spec" style="border:none;padding-top:10px;font-size:12.5px;color:var(--ink500);">Buttons, labels, metadata, tab bar. Small-caps labels are 11 pt semibold with 1.6 tracking (<b>DSLabel</b>). Retired: kept here only as the before-picture.</div>
+      <div class="spec" style="border:none;padding-top:10px;font-size:12.5px;color:var(--ink500);"><b>Semibold is the ceiling</b>: heavier weights exist in the file but never render in the app. There is no italic cut, and none is synthesized; the old italic signature is now a color move (the accent span in the specimen above, upright). Being variable, in-between weights like 350 are real, not faked.</div>
     </div>
 
-    <p class="trules"><b>Exceptions worth knowing:</b> the Apple sign-in button keeps the system font (Apple requires it), so the Google button beside it matches at SF 19 medium. Numerals that align in columns get monospaced digits.</p>
+    <div class="card voice">
+      <div class="vhead"><span class="vname">Roles</span><span class="vfile">how one family covers the four old voices</span></div>
+      <div style="overflow-x:auto;">
+        <table class="mtable">
+          <tr><th>Role</th><th>Size</th><th>Weight</th><th>Where</th></tr>
+          <tr><td>Display</td><td>30 to 46 pt</td><td>light, 300 to 350</td><td>greetings, screen titles, hero and paywall moments; bigger gets lighter</td></tr>
+          <tr><td>Titles</td><td>19 to 24 pt</td><td>medium 500</td><td>entry titles, feed-card titles, category names</td></tr>
+          <tr><td>Diary</td><td>17 to 19 pt</td><td>regular 400</td><td>entries, transcripts, reflections; generous leading, never used for chrome</td></tr>
+          <tr><td>UI</td><td>15 to 17 pt</td><td>regular 400, medium 500 on buttons and chips</td><td>controls, tabs, sheets</td></tr>
+          <tr><td>Metadata</td><td>11 to 13 pt</td><td>regular 400 to medium 500</td><td>timestamps, eyebrows; small-caps labels are 11 pt medium with 1.6 tracking</td></tr>
+        </table>
+      </div>
+      <div class="spec">Emphasis is one step of weight, never two. Numerals that align in columns get monospaced digits.</div>
+    </div>
+
+    <div class="card voice">
+      <div class="vhead"><span class="vname">Retired</span><span class="vfile">Cormorant · Newsreader · Hanken Grotesk</span></div>
+      <div class="spec" style="border:none;padding-top:2px;font-size:12.5px;color:var(--ink500);">The old display, reading and UI families still ship in the app today and render under Control; they leave the bundle in the migration build (about 1.9 MB back). The one exception that survives every version: the Apple sign-in button keeps the system font because Apple requires it, and the Google button beside it matches at SF 19 medium.</div>
+    </div>
   </section>
 
   <!-- ================= SPACE ================= -->
@@ -1148,7 +1138,7 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
       <tr><td>Grain.swift</td><td>dsPaper, the paper + noise background</td></tr>
       <tr><td>Haptics.swift</td><td>impact helpers behind the press styles</td></tr>
       <tr><td>MoodAudio.swift</td><td>the piano sampler and mood chords</td></tr>
-      <tr><td>Fonts/</td><td>Cormorant, Newsreader, Hanken Grotesk variable fonts (+ italics)</td></tr>
+      <tr><td>Fonts/</td><td>today: Cormorant, Newsreader, Hanken Grotesk (all retired); after the migration build: Chillax-Variable.ttf only</td></tr>
       <tr><td>Assets.xcassets</td><td>logo.horizon, streak.sun, noise_overlay, ic.* / tab.* / area.* icon sets</td></tr>
       <tr><td>design/design-system.html</td><td>this document · regenerate with design/build-design-system.py</td></tr>
     </table>
@@ -1175,7 +1165,7 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
     <div class="dc">
       <h4>3 · The display face carries the look</h4>
       <p>Cormorant medium italic in ochre is the most "AI serif" move in the system. Newsreader and Hanken Grotesk read as chosen; the display voice is where a new face would change the personality fastest, and it only touches one lookup table in Theme.swift.</p>
-      <div class="call">Your call: <span>keep, re-weight (less italic, tighter sizes), or audition replacements?</span></div>
+      <div class="call">Resolved: <span>Chillax everywhere, one family, semibold ceiling; Cormorant, Newsreader and Hanken retired. The italic-ochre move became color-only.</span></div>
     </div>
 
     <div class="dc">
