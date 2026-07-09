@@ -96,12 +96,17 @@
 :root[data-version="v1"] {
   --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
 }
-/* v2: two fonts (Chillax display+UI, Newsreader reading), weights one notch
-   down across the board, italics become color-only (Chillax has no italic). */
+/* v2: Chillax everywhere (display, UI, and the diary text), weights one
+   notch down, hard ceiling at semibold, italics become color-only. */
 :root[data-version="v2"] {
   --font-ui:'Chillax','Hanken Grotesk',system-ui,sans-serif;
   --font-display:'Chillax','Hanken Grotesk',system-ui,sans-serif;
+  --font-reading:'Chillax','Hanken Grotesk',system-ui,sans-serif;
 }
+/* Chillax never exceeds semibold: cap every 700 in doc chrome and mockups */
+:root[data-version="v2"] b, :root[data-version="v2"] strong,
+:root[data-version="v2"] h4, :root[data-version="v2"] .vname,
+:root[data-version="v2"] .en, :root[data-version="v2"] .sw .tname { font-weight:600; }
 :root[data-version="v2"] .hero h1 { font-weight:300; }
 :root[data-version="v2"] .hero h1 em, :root[data-version="v2"] .phone em { font-style:normal; }
 :root[data-version="v2"] section h2 { font-weight:400; }
@@ -554,12 +559,12 @@ footer { border-top:1px solid var(--hairlineSoft); padding:28px 0 56px; font-siz
   <section id="type">
     <div class="snum">04</div>
     <h2>Three voices</h2>
-    <p class="lede">Display for titles and emotional moments, reading for the diary itself, UI for everything you tap. Under audition via the <b>version dropdown</b>: Control is the shipping three-family system, v1 swaps only the UI voice to Chillax, and v2 is the recommended end state, two fonts total with lighter weights everywhere. The specimen cards below stay pinned to their own faces regardless.</p>
+    <p class="lede">Display for titles and emotional moments, reading for the diary itself, UI for everything you tap. Under audition via the <b>version dropdown</b>: Control is the shipping three-family system, v1 swaps only the UI voice to Chillax, and v2 is the recommended end state: Chillax for everything including the diary text, lighter weights, nothing past semibold. The specimen cards below stay pinned to their own faces regardless.</p>
 
 
     <div class="card voice" style="border:1px solid var(--ochre400);">
-      <div class="vhead"><span class="vname">v2 · The two-font system</span><span class="vfile">Chillax carries display + UI · Newsreader keeps the diary · Cormorant and Hanken retire</span></div>
-      <div class="spec" style="border:none;padding-top:2px;font-size:12.5px;color:var(--ink500);">Weights drop one notch across the board: big display sits at light (300 to 350), titles at medium, buttons and labels at regular to medium, and bold disappears entirely. The italic-ochre signature becomes a color-only move since Chillax has no italic cut; entry text is untouched. Flip the dropdown to v2 and judge it on the screens.</div>
+      <div class="vhead"><span class="vname">v2 · Chillax everywhere</span><span class="vfile">one family for display, UI and the diary text · Cormorant, Newsreader and Hanken all retire</span></div>
+      <div class="spec" style="border:none;padding-top:2px;font-size:12.5px;color:var(--ink500);">Weights drop one notch across the board and Chillax never exceeds semibold: big display sits at light (300 to 350), titles at medium, buttons and labels at regular to medium. Entry text sets in Chillax regular with the same generous leading; the italic-ochre signature becomes a color-only move since Chillax has no italic cut. Flip the dropdown to v2 and judge it on the screens, especially the transcript.</div>
     </div>
 
     <div class="card voice">
@@ -1177,7 +1182,7 @@ const MOODS = [
 const VERSIONS = [
   { id:"",   label:"Control \u00b7 shipping" },
   { id:"v1", label:"v1 \u00b7 Chillax UI" },
-  { id:"v2", label:"v2 \u00b7 Two fonts, lighter" },
+  { id:"v2", label:"v2 \u00b7 Chillax everywhere" },
 ];
 const verSel = document.getElementById("verSel");
 VERSIONS.forEach(v => {
