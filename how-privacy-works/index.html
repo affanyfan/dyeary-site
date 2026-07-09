@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How privacy works in dyeary</title>
+<link rel="icon" href="logo.png" />
+<link rel="apple-touch-icon" href="logo.png" />
+<style>
+  :root {
+    --bg: #F4EFE6;
+    --card: #FBF8F1;
+    --ink: #2E2A24;
+    --muted: #6F685C;
+    --line: #E4DCCC;
+    --accent: #C58A86;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    line-height: 1.65;
+    font-size: 18px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px 96px; }
+  header { margin-bottom: 48px; }
+  .mark {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .logo {
+    width: 30px; height: 30px; border-radius: 8px; display: block;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  }
+  .mark strong { font-size: 20px; font-weight: 600; }
+  h1 { font-size: 34px; line-height: 1.2; margin: 28px 0 6px; font-weight: 600; }
+  .eff { color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; }
+  h2 {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted); margin: 44px 0 12px; font-weight: 600;
+  }
+  p { margin: 0 0 16px; }
+  ul { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 8px; }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(197,138,134,0.4); }
+  a:hover { border-bottom-color: var(--accent); }
+  .lead { font-size: 20px; color: var(--ink); }
+  table {
+    width: 100%; border-collapse: collapse; margin: 8px 0 16px;
+    font-size: 16px; font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  footer {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line);
+    color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px;
+  }
+  strong.in { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark"><img class="logo" src="../privacy/logo.png" alt="" /><strong>dyeary</strong></div>
+    <h1>How privacy works in dyeary</h1>
+    <div class="eff">The plain-language version</div>
+  </header>
+
+  <p class="lead">A diary only works if you can be completely honest in it. So dyeary is built on a simple promise: <strong class="in">your entries are yours.</strong> Here is what that means in practice, without the legal language (that lives in the <a href="../privacy/">Privacy Policy</a>).</p>
+
+  <h2>Nobody can browse your entries. Including us.</h2>
+  <p>Your words and recordings are encrypted on our servers twice: once by the infrastructure they live on, and again with a separate key that is never stored next to your data. There is no dashboard, screen, or query on our side that shows anyone your entries. The person who built dyeary cannot casually read your diary, and that is by design, enforced by encryption rather than by promise alone.</p>
+
+  <h2>Your words never train AI.</h2>
+  <p>dyeary uses AI to transcribe your voice and to find the feelings in what you said. That processing happens in the moment: your words pass through, the result comes back, and nothing is kept by the AI providers or used to train models. Your diary makes dyeary smarter about <em>you</em>, on your account only, never about anyone else.</p>
+
+  <h2>Delete means delete.</h2>
+  <p>Deleting an entry removes the text, the recording, and everything derived from it. Deleting your account, which you can do right inside the app, removes all of it permanently, and your email is immediately free to start fresh. We do not keep shadow copies of deleted journals.</p>
+
+  <h2>Your voice is kept only for you.</h2>
+  <p>Recordings are stored, encrypted, for exactly one purpose: so you can play your own entries back and hear yourself over time. They are never listened to, analyzed after the fact, or shared.</p>
+
+  <h2>No trackers, no ads, no data sales.</h2>
+  <p>The app contains no third-party analytics or tracking SDKs. We never sell personal data, and your journal is never used for advertising. The only usage data we keep is content-free: things like &ldquo;the app was opened today,&rdquo; which help us understand if dyeary is working as a habit, never what you said.</p>
+
+  <h2>What this all adds up to</h2>
+  <p>You can tell dyeary the things you would not say out loud. That is the entire point of the app, and every technical decision above exists to keep it true.</p>
+
+  <footer>
+    Questions? <a href="mailto:affankhokhar@gmail.com">affankhokhar@gmail.com</a> &middot; <a href="../privacy/">Privacy Policy</a> &middot; <a href="../terms/">Terms of Use</a>
+  </footer>
+</div>
+</body>
+</html>
