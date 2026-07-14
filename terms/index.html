@@ -7,29 +7,47 @@
 <link rel="icon" href="logo.png" />
 <link rel="apple-touch-icon" href="logo.png" />
 <style>
-  :root {
-    --bg: #F4EFE6;
-    --card: #FBF8F1;
-    --ink: #2E2A24;
-    --muted: #6F685C;
-    --line: #E4DCCC;
-    --accent: #C58A86;
+  /* dyeary · Prism design system tokens (Theme.swift) */
+  @font-face {
+    font-family: "Chillax";
+    src: url("../assets/Chillax-Variable.ttf") format("truetype");
+    font-weight: 200 700;
+    font-style: normal;
+    font-display: swap;
   }
+  :root {
+    --bg: #F6F1E4;
+    --card: #FEFCF6;
+    --ink: #171C3A;
+    --muted: #5C6280;
+    --line: #E0DACA;
+    --accent: #101430;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg: #0A0B10;
+    --card: #15161E;
+    --ink: #F6F6F9;
+    --muted: #A3A7BE;
+    --line: #272935;
+    --accent: #F1F1F5;
+  } }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-family: "Chillax", -apple-system, system-ui, sans-serif;
+    font-synthesis: none; -webkit-font-synthesis: none;
     line-height: 1.65;
-    font-size: 18px;
+    font-size: 17px;
   }
+  b, strong { font-weight: 600; } /* semibold is the ceiling */
+  em { font-style: normal; font-weight: 500; } /* emphasis is weight, never a slant */
   .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px 96px; }
   header { margin-bottom: 48px; }
   .mark {
     display: inline-flex; align-items: center; gap: 12px;
-    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
     letter-spacing: 0.02em;
   }
   .logo {
@@ -37,28 +55,27 @@
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
   }
   .mark strong { font-size: 20px; font-weight: 600; }
-  h1 { font-size: 34px; line-height: 1.2; margin: 28px 0 6px; font-weight: 600; }
-  .eff { color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; }
+  h1 { font-size: 34px; line-height: 1.2; margin: 28px 0 6px; font-weight: 350; }
+  .eff { color: var(--muted); font-size: 14px; }
   h2 {
-    font-family: ui-sans-serif, system-ui, sans-serif;
-    font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--muted); margin: 44px 0 12px; font-weight: 600;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 1.6px;
+    color: var(--muted); margin: 44px 0 12px; font-weight: 500;
   }
   p { margin: 0 0 16px; }
   ul { margin: 0 0 16px; padding-left: 22px; }
   li { margin-bottom: 8px; }
-  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(197,138,134,0.4); }
+  a { color: var(--accent); font-weight: 500; text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
   a:hover { border-bottom-color: var(--accent); }
-  .lead { font-size: 20px; color: var(--ink); }
+  .lead { font-size: 19px; color: var(--ink); }
   table {
     width: 100%; border-collapse: collapse; margin: 8px 0 16px;
-    font-size: 16px; font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 15px;
   }
   th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { color: var(--muted); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 1.2px; }
   footer {
     margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line);
-    color: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px;
+    color: var(--muted); font-size: 14px;
   }
   strong.in { font-weight: 600; }
 </style>

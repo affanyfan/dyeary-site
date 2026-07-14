@@ -6,6 +6,13 @@
 <meta name="robots" content="noindex">
 <title>Reset your dyeary password</title>
 <style>
+  @font-face {
+    font-family: "Chillax";
+    src: url("../assets/Chillax-Variable.ttf") format("truetype");
+    font-weight: 200 700;
+    font-style: normal;
+    font-display: swap;
+  }
   :root {
     --paper-0: #fefcf6; --paper-1: #f6f1e4; --ink-900: #101430; --ink-700: #303757;
     --ink-500: #5c6280; --hairline: #cfc9b8; --pine: #1b7a55; --danger: #d82f04;
@@ -14,7 +21,8 @@
   body {
     margin: 0; min-height: 100dvh; display: grid; place-items: center; padding: 24px;
     background: var(--paper-1); color: var(--ink-900);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-family: "Chillax", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-synthesis: none; -webkit-font-synthesis: none;
     -webkit-font-smoothing: antialiased;
   }
   .card {
@@ -22,7 +30,7 @@
     border: 1px solid var(--hairline); border-radius: 20px; padding: 28px 24px 24px;
     box-shadow: 0 16px 44px rgba(16,20,48,.10);
   }
-  .brand { font-size: 15px; font-weight: 700; letter-spacing: .01em; margin-bottom: 20px; }
+  .brand { font-size: 15px; font-weight: 600; letter-spacing: .01em; margin-bottom: 20px; }
   h1 { font-size: 22px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; }
   p.sub { font-size: 14px; line-height: 1.5; color: var(--ink-500); margin: 0 0 22px; }
   label { display: block; font-size: 12px; font-weight: 600; letter-spacing: .04em;
