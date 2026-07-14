@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Reset your dyeary password</title>
+<style>
+  :root {
+    --paper-0: #fefcf6; --paper-1: #f6f1e4; --ink-900: #101430; --ink-700: #303757;
+    --ink-500: #5c6280; --hairline: #cfc9b8; --pine: #1b7a55; --danger: #d82f04;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100dvh; display: grid; place-items: center; padding: 24px;
+    background: var(--paper-1); color: var(--ink-900);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .card {
+    width: 100%; max-width: 380px; background: var(--paper-0);
+    border: 1px solid var(--hairline); border-radius: 20px; padding: 28px 24px 24px;
+    box-shadow: 0 16px 44px rgba(16,20,48,.10);
+  }
+  .brand { font-size: 15px; font-weight: 700; letter-spacing: .01em; margin-bottom: 20px; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; }
+  p.sub { font-size: 14px; line-height: 1.5; color: var(--ink-500); margin: 0 0 22px; }
+  label { display: block; font-size: 12px; font-weight: 600; letter-spacing: .04em;
+    text-transform: uppercase; color: var(--ink-500); margin: 0 0 6px; }
+  input {
+    width: 100%; height: 46px; padding: 0 14px; margin-bottom: 16px;
+    border: 1px solid var(--hairline); border-radius: 12px; background: var(--paper-1);
+    font-size: 16px; color: var(--ink-900); outline: none;
+  }
+  input:focus { border-color: var(--ink-500); }
+  button {
+    width: 100%; height: 48px; border: none; border-radius: 999px; cursor: pointer;
+    background: var(--ink-900); color: var(--paper-0); font-size: 15px; font-weight: 600;
+    transition: transform .1s ease, opacity .15s ease;
+  }
+  button:active:not(:disabled) { transform: scale(.98); }
+  button:disabled { opacity: .5; cursor: default; }
+  .msg { font-size: 13.5px; line-height: 1.5; margin: 12px 0 0; min-height: 18px; }
+  .msg.error { color: var(--danger); }
+  .msg.ok { color: var(--pine); }
+  .open-app {
+    display: inline-block; margin-top: 18px; font-size: 14px; font-weight: 600;
+    color: var(--ink-900); text-decoration: none; border-bottom: 1.5px solid var(--hairline);
+    padding-bottom: 1px;
+  }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">dyeary</div>
+
+    <div id="form-view">
+      <h1>Set a new password</h1>
+      <p class="sub">Choose a new password for your dyeary account.</p>
+      <form id="reset-form" autocomplete="off">
+        <label for="pw">New password</label>
+        <input id="pw" type="password" autocomplete="new-password" placeholder="At least 6 characters" minlength="6" required>
+        <label for="pw2">Confirm password</label>
+        <input id="pw2" type="password" autocomplete="new-password" placeholder="Re-enter it" minlength="6" required>
+        <button id="submit" type="submit">Update password</button>
+        <p id="msg" class="msg"></p>
+      </form>
+    </div>
+
+    <div id="done-view" class="hidden">
+      <h1>You're all set</h1>
+      <p class="sub">Your password's been updated. Head back to the dyeary app and sign in with your new password.</p>
+      <a class="open-app" href="dyeary://">Open dyeary →</a>
+    </div>
+
+    <div id="invalid-view" class="hidden">
+      <h1>This link has expired</h1>
+      <p class="sub">Password reset links are single-use and time out for your safety. Open the dyeary app and tap “Forgot password?” to get a fresh one.</p>
+      <a class="open-app" href="dyeary://">Open dyeary →</a>
+    </div>
+  </div>
+
+<script>
+  var SUPABASE_URL = "https://bpzmbwgpudcijikdwrfw.supabase.co";
+  var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwem1id2dwdWRjaWppa2R3cmZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5MDA3MzUsImV4cCI6MjA5NzQ3NjczNX0.gc3PFVWwiLxYITFhJltbygPm7E6prsNuc5idtz_XDrA";
+
+  // Supabase redirects the email link here with the recovery session in the URL
+  // fragment: #access_token=...&type=recovery&...
+  var params = new URLSearchParams(location.hash.replace(/^#/, ""));
+  var accessToken = params.get("access_token");
+  var errCode = params.get("error_code") || params.get("error");
+
+  var formView = document.getElementById("form-view");
+  var doneView = document.getElementById("done-view");
+  var invalidView = document.getElementById("invalid-view");
+
+  if (!accessToken || errCode) {
+    formView.classList.add("hidden");
+    invalidView.classList.remove("hidden");
+  } else {
+    // Clear the token from the address bar once captured.
+    history.replaceState(null, "", location.pathname);
+
+    var form = document.getElementById("reset-form");
+    var msg = document.getElementById("msg");
+    var submit = document.getElementById("submit");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var pw = document.getElementById("pw").value;
+      var pw2 = document.getElementById("pw2").value;
+      msg.className = "msg";
+      msg.textContent = "";
+      if (pw.length < 6) { msg.className = "msg error"; msg.textContent = "Password must be at least 6 characters."; return; }
+      if (pw !== pw2) { msg.className = "msg error"; msg.textContent = "Those passwords don't match."; return; }
+
+      submit.disabled = true;
+      submit.textContent = "Updating…";
+      fetch(SUPABASE_URL + "/auth/v1/user", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "apikey": ANON, "Authorization": "Bearer " + accessToken },
+        body: JSON.stringify({ password: pw })
+      }).then(function (r) {
+        return r.json().then(function (j) { return { ok: r.ok, body: j }; });
+      }).then(function (res) {
+        if (!res.ok) throw new Error(res.body && (res.body.msg || res.body.error_description || res.body.message) || "Couldn't update your password. The link may have expired.");
+        formView.classList.add("hidden");
+        doneView.classList.remove("hidden");
+      }).catch(function (err) {
+        submit.disabled = false;
+        submit.textContent = "Update password";
+        msg.className = "msg error";
+        msg.textContent = err.message;
+      });
+    });
+  }
+</script>
+</body>
+</html>
