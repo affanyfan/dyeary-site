@@ -7,71 +7,88 @@
 <meta name="description" content="Say it, and we feel it. dyeary is a voice-first journal that turns a minute of talking into an entry, a mood, and a place on your year.">
 
 <style>
-/* ============ Fonts ============ */
-@import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
+/* ============ Fonts · one voice (Chillax), per the Prism design system ============ */
+@font-face {
+  font-family: "Chillax";
+  src: url("assets/Chillax-Variable.ttf") format("truetype");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
 
-/* ============ Tokens: color ============ */
+/* ============ Tokens: color (Theme.swift names) ============ */
 :root {
-  --paper-0:#FBF8F1; --paper-1:#F4EFE4; --paper-2:#ECE5D6; --paper-3:#E2DAC9; --canvas:#D8D3C8;
-  --ink-900:#1C1813; --ink-800:#211C16; --ink-700:#3D352B; --ink-500:#6B6052; --ink-300:#A89C88;
-  --hairline:#CFC6B4; --hairline-soft:#DED6C5;
-  --ochre-700:#74491C; --ochre-600:#8A5A24; --ochre-500:#A66B2C; --ochre-400:#C08A45; --ochre-200:#E6D2B0; --ochre-100:#F0E4CC;
-  --mood-joy:#D99A2B; --mood-calm:#7E9B79; --mood-love:#C58A86; --mood-sad:#6E8198;
-  --mood-anger:#B5523C; --mood-fear:#8A7BA0; --mood-surprise:#E0B255; --mood-tired:#9B948A;
-  --callout-dark:#1C1813; --callout-text:#FBF8F1;
-  --bg-app:var(--paper-1); --surface-card:var(--paper-0);
-  --text-heading:var(--ink-800); --text-body:var(--ink-700); --text-muted:var(--ink-500); --text-subtle:var(--ink-300);
-  --text-accent:var(--ochre-600); --accent:var(--ochre-600);
+  --paper0:#FEFCF6; --paper1:#F6F1E4; --paper2:#EDE7D6; --paper3:#E1DAC5; --canvas:#D3CCB4;
+  --ink900:#101430; --ink800:#171C3A; --ink700:#303757; --ink500:#5C6280; --ink300:#9BA0B8;
+  --hairline:#CFC9B8; --hairlineSoft:#E0DACA;
+  --accent700:#0A0D1F; --accent600:#101430; --accent500:#303757; --accent400:#5C6280;
+  --accent200:#DBD9CF; --accent100:#EAE7DD;
+  --danger:#D82F04; --calloutDark:#12162E; --calloutText:#FEFCF6; --iconMuted:#83868F;
+  --overlayScrim:#070708; --overlayCream:#F4F1E6;
+  --shadowC:16,18,40; --grainOpacity:.42; --grainBlend:overlay; --tint:18%;
+  --m-joy:#EFAC00; --m-surprise:#F25C00; --m-anger:#D82F04; --m-love:#E967E2;
+  --m-sad:#2F5CFF; --m-calm:#1B7A55; --m-fear:#6C46D9; --m-tired:#8F94B3;
+  --glassFill:rgba(254,252,246,.45); --glassStroke:rgba(255,255,255,.55);
 }
-:root[data-theme="dark"] {
-  --paper-0:#292219; --paper-1:#1C1813; --paper-2:#332A20; --paper-3:#15110D; --canvas:#100D0A;
-  --ink-900:#EFE7D6; --ink-800:#F1EAD9; --ink-700:#DCD2C0; --ink-500:#A99D88; --ink-300:#756A5A;
-  --hairline:#3B3329; --hairline-soft:#2B251D;
-  --ochre-700:#E4C290; --ochre-600:#CB9450; --ochre-500:#D7A361; --ochre-400:#E0B273; --ochre-200:#4B3C23; --ochre-100:#33291A;
-  --mood-joy:#E3A83C; --mood-calm:#95B08E; --mood-love:#D4A09C; --mood-sad:#879EB8;
-  --mood-anger:#CD6651; --mood-fear:#A493BB; --mood-surprise:#ECC069; --mood-tired:#ADA699;
-}
+@media (prefers-color-scheme: dark) { :root {
+  --paper0:#15161E; --paper1:#0A0B10; --paper2:#1C1E29; --paper3:#060709; --canvas:#040507;
+  --ink900:#F1F1F5; --ink800:#F6F6F9; --ink700:#CBCDDA; --ink500:#A3A7BE; --ink300:#7A7E92;
+  --hairline:#272935; --hairlineSoft:#1C1E29;
+  --accent700:#FFFFFF; --accent600:#F1F1F5; --accent500:#CBCDDA; --accent400:#A3A7BE;
+  --accent200:#2A2C37; --accent100:#1D1F28;
+  --danger:#FF5A2E; --calloutDark:#16171F; --calloutText:#FEFCF6; --iconMuted:#6E7280;
+  --shadowC:0,0,0; --grainOpacity:.07; --grainBlend:screen; --tint:30%;
+  --m-joy:#FEBD00; --m-surprise:#FD6400; --m-anger:#FF5A2E; --m-love:#FE83F8;
+  --m-sad:#5E7DFF; --m-calm:#48B389; --m-fear:#8B63F0; --m-tired:#9CA1BE;
+  --glassFill:rgba(21,22,30,.45); --glassStroke:rgba(255,255,255,.14);
+} }
 
 /* ============ Tokens: effects ============ */
 :root {
   --r-lg:22px;
-  --shadow-md:0 10px 28px -14px rgba(43,32,20,0.20);
-  --shadow-xl:0 40px 90px -36px rgba(43,32,20,0.32);
-  --glass-bg:rgba(251,248,241,0.62); --glass-border:rgba(255,255,255,0.55); --glass-blur:blur(20px) saturate(1.15);
-  --ease-soft:cubic-bezier(0.34,1.2,0.64,1);
-}
-:root[data-theme="dark"] {
-  --shadow-md:0 10px 28px -14px rgba(0,0,0,0.55);
-  --shadow-xl:0 40px 90px -36px rgba(0,0,0,0.72);
-  --glass-bg:rgba(33,28,21,0.66); --glass-border:rgba(240,228,204,0.10);
+  --sh-sm:0 3px 10px rgba(var(--shadowC),.10);
+  --sh-md:0 8px 28px rgba(var(--shadowC),.16);
+  --sh-lg:0 14px 52px rgba(var(--shadowC),.22);
+  --glass-blur:blur(20px) saturate(1.15);
+  --ease-soft:cubic-bezier(0.3,1.4,0.5,1);
 }
 
-/* ============ Tokens: type ============ */
+/* ============ Tokens: type — hierarchy is size + one step of weight ============ */
 :root {
-  --font-display:"Cormorant","Times New Roman",serif;
-  --font-reading:"Newsreader",Georgia,serif;
-  --font-ui:"Hanken Grotesk",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --font-display:"Chillax",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --font-reading:"Chillax",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --font-ui:"Chillax",-apple-system,"Segoe UI",system-ui,sans-serif;
+  font-synthesis:none; -webkit-font-synthesis:none;
 }
+b, strong { font-weight: 600; } /* semibold is the ceiling */
+em { font-style: normal; }      /* no italics: emphasis is weight + ink, never a slant */
 
 /* ============ Base ============ */
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: var(--paper-1); }
-::selection { background: var(--ochre-200); }
+html, body { margin: 0; padding: 0; background: var(--paper1); }
+::selection { background: var(--accent200); }
 a { color: inherit; }
 
+/* paper grain: tiled noise on every paper surface, film-faint in the dark */
+.grain-paper { position: relative; }
+.grain-paper::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: url("assets/grain.png") repeat; background-size: 128px 128px;
+  mix-blend-mode: var(--grainBlend); opacity: var(--grainOpacity);
+}
+.grain-paper > * { position: relative; z-index: 1; }
+
 /* nav hover */
-a.lp-navlink { color: var(--text-muted); text-decoration: none; transition: color .2s ease; }
-a.lp-navlink:hover { color: var(--text-heading); }
+a.lp-navlink { color: var(--ink500); text-decoration: none; transition: color .2s ease; }
+a.lp-navlink:hover { color: var(--ink800); }
 .lp-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  font-family: var(--font-ui); font-size: 14px; font-weight: 600; text-decoration: none;
+  font-family: var(--font-ui); font-size: 14px; font-weight: 500; text-decoration: none;
   padding: 9px 18px; border-radius: 999px; border: 1px solid transparent;
-  background: var(--text-heading); color: var(--paper-0); cursor: pointer;
+  background: var(--ink900); color: var(--paper0); cursor: pointer;
   transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
 }
-.lp-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.lp-btn:hover { transform: translateY(-1px); box-shadow: var(--sh-md); }
 .lp-cta-end { transition: transform .15s ease, box-shadow .2s ease; }
 .lp-cta-end:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -14px rgba(0,0,0,0.55); }
 .lp-cta-arrow { transition: transform .2s ease; }
@@ -103,12 +120,12 @@ a.lp-navlink:hover { color: var(--text-heading); }
 </style>
 </head>
 <body>
-<div style="font-family: var(--font-ui); color: var(--text-body); background: var(--bg-app); overflow-x: clip;">
+<div style="font-family: var(--font-ui); color: var(--ink700); background: var(--paper1); overflow-x: clip;">
 
   <!-- ══════════ Nav ══════════ -->
   <nav class="lp-nav" style="position: fixed; top: 0; left: 0; right: 0; z-index: 60; background: transparent;">
     <div style="max-width: 1140px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 32px;">
-      <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-heading);">
+      <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink800);">
         <img src="logo.png" alt="dyeary logo" style="width: 28px; height: 28px; display: block; border-radius: 7px;">
         <span style="font-family: var(--font-display); font-size: 24px; font-weight: 500; letter-spacing: -0.01em; line-height: 1;">dyeary</span>
       </a>
@@ -123,22 +140,22 @@ a.lp-navlink:hover { color: var(--text-heading); }
 
   <!-- ══════════ Pinned-phone hero ══════════ -->
   <section id="top" style="position: relative; height: 320vh;">
-    <div id="lp-sticky" style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+    <div id="lp-sticky" class="grain-paper" style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center;">
 
-      <div style="position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 46%, var(--paper-0) 0%, var(--paper-1) 44%, var(--paper-2) 100%); pointer-events: none;"></div>
+      <div style="position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 46%, var(--paper0) 0%, var(--paper1) 44%, var(--paper2) 100%); pointer-events: none; z-index: 0;"></div>
 
-      <div style="position: relative; width: 100%; max-width: 1120px; height: 100%; margin: 0 auto;">
+      <div style="position: relative; width: 100%; max-width: 1120px; height: 100%; margin: 0 auto; z-index: 1;">
 
         <!-- headline: sits above the phone at rest -->
         <div id="lp-head" style="position: absolute; top: 20vh; left: 0; right: 0; text-align: center; padding: 0 24px; will-change: transform, opacity; z-index: 30; transform: translateY(-50%);">
-          <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 18px;">A voice-first journal</div>
-          <h1 style="font-family: var(--font-display); font-weight: 400; font-size: 76px; line-height: 1.02; letter-spacing: -0.02em; color: var(--text-heading); margin: 0 0 24px;">Say it, and we <em style="color: var(--text-accent); font-style: italic;">feel</em> it.</h1>
+          <div style="font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink500); margin-bottom: 18px;">A voice-first journal</div>
+          <h1 style="font-family: var(--font-display); font-weight: 300; font-size: 76px; line-height: 1.04; letter-spacing: -0.01em; color: var(--ink800); margin: 0 0 24px;">Say it, and we <em style="font-weight: 500; color: var(--ink900);">feel</em> it.</h1>
         </div>
 
         <!-- phone: starts half below the fold, rises to center on scroll -->
         <div id="lp-phone" style="position: absolute; top: 50%; left: 50%; z-index: 20; will-change: transform; transform: translate(-50%, calc(-50% + 50vh)) scale(1.85);">
-          <div style="padding: 12px; background: var(--paper-0); border: 1px solid var(--hairline-soft); border-radius: 56px; box-shadow: var(--shadow-xl); height: min(72vh, 760px); aspect-ratio: 320 / 664; box-sizing: border-box;">
-            <div style="position: relative; width: 100%; height: 100%; border-radius: 44px; overflow: hidden; background: var(--paper-1);">
+          <div style="padding: 12px; background: var(--paper0); border: 1px solid var(--hairlineSoft); border-radius: 56px; box-shadow: var(--sh-lg); height: min(72vh, 760px); aspect-ratio: 320 / 664; box-sizing: border-box;">
+            <div style="position: relative; width: 100%; height: 100%; border-radius: 44px; overflow: hidden; background: var(--paper1);">
               <iframe src="uploads/phone-assets/screen-embed-feed.html" title="dyeary — the feed" scrolling="no" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block;"></iframe>
               <iframe id="lp-screen-talk" src="uploads/phone-assets/screen-embed-talk.html" title="dyeary — recording" scrolling="no" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; opacity: 0; transition: opacity .55s ease; will-change: opacity;"></iframe>
             </div>
@@ -147,55 +164,55 @@ a.lp-navlink:hover { color: var(--text-heading); }
 
         <!-- floating callouts — hidden at rest, revealed one by one on scroll -->
         <div class="lp-float" data-appear="0.46" style="position: absolute; top: 23%; right: 5%; z-index: 25; opacity: 0; will-change: transform, opacity; transform: translateY(14px) scale(0.6);">
-          <div style="display: inline-flex; align-items: center; gap: 10px; background: var(--paper-0); border: 1px solid var(--hairline-soft); border-radius: 999px; box-shadow: var(--shadow-md); padding: 10px 18px 10px 14px;">
-            <span style="width: 10px; height: 10px; border-radius: 50%; background: var(--mood-calm);"></span>
-            <span style="font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: var(--text-heading);">Calm, with a thread of joy</span>
+          <div style="display: inline-flex; align-items: center; gap: 10px; background: var(--paper0); border: 1px solid var(--hairlineSoft); border-radius: 999px; box-shadow: var(--sh-md); padding: 10px 18px 10px 14px;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: var(--m-calm);"></span>
+            <span style="font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink800);">Calm, with a thread of joy</span>
           </div>
         </div>
 
         <div class="lp-float" data-appear="0.56" style="position: absolute; top: 31%; left: 4%; width: 268px; z-index: 25; opacity: 0; will-change: transform, opacity; transform: translateY(14px) scale(0.6);">
-          <div style="background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 18px; box-shadow: var(--shadow-md); padding: 15px 17px; display: flex; gap: 12px; align-items: flex-start;">
-            <div style="width: 34px; height: 34px; border-radius: 50%; background: var(--paper-0); border: 1px solid var(--hairline-soft); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><div style="width: 12px; height: 12px; border-radius: 50%; background: var(--mood-joy);"></div></div>
+          <div style="background: var(--glassFill); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glassStroke); border-radius: 18px; box-shadow: var(--sh-md); padding: 15px 17px; display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 34px; height: 34px; border-radius: 50%; background: var(--paper0); border: 1px solid var(--hairlineSoft); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><div style="width: 12px; height: 12px; border-radius: 50%; background: var(--m-joy);"></div></div>
             <div style="flex: 1;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;"><span style="font-size: 13px; font-weight: 600; color: var(--text-heading);">Entry ready</span><span style="font-size: 11px; color: var(--text-subtle);">9:41 pm</span></div>
-              <div style="font-size: 13px; line-height: 1.45; color: var(--text-muted); margin-top: 3px;">A gentle, reflective evening. You felt lighter than yesterday.</div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;"><span style="font-size: 13px; font-weight: 600; color: var(--ink800);">Entry ready</span><span style="font-size: 11px; color: var(--ink300);">9:41 pm</span></div>
+              <div style="font-size: 13px; line-height: 1.45; color: var(--ink500); margin-top: 3px;">A gentle, reflective evening. You felt lighter than yesterday.</div>
             </div>
           </div>
         </div>
 
         <div class="lp-float" data-appear="0.66" style="position: absolute; bottom: 31%; right: 7%; z-index: 25; opacity: 0; will-change: transform, opacity; transform: translateY(14px) scale(0.6);">
-          <div style="display: inline-flex; align-items: baseline; gap: 10px; background: var(--callout-dark); color: var(--callout-text); border-radius: 999px; box-shadow: var(--shadow-md); padding: 11px 20px;">
-            <span style="font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--ochre-400); line-height: 1;">34</span>
-            <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8;">day streak</span>
+          <div style="display: inline-flex; align-items: baseline; gap: 10px; background: var(--calloutDark); color: var(--calloutText); border-radius: 999px; box-shadow: var(--sh-md); padding: 11px 20px;">
+            <span style="font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--m-joy); line-height: 1;">34</span>
+            <span style="font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8;">day streak</span>
           </div>
         </div>
 
         <div class="lp-float" data-appear="0.76" style="position: absolute; bottom: 21%; left: 6%; width: 250px; z-index: 25; opacity: 0; will-change: transform, opacity; transform: translateY(14px) scale(0.6);">
-          <div style="background: var(--surface-card); border: 1px solid var(--hairline-soft); border-radius: var(--r-lg); box-shadow: var(--shadow-md); padding: 18px 20px;">
-            <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 10px;">Sensing the mood…</div>
+          <div style="background: var(--paper0); border: 1px solid var(--hairlineSoft); border-radius: var(--r-lg); box-shadow: var(--sh-md); padding: 18px 20px;">
+            <div style="font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink300); margin-bottom: 10px;">Sensing the mood…</div>
             <div style="display: flex; height: 14px; gap: 3px;">
-              <div style="flex: 5; background: var(--mood-calm); border-radius: 999px;"></div>
-              <div style="flex: 3; background: var(--mood-joy); border-radius: 999px;"></div>
-              <div style="flex: 2; background: var(--mood-tired); border-radius: 999px;"></div>
-              <div style="flex: 1.5; background: var(--mood-love); border-radius: 999px;"></div>
+              <div style="flex: 5; background: var(--m-calm); border-radius: 999px;"></div>
+              <div style="flex: 3; background: var(--m-joy); border-radius: 999px;"></div>
+              <div style="flex: 2; background: var(--m-tired); border-radius: 999px;"></div>
+              <div style="flex: 1.5; background: var(--m-love); border-radius: 999px;"></div>
             </div>
           </div>
         </div>
 
         <div class="lp-float" data-appear="0.86" style="position: absolute; bottom: 11%; right: 11%; width: 244px; z-index: 25; opacity: 0; will-change: transform, opacity; transform: translateY(14px) scale(0.6);">
-          <div style="background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 18px; box-shadow: var(--shadow-md); padding: 15px 17px; display: flex; gap: 12px; align-items: flex-start;">
+          <div style="background: var(--glassFill); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glassStroke); border-radius: 18px; box-shadow: var(--sh-md); padding: 15px 17px; display: flex; gap: 12px; align-items: flex-start;">
             <img src="assets/mark.svg" alt="" style="width: 30px; height: 30px; flex-shrink: 0;">
             <div style="flex: 1;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;"><span style="font-size: 13px; font-weight: 600; color: var(--text-heading);">A gentle nudge</span><span style="font-size: 11px; color: var(--text-subtle);">9:00 pm</span></div>
-              <div style="font-size: 13px; line-height: 1.45; color: var(--text-muted); margin-top: 3px;">What's on your mind?</div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;"><span style="font-size: 13px; font-weight: 600; color: var(--ink800);">A gentle nudge</span><span style="font-size: 11px; color: var(--ink300);">9:00 pm</span></div>
+              <div style="font-size: 13px; line-height: 1.45; color: var(--ink500); margin-top: 3px;">What's on your mind?</div>
             </div>
           </div>
         </div>
 
         <!-- scroll cue -->
         <div id="lp-cue" style="position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 30; display: flex; flex-direction: column; align-items: center; gap: 8px; will-change: opacity;">
-          <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-subtle);">Scroll</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+          <span style="font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink300);">Scroll</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink300)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
         </div>
 
       </div>
@@ -203,32 +220,32 @@ a.lp-navlink:hover { color: var(--text-heading); }
   </section>
 
   <!-- ══════════ Year in review — mood map ══════════ -->
-  <section id="year" style="background: var(--paper-1); padding: 118px 0 128px; border-top: 1px solid var(--hairline-soft);">
+  <section id="year" class="grain-paper" style="background: var(--paper1); padding: 118px 0 128px; border-top: 1px solid var(--hairlineSoft);">
     <div style="max-width: 1240px; margin: 0 auto; padding: 0 40px;">
       <div style="text-align: center; margin-bottom: 54px;">
-        <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 16px;">Your year in review</div>
-        <h2 style="font-family: var(--font-display); font-weight: 400; font-size: 52px; line-height: 1.06; letter-spacing: -0.02em; color: var(--text-heading); margin: 0;">Your year, <em style="color: var(--text-accent); font-style: italic;">in feeling</em>.</h2>
+        <div style="font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink300); margin-bottom: 16px;">Your year in review</div>
+        <h2 style="font-family: var(--font-display); font-weight: 300; font-size: 52px; line-height: 1.06; letter-spacing: -0.01em; color: var(--ink800); margin: 0;">Your year, <em style="font-weight: 500; color: var(--ink900);">in feeling</em>.</h2>
       </div>
       <div id="yr-grid" style="display: grid; grid-template-columns: repeat(53, 1fr); gap: 6px;"></div>
-      <div style="text-align: center; font-family: var(--font-reading); font-size: 17px; color: var(--text-muted); margin-top: 36px;">One year in dyeary · each square is a day, colored by its mood</div>
+      <div style="text-align: center; font-family: var(--font-reading); font-size: 17px; color: var(--ink500); margin-top: 36px;">One year in dyeary · each square is a day, colored by its mood</div>
       <div id="yr-legend" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 28px; margin-top: 26px;"></div>
     </div>
   </section>
 
   <!-- ══════════ Final CTA — start your year ══════════ -->
-  <section style="background: var(--callout-dark); color: var(--callout-text); text-align: center; padding: clamp(88px, 12vw, 148px) 24px;">
-    <h2 style="font-family: var(--font-display); font-weight: 400; font-size: clamp(46px, 7vw, 82px); line-height: 1.02; letter-spacing: -0.02em; margin: 0; color: var(--callout-text);">Start your <em style="font-style: italic; background: linear-gradient(105deg, #F4ECDD 0%, #E6BFA0 60%, #C9955F 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: #E6BFA0;">year</em>.</h2>
-    <p style="max-width: 30ch; margin: 22px auto 0; font-family: var(--font-ui); font-size: 18px; line-height: 1.5; color: rgba(244,236,221,0.66);">dyeary is in private beta on iOS. Join early and watch your first months fill in.</p>
-    <a href="https://testflight.apple.com/join/6fTn1Acz" target="_blank" rel="noopener" class="lp-cta-end" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 34px; font-family: var(--font-ui); font-size: 16px; font-weight: 600; text-decoration: none; padding: 15px 30px; border-radius: 999px; background: var(--paper-0); color: var(--ink-900);">
+  <section style="background: var(--calloutDark); color: var(--calloutText); text-align: center; padding: clamp(88px, 12vw, 148px) 24px;">
+    <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(46px, 7vw, 82px); line-height: 1.04; letter-spacing: -0.01em; margin: 0; color: var(--calloutText);">Start your <em style="font-weight: 500;">year</em>.</h2>
+    <p style="max-width: 30ch; margin: 22px auto 0; font-family: var(--font-ui); font-size: 18px; line-height: 1.5; color: color-mix(in srgb, var(--calloutText) 66%, transparent);">dyeary is in private beta on iOS. Join early and watch your first months fill in.</p>
+    <a href="https://testflight.apple.com/join/6fTn1Acz" target="_blank" rel="noopener" class="lp-cta-end" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 34px; font-family: var(--font-ui); font-size: 16px; font-weight: 500; text-decoration: none; padding: 15px 30px; border-radius: 999px; background: var(--overlayCream); color: #12162E;">
       Join the beta
       <svg class="lp-cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: block;"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
     </a>
   </section>
 
   <!-- ══════════ Footer ══════════ -->
-  <footer style="background: var(--paper-1); border-top: 1px solid var(--hairline-soft);">
+  <footer class="grain-paper" style="background: var(--paper1); border-top: 1px solid var(--hairlineSoft);">
     <div style="max-width: 1140px; margin: 0 auto; padding: 44px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
-      <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-heading);">
+      <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink800);">
         <img src="logo.png" alt="dyeary logo" style="width: 26px; height: 26px; display: block; border-radius: 7px;">
         <span style="font-family: var(--font-display); font-size: 22px; font-weight: 500; letter-spacing: -0.01em; line-height: 1;">dyeary</span>
       </a>
@@ -238,7 +255,7 @@ a.lp-navlink:hover { color: var(--text-heading); }
         <a class="lp-navlink" href="mailto:affankhokhar@gmail.com">Contact</a>
         <a class="lp-navlink" href="https://testflight.apple.com/join/6fTn1Acz" target="_blank" rel="noopener">Join the beta</a>
       </div>
-      <div style="width: 100%; font-size: 13px; color: var(--text-subtle);">© 2026 dyeary · Speak a little, see your year.</div>
+      <div style="width: 100%; font-size: 13px; color: var(--ink300);">© 2026 dyeary · Speak a little, see your year.</div>
     </div>
   </footer>
 
@@ -250,13 +267,13 @@ a.lp-navlink:hover { color: var(--text-heading); }
 
   /* ---- seeded year of moods (matches the design's genYear) ---- */
   function genYear() {
-    var t = { joy:"--mood-joy", calm:"--mood-calm", love:"--mood-love", surprise:"--mood-surprise", tired:"--mood-tired", sad:"--mood-sad", fear:"--mood-fear", anger:"--mood-anger" };
+    var t = { joy:"--m-joy", calm:"--m-calm", love:"--m-love", surprise:"--m-surprise", tired:"--m-tired", sad:"--m-sad", fear:"--m-fear", anger:"--m-anger" };
     var pool = ["joy","joy","calm","calm","calm","joy","surprise","love","love","tired","tired","sad","fear","anger","calm","joy","surprise","tired"];
     var s = 20260701;
     var rnd = function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
     var cells = [];
     for (var i = 0; i < 371; i++) {
-      if (rnd() < 0.17) cells.push("var(--paper-3)");
+      if (rnd() < 0.17) cells.push("var(--paper3)");
       else cells.push("var(" + t[pool[Math.floor(rnd() * pool.length)]] + ")");
     }
     return cells;
@@ -276,8 +293,8 @@ a.lp-navlink:hover { color: var(--text-heading); }
 
   /* ---- legend ---- */
   var legend = [
-    ["Joy","--mood-joy"],["Calm","--mood-calm"],["Love","--mood-love"],["Surprise","--mood-surprise"],
-    ["Tired","--mood-tired"],["Sad","--mood-sad"],["Fear","--mood-fear"],["Anger","--mood-anger"]
+    ["Joy","--m-joy"],["Calm","--m-calm"],["Love","--m-love"],["Surprise","--m-surprise"],
+    ["Tired","--m-tired"],["Sad","--m-sad"],["Fear","--m-fear"],["Anger","--m-anger"]
   ];
   var leg = document.getElementById("yr-legend");
   if (leg) {
@@ -285,7 +302,7 @@ a.lp-navlink:hover { color: var(--text-heading); }
       var row = document.createElement("div");
       row.style.cssText = "display:flex;align-items:center;gap:9px;";
       row.innerHTML = '<span style="width:14px;height:14px;border-radius:5px;background:var(' + l[1] + ');"></span>' +
-        '<span style="font-family:var(--font-ui);font-size:14px;font-weight:500;color:var(--text-body);">' + l[0] + '</span>';
+        '<span style="font-family:var(--font-ui);font-size:14px;font-weight:500;color:var(--ink700);">' + l[0] + '</span>';
       leg.appendChild(row);
     });
   }
