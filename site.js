@@ -108,7 +108,7 @@ function render() {
   const d = derive();
   $$("[data-if]").forEach((el) => {
     const on = !!d[el.getAttribute("data-if")];
-    el.style.display = on ? "block" : "none";
+    el.style.display = on ? "" : "none";
   });
   const bg = $("#lp-try-bg");
   if (bg) {

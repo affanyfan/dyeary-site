@@ -95,12 +95,6 @@ a.lp-navlink:hover { color: var(--ink800); }
 .lp-cta-end:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -14px rgba(0,0,0,0.55); }
 .lp-cta-arrow { transition: transform .2s ease; }
 .lp-cta-end:hover .lp-cta-arrow { transform: translateX(3px); }
-/* Every [data-if] block starts hidden: site.js is a module, so it runs after the
-   first paint and the browser would otherwise show the mic annotation and the
-   whole try overlay until render() got to them. render() sets display:block to
-   turn one on — an inline style, so it beats this rule. Don't let it go back to
-   setting display:"" ; that falls through to here and hides everything. */
-.sc { display: none; }
 @keyframes moodWash {
   0%   { background-color: color-mix(in srgb, var(--m-calm) 26%, var(--paper1)); }
   12.5%{ background-color: color-mix(in srgb, var(--m-joy) 26%, var(--paper1)); }
@@ -296,7 +290,7 @@ a.lp-navlink:hover { color: var(--ink800); }
     </a>
   </section>
 
-  <div class="sc" data-if="tryOpen">
+  <div class="sc" data-if="tryOpen" style="display:none">
   <div id="lp-try-bg" class="grain-paper" style="position: fixed; inset: 0; z-index: 100; background-color: color-mix(in srgb, var(--m-calm) 26%, var(--paper1)); overflow-y: auto;" data-screen-label="Try — sign in">
     <div class="mood-layer"></div>
     <div class="try-header" style="position: relative; max-width: 1140px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 32px;">
@@ -305,15 +299,15 @@ a.lp-navlink:hover { color: var(--ink800); }
         <span style="font-family: var(--font-display); font-size: 24px; font-weight: 500; letter-spacing: -0.01em; line-height: 1;">dyeary</span>
       </a>
       <div class="lp-navcenter" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 30px; font-size: 14px; font-weight: 500;">
-        <div class="sc" data-if="notInSession">
+        <div class="sc" data-if="notInSession" style="display:none">
           <a class="lp-navlink" href="#top" data-act="closeTry">Home</a>
           <a class="lp-navlink" href="https://affanyfan.github.io/dyeary-privacy/">Privacy</a>
         </div>
       </div>
-      <div class="sc" data-if="listening">
+      <div class="sc" data-if="listening" style="display:none">
         <button type="button" data-act="closeTry" style="font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--overlayCream); background: transparent; border: 0; padding: 9px 6px; cursor: pointer;">Cancel</button>
       </div>
-      <div class="sc" data-if="notInSession">
+      <div class="sc" data-if="notInSession" style="display:none">
         <a class="lp-btn" href="https://testflight.apple.com/join/6fTn1Acz" target="_blank" rel="noopener">Get the app</a>
       </div>
     </div>
@@ -321,11 +315,11 @@ a.lp-navlink:hover { color: var(--ink800); }
     <div style="position: relative; min-height: calc(100vh - 82px); display: flex; align-items: center; justify-content: center; padding: 12px 24px 72px;">
       <div style="width: 100%; max-width: 560px; text-align: center;">
 
-        <div class="sc" data-if="isPermission">
+        <div class="sc" data-if="isPermission" style="display:none">
         <div style="text-align: center;">
 
-          <div class="sc" data-if="micGranted">
-          <div class="sc" data-if="listening">
+          <div class="sc" data-if="micGranted" style="display:none">
+          <div class="sc" data-if="listening" style="display:none">
           <div>
             <h2 class="cflip" style="font-family: var(--font-display); font-weight: 300; font-size: 46px; line-height: 1.06; letter-spacing: -0.01em; color: var(--ink800); margin: 0 0 30px; white-space: nowrap;">I'm <em style="font-weight: 500;">listening</em>…</h2>
             <div style="position: relative;">
@@ -344,7 +338,7 @@ a.lp-navlink:hover { color: var(--ink800); }
           </div>
           </div>
 
-          <div class="sc" data-if="generating">
+          <div class="sc" data-if="generating" style="display:none">
           <div style="display: flex; flex-direction: column; align-items: center;">
             <div class="try-spin" style="width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--hairline); border-top-color: var(--ink800); animation: trySpin 0.9s linear infinite; margin-bottom: 26px;"></div>
             <h2 class="cflip" style="font-family: var(--font-display); font-weight: 300; font-size: 42px; line-height: 1.06; letter-spacing: -0.01em; color: var(--ink800); margin: 0 0 12px; white-space: nowrap;">Generating your <em style="font-weight: 500;">entry</em>…</h2>
@@ -352,7 +346,7 @@ a.lp-navlink:hover { color: var(--ink800); }
           </div>
           </div>
 
-          <div class="sc" data-if="resultReady">
+          <div class="sc" data-if="resultReady" style="display:none">
           <div style="animation: pop 0.5s cubic-bezier(0.2,0.8,0.2,1) both;">
             <div class="cflip" style="font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink500); opacity: .8; margin-bottom: 18px;">Your entry</div>
             <div style="display: flex; gap: 18px; align-items: stretch; text-align: left; flex-wrap: wrap; justify-content: center; max-width: 460px; margin: 0 auto;">
@@ -375,10 +369,10 @@ a.lp-navlink:hover { color: var(--ink800); }
         </div>
         </div>
 
-        <div class="sc" data-if="isForm">
+        <div class="sc" data-if="isForm" style="display:none">
         <div style="max-width: 420px; margin: 0 auto; background: var(--paper0); border: 1px solid var(--hairlineSoft); border-radius: var(--r-lg); box-shadow: var(--sh-md); padding: 30px 28px; text-align: left;">
 
-          <div class="sc" data-if="isSignin">
+          <div class="sc" data-if="isSignin" style="display:none">
           <div>
             <div style="font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--ink800); text-align: center; margin-bottom: 6px;">Sign in to try mood sensing</div>
             <p style="font-size: 14px; line-height: 1.5; color: var(--ink500); text-align: center; margin: 0 0 24px;">Your test entry saves to your dyeary account, so it's already waiting when you open the app. No separate signup.</p>
@@ -402,7 +396,7 @@ a.lp-navlink:hover { color: var(--ink800); }
           </div>
           </div>
 
-          <div class="sc" data-if="isEmail">
+          <div class="sc" data-if="isEmail" style="display:none">
           <div>
             <div style="font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--ink800); text-align: center; margin-bottom: 6px;">Email me a sign-in link</div>
             <p style="font-size: 14px; line-height: 1.5; color: var(--ink500); text-align: center; margin: 0 0 22px;">We'll send a one-time link. Open it on this device to come back and try it.</p>
@@ -421,7 +415,7 @@ a.lp-navlink:hover { color: var(--ink800); }
 
     <!-- (the real browser permission prompt handles this) -->
 
-    <div class="sc" data-if="noteVisible">
+    <div class="sc" data-if="noteVisible" style="display:none">
     <div style="position: fixed; top: 150px; left: 14px; z-index: 118; display: flex; flex-direction: column; align-items: center; gap: 0; width: 236px; text-align: center; pointer-events: none;">
       <img src="uploads/arrow_once.gif" alt="" style="width: 118px; height: auto; transform: rotate(24deg); filter: invert(1); opacity: .85;">
       <div style="font-family: 'Caveat', cursive; font-size: 31px; font-weight: 600; line-height: 1.05; color: var(--ink700); transform: rotate(-3deg); margin-top: 2px;">enable mic permissions to continue</div>
