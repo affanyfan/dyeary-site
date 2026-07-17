@@ -17,7 +17,12 @@ const SUPABASE_URL  = "https://bpzmbwgpudcijikdwrfw.supabase.co";
 const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwem1id2dwdWRjaWppa2R3cmZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5MDA3MzUsImV4cCI6MjA5NzQ3NjczNX0.gc3PFVWwiLxYITFhJltbygPm7E6prsNuc5idtz_XDrA";
 const BACKEND       = "https://dyeary-backend.onrender.com";
 const DETECT_URL    = "https://pack-playground.vercel.app/api/detect-mood";
-const REDIRECT      = location.origin + location.pathname + "?try=1";
+// Deliberately /try/ and not "/?try=1": Supabase only honours redirect URLs on
+// its allow-list and silently falls back to the Site URL otherwise — which looks
+// like sign-in just doing nothing. /try/ is already on that list (it's what every
+// link sent so far has used), and it now hands off to the flow with the token
+// intact, so this needs no dashboard change and old links keep working.
+const REDIRECT      = location.origin + "/try/";
 const MAX_SECONDS   = 20;
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
