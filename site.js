@@ -72,21 +72,28 @@ const state = {
 // what the designer meant by them.
 function derive() {
   const inSession = state.step === "permission" && state.mic === "granted";
+  // Shown while the prompt is up too, just frozen: tapping starts the
+  // experience, answering the prompt sets it running.
+  const listening = !state.phase && (state.asking || (inSession && state.listening));
+  const generating = state.phase === "generating";
+  // Not gated on the mic: a previous entry is shown back on a later visit, long
+  // after that microphone is gone.
+  const resultReady = state.phase === "result";
   return {
     tryOpen: state.tryOpen,
     isForm: state.step === "signin" || state.step === "email",
     isSignin: state.step === "signin",
     isEmail: state.step === "email",
     isPermission: state.step === "permission",
-    micGranted: state.mic === "granted",
-    // Shown while the prompt is up too, just frozen: tapping starts the
-    // experience, answering the prompt sets it running.
-    listening: !state.phase && (state.asking || (inSession && state.listening)),
-    generating: state.phase === "generating",
-    // Not gated on the mic: a previous entry is shown back on a later visit,
-    // long after that microphone is gone.
-    resultReady: state.phase === "result",
-    notInSession: !inSession && state.phase !== "result",
+    // The design nests listening/generating/result inside micGranted, so it is
+    // really "the session container", not a permission read. Keying it off the
+    // actual mic state hid the result card behind a microphone that isn't
+    // running — blank overlay — and hid the paused meter for the same reason.
+    micGranted: listening || generating || resultReady,
+    listening,
+    generating,
+    resultReady,
+    notInSession: !inSession && !resultReady,
     // The arrow + handwriting point at the REAL prompt, so show it only while
     // one is actually up. Desktop only: mobile permission sheets are system UI
     // with no consistent anchor to point at.
