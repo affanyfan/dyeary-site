@@ -51,10 +51,6 @@ function derive() {
     isEmail: state.step === "email",
     isPermission: state.step === "permission",
     micGranted: state.mic === "granted",
-    // Only a fallback now — you land here if the mic was refused or is missing,
-    // never as a toll booth on the way in.
-    micPending: state.step === "permission" && (state.mic === "denied" || state.mic === "unavailable"),
-    micDenied: state.mic === "denied" || state.mic === "unavailable",
     // Shown while the prompt is up too, just frozen: tapping starts the
     // experience, answering the prompt sets it running.
     listening: !state.phase && (state.asking || (inSession && state.listening)),
@@ -83,14 +79,6 @@ function render() {
     bg.classList.toggle("paused", state.asking);   // frozen until the prompt is answered
   }
   document.body.style.overflow = state.tryOpen ? "hidden" : "";
-  const btn = $("#lp-mic-btn");
-  if (btn) {
-    // Paused: the prompt is the browser's, so we just wait for it.
-    btn.textContent = state.asking ? "Waiting for permission…" : "Start Mood Sensing";
-    btn.disabled = state.asking;
-    btn.style.opacity = state.asking ? "0.55" : "";
-    btn.style.cursor = state.asking ? "default" : "pointer";
-  }
   const rl = $('[data-val="recLabel"]');
   if (rl) rl.textContent = fmt(state.recSecs);
   const ss = $('[data-val="savedSecs"]');
@@ -173,24 +161,18 @@ async function askMic() {
     // a remembered Block) said no; NotFoundError is "no microphone",
     // NotReadableError is "something else is using it". Reporting all of them as
     // "denied" told people to enable a permission they'd already granted.
+    // No screen to send them to any more: the browser's prompt (or its
+    // remembered Block) already had this conversation, and repeating it back as
+    // an interstitial only got in the way. Close and leave them be — the console
+    // says what happened.
     console.warn("[dyeary] microphone unavailable:", err?.name, err?.message);
-    // A remembered Block rejects instantly and never shows a prompt — no amount
-    // of retrying gets past it, so the copy has to send people to site settings.
-    const hint = $('[data-if="micDenied"] p');
-    if (hint) {
-      if (err?.name === "NotFoundError" || err?.name === "OverconstrainedError")
-        hint.textContent = "No microphone found. Plug one in (or pick one in your system sound settings) and try again.";
-      else if (err?.name === "NotReadableError")
-        hint.textContent = "Another app is holding the microphone. Close it (Zoom, Meet, Voice Memos…) and try again.";
-    }
-    set({ mic: err?.name === "NotFoundError" || err?.name === "NotReadableError" ? "denied" : "denied" });
+    closeTry();
     return;
   }
   set({ mic: "granted", asking: false });
   warmup();
   startRecording();   // permission answered → the prototype resumes
 }
-const micRetry = () => askMic();
 
 
 function stopTracks() {
@@ -445,7 +427,7 @@ function theme() {
 /* ---- boot ------------------------------------------------------------ */
 // micAllow/micDeny aren't here on purpose: those belonged to the design's mocked
 // permission popup. The browser's own prompt is the only thing that grants a mic.
-const ACTS = { testMood: openTry, closeTry, signIn, emailLink, backToSignin, micRetry,
+const ACTS = { testMood: openTry, closeTry, signIn, emailLink, backToSignin,
                saveEntry: finish };
 $$("[data-act]").forEach((el) =>
   el.addEventListener("click", (e) => ACTS[el.getAttribute("data-act")]?.(e)));
