@@ -95,6 +95,12 @@ a.lp-navlink:hover { color: var(--ink800); }
 .lp-cta-end:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -14px rgba(0,0,0,0.55); }
 .lp-cta-arrow { transition: transform .2s ease; }
 .lp-cta-end:hover .lp-cta-arrow { transform: translateX(3px); }
+/* Every [data-if] block starts hidden: site.js is a module, so it runs after the
+   first paint and the browser would otherwise show the mic annotation and the
+   whole try overlay until render() got to them. render() sets display:block to
+   turn one on — an inline style, so it beats this rule. Don't let it go back to
+   setting display:"" ; that falls through to here and hides everything. */
+.sc { display: none; }
 @keyframes moodWash {
   0%   { background-color: color-mix(in srgb, var(--m-calm) 26%, var(--paper1)); }
   12.5%{ background-color: color-mix(in srgb, var(--m-joy) 26%, var(--paper1)); }
