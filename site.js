@@ -27,6 +27,11 @@ const MAX_SECONDS   = 20;
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
+// Product analytics. Content-free by rule: names, counts, durations — never the
+// recording, the transcript, the detected mood, or the email address. No-op
+// until a real key is configured in the <head> snippet.
+const track = (event, props) => { try { window.posthog?.capture(event, props || {}); } catch {} };
+
 // One taste per ACCOUNT, not per device. The demo exists to show someone what
 // dyeary hears; once they've got an entry, they've seen it — so hand the entry
 // back and point at the app instead of another recorder. Asking the backend
@@ -150,6 +155,7 @@ async function session() {
 
 function openTry(e) {
   e?.preventDefault();
+  track("site_try_opened");
   // Signed in already? Straight to the mic — the account is the only reason the
   // gate exists.
   if (!sess) { set({ tryOpen: true, step: "signin" }); return; }
@@ -205,6 +211,7 @@ async function sendEmailLink() {
   }
   // Sent: swap the control for a statement. Leaving a dark pill sitting there
   // reads as "press me", when the next move is in their inbox.
+  track("site_email_submitted"); // event only — never the address
   btn.hidden = true;
   const sent = $("#lp-email-sent");
   if (sent) sent.hidden = false;
@@ -263,6 +270,7 @@ function startRecording() {
   rec.onstop = process;
   rec.start();
   startedAt = Date.now();
+  track("site_recording_started");
   set({ listening: true, recSecs: 0, phase: null });
   tick = setInterval(() => set({ recSecs: (Date.now() - startedAt) / 1000 }), 200);
   stopAt = setTimeout(finish, MAX_SECONDS * 1000);   // the cap the design implies
@@ -321,6 +329,7 @@ async function process() {
     const entry = await saveEntry(transcript.trim(), reading);
     const result = { bucket: reading.bucket, ...entry, secs: state.savedSecs, at: Date.now() };
     prior = result;   // that's their entry now — no second recorder
+    track("site_try_completed", { secs: Math.round(state.savedSecs) });
     set({ phase: "result", result });
   } catch { fail(); }
 }
