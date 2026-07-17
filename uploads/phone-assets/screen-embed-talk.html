@@ -123,6 +123,12 @@
   .rec .wave i.b1 { height: 12.2cqw; animation: barH1 .9s -.22s ease-in-out infinite; }
   .rec .wave i.b2 { height: 7.6cqw; animation: barH2 .76s -.44s ease-in-out infinite; }
   .rec .clock { font-variant-numeric: tabular-nums; font-size: 4.1cqw; font-weight: 600; letter-spacing: 0.12em; color: color-mix(in srgb, var(--overlayCream) 92%, transparent); }
+  /* sensed-mood pills — slide in below the clock as each mood is detected (design's moodPills) */
+  @keyframes pillIn { 0%{ opacity: 0; transform: translateY(2cqw) scale(.92); } 100%{ opacity: 1; transform: translateY(0) scale(1); } }
+  .rec .moods { display: flex; gap: 2cqw; justify-content: center; min-height: 8.6cqw; }
+  .rec .moods .mp { display: inline-flex; align-items: center; gap: 2cqw; padding: 1.8cqw 3.8cqw; border-radius: 999px; background: var(--paper0); box-shadow: 0 1cqw 3cqw rgba(var(--shadowC),.16); animation: pillIn .34s ease both; }
+  .rec .moods .mp .d { width: 3.3cqw; height: 3.3cqw; border-radius: 999px; }
+  .rec .moods .mp .l { font-size: 3.3cqw; font-weight: 500; color: var(--ink800); }
   .rec .cancel { position: absolute; left: 5.1cqw; bottom: 7.2cqw; width: 12.8cqw; height: 12.8cqw; border-radius: 999px; display: grid; place-items: center; background: color-mix(in srgb, var(--overlayCream) 16%, transparent); border: 0.26cqw solid color-mix(in srgb, var(--overlayCream) 24%, transparent); }
   .rec .cancel svg { width: 5.1cqw; height: 5.1cqw; color: var(--overlayCream); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
   .rec .rstatus { position: absolute; left: 0; right: 0; bottom: 7.2cqw; height: 12.8cqw; display: flex; align-items: center; justify-content: center; gap: 2.3cqw; }
@@ -185,6 +191,7 @@
       <div class="lower">
         <div class="wave"><i class="b0"></i><i class="b1"></i><i class="b2"></i></div>
         <div class="clock">0:10</div>
+        <div class="moods"></div>
       </div>
       <div class="cancel"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
       <div class="rstatus"><span class="dot"></span><span class="txt">Recording</span></div>
@@ -195,35 +202,35 @@
 <script>
 (function(){
   var rec = document.querySelector('.rec');
-  var pills = document.querySelector('.rec .pills');
-  if (!rec || !pills) return;
-  var items = Array.prototype.slice.call(pills.children); // [Joy, Calm, Surprise]
-  pills.style.transition = 'opacity .34s ease';
-  var done = false;
-  function runShift(){
-    if (done) return; done = true;
-    // scrim retints toward the live mood (calm), still mixed 82% into the fixed scrim
-    rec.style.background = 'color-mix(in srgb, var(--m-calm) 82%, var(--overlayScrim))';
-    pills.style.opacity = '0';
-    setTimeout(function(){
-      pills.appendChild(items[1]); // Calm
-      pills.appendChild(items[0]); // Joy
-      pills.appendChild(items[2]); // Surprise
-      pills.style.opacity = '1';
-    }, 340);
+  var moods = document.querySelector('.rec .moods');
+  if (!rec || !moods) return;
+  // The scrim eases toward the latest sensed mood (design: background 1.6s ease)
+  // while a pill for each mood slides in below the waveform — the same live
+  // "sensing your mood" the app does, scripted for the mock. The parent posts
+  // dyeary:record when this screen scrolls into the hero, dyeary:reset when it leaves.
+  var SEQ = [['calm','Calm'], ['joy','Joy']];
+  var timers = [];
+  function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+  function tint(m){ rec.style.background = 'color-mix(in srgb, var(--m-' + m + ') 82%, var(--overlayScrim))'; }
+  function addPill(m, label){
+    var el = document.createElement('span'); el.className = 'mp';
+    var d = document.createElement('span'); d.className = 'd'; d.style.background = 'var(--m-' + m + ')';
+    var l = document.createElement('span'); l.className = 'l'; l.textContent = label;
+    el.appendChild(d); el.appendChild(l); moods.appendChild(el);
   }
-  function reset(){
-    done = false;
-    rec.style.background = 'color-mix(in srgb, var(--m-joy) 82%, var(--overlayScrim))';
-    pills.appendChild(items[0]); pills.appendChild(items[1]); pills.appendChild(items[2]);
-    pills.style.opacity = '1';
+  function run(){
+    clearTimers(); moods.textContent = ''; tint('calm');
+    SEQ.forEach(function(step, i){
+      timers.push(setTimeout(function(){ tint(step[0]); addPill(step[0], step[1]); }, 500 + i * 1700));
+    });
   }
+  function reset(){ clearTimers(); moods.textContent = ''; tint('calm'); }
   window.addEventListener('message', function(e){
-    if (e.data === 'dyeary:record') runShift();
+    if (e.data === 'dyeary:record') run();
     else if (e.data === 'dyeary:reset') reset();
   });
-  // standalone fallback: only auto-run when opened directly (not embedded)
-  if (window.top === window.self) setTimeout(runShift, 1800);
+  // Standalone (opened directly, not embedded): play the sequence once.
+  if (window.top === window.self) setTimeout(run, 900);
 })();
 </script>
 </body>
