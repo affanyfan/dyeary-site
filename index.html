@@ -7,7 +7,22 @@
 <meta name="description" content="A voice-first journal. Talk for a minute; dyeary writes the entry and senses how you felt.">
 <link rel="icon" href="logo.png">
 
-<link rel="stylesheet" href="_ds/dye-ary-design-system-39ec2831-c711-4115-b9d1-99e97184a293/tokens/colors.css">
+<style>
+/* The design maps --m-* onto the design system's --mood-* tokens, which live in a
+   stylesheet that only exists inside the Claude Design project. Supplying them
+   here keeps the design's mapping intact — without these, color-mix() silently
+   yields nothing and the try overlay renders with NO background (you see the
+   landing page straight through it). Values are the Prism moods from Theme.swift,
+   same as the phone embeds use. */
+:root {
+  --mood-joy:#EFAC00; --mood-surprise:#F25C00; --mood-anger:#D82F04; --mood-love:#E967E2;
+  --mood-sad:#2F5CFF; --mood-calm:#1B7A55; --mood-fear:#6C46D9; --mood-tired:#8F94B3;
+}
+.dyeary-dark {
+  --mood-joy:#FEBD00; --mood-surprise:#FD6400; --mood-anger:#FF5A2E; --mood-love:#FE83F8;
+  --mood-sad:#5E7DFF; --mood-calm:#48B389; --mood-fear:#8B63F0; --mood-tired:#9CA1BE;
+}
+</style>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&amp;display=swap">
 <style>
