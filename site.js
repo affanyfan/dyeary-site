@@ -27,6 +27,13 @@ const MAX_SECONDS   = 20;
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
+// One taste per person: after an entry is saved, the flow shows it back rather
+// than handing out another recorder. The point is to prove what dyeary hears
+// once — then the app is the place to keep going.
+const TRIED_KEY = "dyeary.tried";
+const savedTry = () => { try { return JSON.parse(localStorage.getItem(TRIED_KEY) || "null"); } catch { return null; } };
+const rememberTry = (r) => { try { localStorage.setItem(TRIED_KEY, JSON.stringify(r)); } catch {} };
+
 /* ---- state ----------------------------------------------------------- */
 const state = {
   tryOpen: false,
@@ -54,9 +61,11 @@ function derive() {
     // Shown while the prompt is up too, just frozen: tapping starts the
     // experience, answering the prompt sets it running.
     listening: !state.phase && (state.asking || (inSession && state.listening)),
-    generating: inSession && state.phase === "generating",
-    resultReady: inSession && state.phase === "result",
-    notInSession: !inSession,
+    generating: state.phase === "generating",
+    // Not gated on the mic: a previous entry is shown back on a later visit,
+    // long after that microphone is gone.
+    resultReady: state.phase === "result",
+    notInSession: !inSession && state.phase !== "result",
     // The arrow + handwriting point at the REAL prompt, so show it only while
     // one is actually up. Desktop only: mobile permission sheets are system UI
     // with no consistent anchor to point at.
@@ -111,6 +120,12 @@ function openTry(e) {
   e?.preventDefault();
   // Signed in already? Straight to the mic — the account is the only reason the
   // gate exists.
+  const prev = savedTry();
+  if (prev) {
+    // Already recorded one: hand back what dyeary heard, and point at the app.
+    set({ tryOpen: true, step: "permission", phase: "result", result: prev, savedSecs: prev.secs || 0 });
+    return;
+  }
   set({ tryOpen: true, step: sess ? "permission" : "signin" });
   // This click is the gesture, so ask now — synchronously, no await in between,
   // or the activation is gone and the browser rejects it out of hand.
@@ -272,7 +287,9 @@ async function process() {
     const { transcript = "", reading } = await det.json();
     if (!transcript.trim() || !reading) return fail();
     const entry = await saveEntry(transcript.trim(), reading);
-    set({ phase: "result", result: { bucket: reading.bucket, ...entry } });
+    const result = { bucket: reading.bucket, ...entry, secs: state.savedSecs, at: Date.now() };
+    rememberTry(result);
+    set({ phase: "result", result });
   } catch { fail(); }
 }
 
@@ -322,6 +339,20 @@ async function saveEntry(transcript, reading) {
   }
 }
 
+// "Today · 9:41 pm" is the design's placeholder — true the moment it's recorded,
+// a lie the next time they open it. Say when it actually happened.
+function stampFor(at) {
+  if (!at) return "Today";
+  const d = new Date(at), now = new Date();
+  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }).toLowerCase();
+  const sameDay = d.toDateString() === now.toDateString();
+  const yest = new Date(now); yest.setDate(now.getDate() - 1);
+  const day = sameDay ? "Today"
+    : d.toDateString() === yest.toDateString() ? "Yesterday"
+    : d.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+  return day + " · " + time;
+}
+
 function paintResult(r) {
   const card = $('[data-if="resultReady"] div[style*="--m-calm"]') || $('[data-if="resultReady"]');
   const pill = card?.querySelector('div[style*="border-radius: 999px"]');
@@ -331,6 +362,8 @@ function paintResult(r) {
   if (dot) dot.style.background = moodColor(r.bucket);
   if (pill) pill.childNodes[pill.childNodes.length - 1].textContent = r.bucket;
   if (title) title.textContent = r.title;
+  const stamp = $('[data-val="stamp"]');
+  if (stamp) stamp.textContent = stampFor(r.at);
   if (body) body.textContent = r.body;
   if (card && card.style) card.style.background = `color-mix(in srgb, ${moodColor(r.bucket)} var(--tint), var(--paper0))`;
 }
@@ -476,7 +509,10 @@ render();
 // Arriving from a sign-in link (or /try): no click happened, so only start the
 // mic if it's already granted; otherwise the button provides the gesture.
 if (new URLSearchParams(location.search).get("try") === "1") {
-  session().then(() => {
-    set({ tryOpen: true, step: sess ? "permission" : "signin" });
-  });
+  const prev = savedTry();
+  if (prev) {
+    set({ tryOpen: true, step: "permission", phase: "result", result: prev, savedSecs: prev.secs || 0 });
+  } else {
+    session().then(() => set({ tryOpen: true, step: sess ? "permission" : "signin" }));
+  }
 }
