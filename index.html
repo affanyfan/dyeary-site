@@ -3,11 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>dyeary · a voice journal that remembers how you felt</title>
-<meta name="description" content="Say it, and we feel it. dyeary is a voice-first journal that turns a minute of talking into an entry, a mood, and a place on your year.">
+<title>dyeary · say it, and we feel it</title>
+<meta name="description" content="A voice-first journal. Talk for a minute; dyeary writes the entry and senses how you felt.">
+<link rel="icon" href="logo.png">
 
+<link rel="stylesheet" href="_ds/dye-ary-design-system-39ec2831-c711-4115-b9d1-99e97184a293/tokens/colors.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&amp;display=swap">
 <style>
-/* ============ Fonts · one voice (Chillax), per the Prism design system ============ */
 @font-face {
   font-family: "Chillax";
   src: url("assets/Chillax-Variable.ttf") format("truetype");
@@ -15,8 +18,6 @@
   font-style: normal;
   font-display: swap;
 }
-
-/* ============ Tokens: color (Theme.swift names) ============ */
 :root {
   --paper0:#FEFCF6; --paper1:#F6F1E4; --paper2:#EDE7D6; --paper3:#E1DAC5; --canvas:#D3CCB4;
   --ink900:#101430; --ink800:#171C3A; --ink700:#303757; --ink500:#5C6280; --ink300:#9BA0B8;
@@ -26,11 +27,11 @@
   --danger:#D82F04; --calloutDark:#12162E; --calloutText:#FEFCF6; --iconMuted:#83868F;
   --overlayScrim:#070708; --overlayCream:#F4F1E6;
   --shadowC:16,18,40; --grainOpacity:.42; --grainBlend:overlay; --tint:18%;
-  --m-joy:#EFAC00; --m-surprise:#F25C00; --m-anger:#D82F04; --m-love:#E967E2;
-  --m-sad:#2F5CFF; --m-calm:#1B7A55; --m-fear:#6C46D9; --m-tired:#8F94B3;
+  --m-joy:var(--mood-joy); --m-surprise:var(--mood-surprise); --m-anger:var(--mood-anger); --m-love:var(--mood-love);
+  --m-sad:var(--mood-sad); --m-calm:var(--mood-calm); --m-fear:var(--mood-fear); --m-tired:var(--mood-tired);
   --glassFill:rgba(254,252,246,.45); --glassStroke:rgba(255,255,255,.55);
 }
-@media (prefers-color-scheme: dark) { :root {
+.dyeary-dark {
   --paper0:#15161E; --paper1:#0A0B10; --paper2:#1C1E29; --paper3:#060709; --canvas:#040507;
   --ink900:#F1F1F5; --ink800:#F6F6F9; --ink700:#CBCDDA; --ink500:#A3A7BE; --ink300:#7A7E92;
   --hairline:#272935; --hairlineSoft:#1C1E29;
@@ -38,12 +39,8 @@
   --accent200:#2A2C37; --accent100:#1D1F28;
   --danger:#FF5A2E; --calloutDark:#16171F; --calloutText:#FEFCF6; --iconMuted:#6E7280;
   --shadowC:0,0,0; --grainOpacity:.07; --grainBlend:screen; --tint:30%;
-  --m-joy:#FEBD00; --m-surprise:#FD6400; --m-anger:#FF5A2E; --m-love:#FE83F8;
-  --m-sad:#5E7DFF; --m-calm:#48B389; --m-fear:#8B63F0; --m-tired:#9CA1BE;
   --glassFill:rgba(21,22,30,.45); --glassStroke:rgba(255,255,255,.14);
-} }
-
-/* ============ Tokens: effects ============ */
+}
 :root {
   --r-lg:22px;
   --sh-sm:0 3px 10px rgba(var(--shadowC),.10);
@@ -51,25 +48,17 @@
   --sh-lg:0 14px 52px rgba(var(--shadowC),.22);
   --glass-blur:blur(20px) saturate(1.15);
   --ease-soft:cubic-bezier(0.3,1.4,0.5,1);
-}
-
-/* ============ Tokens: type — hierarchy is size + one step of weight ============ */
-:root {
   --font-display:"Chillax",-apple-system,"Segoe UI",system-ui,sans-serif;
   --font-reading:"Chillax",-apple-system,"Segoe UI",system-ui,sans-serif;
   --font-ui:"Chillax",-apple-system,"Segoe UI",system-ui,sans-serif;
   font-synthesis:none; -webkit-font-synthesis:none;
 }
-b, strong { font-weight: 600; } /* semibold is the ceiling */
-em { font-style: normal; }      /* no italics: emphasis is weight + ink, never a slant */
-
-/* ============ Base ============ */
+b, strong { font-weight: 600; }
+em { font-style: normal; }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; background: var(--paper1); }
 ::selection { background: var(--accent200); }
 a { color: inherit; }
-
-/* paper grain: tiled noise on every paper surface, film-faint in the dark */
 .grain-paper { position: relative; }
 .grain-paper::before {
   content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
@@ -77,8 +66,6 @@ a { color: inherit; }
   mix-blend-mode: var(--grainBlend); opacity: var(--grainOpacity);
 }
 .grain-paper > * { position: relative; z-index: 1; }
-
-/* nav hover */
 a.lp-navlink { color: var(--ink500); text-decoration: none; transition: color .2s ease; }
 a.lp-navlink:hover { color: var(--ink800); }
 .lp-btn {
@@ -93,37 +80,71 @@ a.lp-navlink:hover { color: var(--ink800); }
 .lp-cta-end:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -14px rgba(0,0,0,0.55); }
 .lp-cta-arrow { transition: transform .2s ease; }
 .lp-cta-end:hover .lp-cta-arrow { transform: translateX(3px); }
-
-/* reduced motion: land everything in its resting/visible state */
+@keyframes moodWash {
+  0%   { background-color: color-mix(in srgb, var(--m-calm) 26%, var(--paper1)); }
+  12.5%{ background-color: color-mix(in srgb, var(--m-joy) 26%, var(--paper1)); }
+  25%  { background-color: color-mix(in srgb, var(--m-love) 26%, var(--paper1)); }
+  37.5%{ background-color: color-mix(in srgb, var(--m-sad) 26%, var(--paper1)); }
+  50%  { background-color: color-mix(in srgb, var(--m-surprise) 26%, var(--paper1)); }
+  62.5%{ background-color: color-mix(in srgb, var(--m-fear) 26%, var(--paper1)); }
+  75%  { background-color: color-mix(in srgb, var(--m-tired) 26%, var(--paper1)); }
+  87.5%{ background-color: color-mix(in srgb, var(--m-anger) 26%, var(--paper1)); }
+  100% { background-color: color-mix(in srgb, var(--m-calm) 26%, var(--paper1)); }
+}
+@keyframes moodListen {
+  0%   { background-color: color-mix(in srgb, var(--m-calm) 82%, var(--overlayScrim)); }
+  16%  { background-color: color-mix(in srgb, var(--m-joy) 82%, var(--overlayScrim)); }
+  33%  { background-color: color-mix(in srgb, var(--m-love) 82%, var(--overlayScrim)); }
+  50%  { background-color: color-mix(in srgb, var(--m-surprise) 82%, var(--overlayScrim)); }
+  66%  { background-color: color-mix(in srgb, var(--m-sad) 82%, var(--overlayScrim)); }
+  83%  { background-color: color-mix(in srgb, var(--m-fear) 82%, var(--overlayScrim)); }
+  100% { background-color: color-mix(in srgb, var(--m-calm) 82%, var(--overlayScrim)); }
+}
+#lp-try-bg { animation: moodWash 56s ease-in-out infinite; }
+@keyframes barA { 0%,100% { height: 18px; } 50% { height: 48px; } }
+@keyframes trySpin { to { transform: rotate(360deg); } }
+.mood-pill { will-change: transform, opacity; }
+.mood-pill .m-dot { transition: background-color 0.5s ease; }
+@keyframes barB { 0%,100% { height: 30px; } 50% { height: 82px; } }
+@keyframes barC { 0%,100% { height: 20px; } 50% { height: 54px; } }
+@keyframes checkOut { 0%,55% { opacity: 1; } 82%,100% { opacity: 0; } }
+@keyframes meterReveal { 0%,80% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+#lp-try-bg.try-plain { animation: none !important; background-color: var(--paper1) !important; }
+.cflip { transition: color .5s ease; }
+.mood-layer { position: fixed; inset: 0; z-index: 0; opacity: 0; pointer-events: none; transition: opacity .9s ease, background-color 1.6s ease; background-color: color-mix(in srgb, var(--m-calm) 82%, var(--overlayScrim)); }
+#lp-try-bg.listening .mood-layer { opacity: 1; }
+#lp-try-bg.listening .cflip { color: var(--overlayCream) !important; }
+#lp-try-bg.listening .try-header a,
+#lp-try-bg.listening .try-header span { color: var(--overlayCream) !important; }
+#lp-try-bg.listening .try-header .lp-navlink { color: rgba(244,241,230,.7) !important; }
+#lp-try-bg.listening .try-header .lp-navlink:hover { color: var(--overlayCream) !important; }
+#lp-try-bg.listening .try-header .lp-btn { background: var(--overlayCream) !important; color: #12162E !important; }
+@keyframes noteDot { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
 @media (prefers-reduced-motion: reduce) {
   #lp-phone { transform: translate(-50%,-50%) scale(1) !important; }
   .lp-float { opacity: 1 !important; transform: none !important; }
   .yr-cell { opacity: 1 !important; transform: none !important; }
   #lp-cue { opacity: 0 !important; }
+  #lp-try-bg { animation: none !important; }
 }
-
-/* mobile */
 @media (max-width: 720px) {
   .lp-navcenter { display: none !important; }
   #lp-head h1 { font-size: 44px !important; }
-  /* the floating callouts overlap the centered phone on narrow screens — drop them */
   .lp-float { display: none !important; }
-  /* keep the phone within the viewport (no zoom on mobile; see startScale in JS) */
   #lp-phone > div { height: min(62vh, 520px) !important; border-radius: 44px !important; }
   #lp-phone > div > div { border-radius: 34px !important; }
-  /* mood-map: tighten padding + gap so all 53 weeks fit */
   #year { padding: 84px 0 96px !important; }
   #year > div { padding: 0 16px !important; }
   #year h2 { font-size: 40px !important; }
   #yr-grid { gap: 2px !important; }
 }
 </style>
-</head>
-<body>
-<div style="font-family: var(--font-ui); color: var(--ink700); background: var(--paper1); overflow-x: clip;">
 
-  <!-- ══════════ Nav ══════════ -->
-  <nav class="lp-nav" style="position: fixed; top: 0; left: 0; right: 0; z-index: 60; background: transparent;">
+</head>
+<body style="margin:0;">
+<div id="lp-root" style="font-family: var(--font-ui); color: var(--ink700); background: var(--paper1); overflow-x: clip;">
+
+  <nav class="lp-nav" style="position: fixed; top: 0; left: 0; right: 0; z-index: 60; background: transparent;" data-screen-label="Nav">
     <div style="max-width: 1140px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 32px;">
       <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink800);">
         <img src="logo.png" alt="dyeary logo" style="width: 28px; height: 28px; display: block; border-radius: 7px;">
@@ -132,37 +153,38 @@ a.lp-navlink:hover { color: var(--ink800); }
       <div class="lp-navcenter" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 30px; font-size: 14px; font-weight: 500;">
         <a class="lp-navlink" href="#top">How it works</a>
         <a class="lp-navlink" href="#year">Mood map</a>
+        <a class="lp-navlink" href="#top" data-act="testMood">Test mood sensing</a>
         <a class="lp-navlink" href="https://affanyfan.github.io/dyeary-privacy/">Privacy</a>
       </div>
       <a class="lp-btn" href="https://testflight.apple.com/join/6fTn1Acz" target="_blank" rel="noopener">Get the app</a>
     </div>
   </nav>
 
-  <!-- ══════════ Pinned-phone hero ══════════ -->
-  <section id="top" style="position: relative; height: 320vh;">
+  <section id="top" style="position: relative; height: 320vh;" data-screen-label="Hero">
     <div id="lp-sticky" class="grain-paper" style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-
       <div style="position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 46%, var(--paper0) 0%, var(--paper1) 44%, var(--paper2) 100%); pointer-events: none; z-index: 0;"></div>
-
       <div style="position: relative; width: 100%; max-width: 1120px; height: 100%; margin: 0 auto; z-index: 1;">
 
-        <!-- headline: sits above the phone at rest -->
         <div id="lp-head" style="position: absolute; top: 20vh; left: 0; right: 0; text-align: center; padding: 0 24px; will-change: transform, opacity; z-index: 30; transform: translateY(-50%);">
           <div style="font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink500); margin-bottom: 18px;">A voice-first journal</div>
-          <h1 style="font-family: var(--font-display); font-weight: 300; font-size: 76px; line-height: 1.04; letter-spacing: -0.01em; color: var(--ink800); margin: 0 0 24px;">Say it, and we <em style="font-weight: 500; color: var(--ink900);">feel</em> it.</h1>
+          <h1 style="font-family: var(--font-display); font-weight: 300; font-size: 76px; line-height: 1.04; letter-spacing: -0.01em; color: var(--ink800); margin: 0 0 26px;">Say it, and we <em style="font-weight: 500; color: var(--ink900);">feel</em> it.</h1>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;">
+            <a class="lp-btn" href="https://testflight.apple.com/join/6fTn1Acz" target="_blank" rel="noopener" style="padding: 13px 26px; font-size: 15px;">Get the app</a>
+            <a class="lp-navlink" href="#top" data-act="testMood" style="display: inline-flex; align-items: center; gap: 7px; font-size: 15px; font-weight: 500; text-decoration: none; padding: 13px 22px; border-radius: 999px; border: 1px solid var(--hairline); background: var(--paper0); color: var(--ink700);">
+              Test mood sensing
+            </a>
+          </div>
         </div>
 
-        <!-- phone: starts half below the fold, rises to center on scroll -->
         <div id="lp-phone" style="position: absolute; top: 50%; left: 50%; z-index: 20; will-change: transform; transform: translate(-50%, calc(-50% + 50vh)) scale(1.85);">
           <div style="padding: 12px; background: var(--paper0); border: 1px solid var(--hairlineSoft); border-radius: 56px; box-shadow: var(--sh-lg); height: min(72vh, 760px); aspect-ratio: 320 / 664; box-sizing: border-box;">
             <div style="position: relative; width: 100%; height: 100%; border-radius: 44px; overflow: hidden; background: var(--paper1);">
-              <iframe src="uploads/phone-assets/screen-embed-feed.html" title="dyeary — the feed" scrolling="no" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block;"></iframe>
-              <iframe id="lp-screen-talk" src="uploads/phone-assets/screen-embed-talk.html" title="dyeary — recording" scrolling="no" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; opacity: 0; transition: opacity .55s ease; will-change: opacity;"></iframe>
+              <iframe data-embed="feed" title="dyeary — the feed" scrolling="no" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block;"></iframe>
+              <iframe id="lp-screen-talk" data-embed="talk" title="dyeary — recording" scrolling="no" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; opacity: 0; transition: opacity .55s ease; will-change: opacity;"></iframe>
             </div>
           </div>
         </div>
 
-        <!-- floating callouts — hidden at rest, revealed one by one on scroll -->
         <div class="lp-float" data-appear="0.46" style="position: absolute; top: 23%; right: 5%; z-index: 25; opacity: 0; will-change: transform, opacity; transform: translateY(14px) scale(0.6);">
           <div style="display: inline-flex; align-items: center; gap: 10px; background: var(--paper0); border: 1px solid var(--hairlineSoft); border-radius: 999px; box-shadow: var(--sh-md); padding: 10px 18px 10px 14px;">
             <span style="width: 10px; height: 10px; border-radius: 50%; background: var(--m-calm);"></span>
@@ -209,7 +231,6 @@ a.lp-navlink:hover { color: var(--ink800); }
           </div>
         </div>
 
-        <!-- scroll cue -->
         <div id="lp-cue" style="position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 30; display: flex; flex-direction: column; align-items: center; gap: 8px; will-change: opacity;">
           <span style="font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink300);">Scroll</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink300)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
@@ -219,21 +240,23 @@ a.lp-navlink:hover { color: var(--ink800); }
     </div>
   </section>
 
-  <!-- ══════════ Year in review — mood map ══════════ -->
-  <section id="year" class="grain-paper" style="background: var(--paper1); padding: 118px 0 128px; border-top: 1px solid var(--hairlineSoft);">
+  <section id="year" class="grain-paper" style="background: var(--paper1); padding: 118px 0 128px; border-top: 1px solid var(--hairlineSoft);" data-screen-label="Mood map">
     <div style="max-width: 1240px; margin: 0 auto; padding: 0 40px;">
       <div style="text-align: center; margin-bottom: 54px;">
         <div style="font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink300); margin-bottom: 16px;">Your year in review</div>
         <h2 style="font-family: var(--font-display); font-weight: 300; font-size: 52px; line-height: 1.06; letter-spacing: -0.01em; color: var(--ink800); margin: 0;">Your year, <em style="font-weight: 500; color: var(--ink900);">in feeling</em>.</h2>
       </div>
-      <div id="yr-grid" style="display: grid; grid-template-columns: repeat(53, 1fr); gap: 6px;"></div>
+      <div id="yr-grid" style="display: grid; grid-template-columns: repeat(53, 1fr); gap: 6px;">
+        
+      </div>
       <div style="text-align: center; font-family: var(--font-reading); font-size: 17px; color: var(--ink500); margin-top: 36px;">One year in dyeary · each square is a day, colored by its mood</div>
-      <div id="yr-legend" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 28px; margin-top: 26px;"></div>
+      <div id="yr-legend" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 28px; margin-top: 26px;">
+        
+      </div>
     </div>
   </section>
 
-  <!-- ══════════ Final CTA — start your year ══════════ -->
-  <section style="background: var(--calloutDark); color: var(--calloutText); text-align: center; padding: clamp(88px, 12vw, 148px) 24px;">
+  <section style="background: var(--calloutDark); color: var(--calloutText); text-align: center; padding: clamp(88px, 12vw, 148px) 24px;" data-screen-label="Final CTA">
     <h2 style="font-family: var(--font-display); font-weight: 300; font-size: clamp(46px, 7vw, 82px); line-height: 1.04; letter-spacing: -0.01em; margin: 0; color: var(--calloutText);">Start your <em style="font-weight: 500;">year</em>.</h2>
     <p style="max-width: 30ch; margin: 22px auto 0; font-family: var(--font-ui); font-size: 18px; line-height: 1.5; color: color-mix(in srgb, var(--calloutText) 66%, transparent);">dyeary is in private beta on iOS. Join early and watch your first months fill in.</p>
     <a href="https://testflight.apple.com/join/6fTn1Acz" target="_blank" rel="noopener" class="lp-cta-end" style="display: inline-flex; align-items: center; gap: 10px; margin-top: 34px; font-family: var(--font-ui); font-size: 16px; font-weight: 500; text-decoration: none; padding: 15px 30px; border-radius: 999px; background: var(--overlayCream); color: #12162E;">
@@ -242,8 +265,150 @@ a.lp-navlink:hover { color: var(--ink800); }
     </a>
   </section>
 
-  <!-- ══════════ Footer ══════════ -->
-  <footer class="grain-paper" style="background: var(--paper1); border-top: 1px solid var(--hairlineSoft);">
+  <div class="sc" data-if="tryOpen">
+  <div id="lp-try-bg" class="grain-paper" style="position: fixed; inset: 0; z-index: 100; background-color: color-mix(in srgb, var(--m-calm) 26%, var(--paper1)); overflow-y: auto;" data-screen-label="Try — sign in">
+    <div class="mood-layer"></div>
+    <div class="try-header" style="position: relative; max-width: 1140px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; gap: 32px;">
+      <a href="#top" data-act="closeTry" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink800);">
+        <img src="logo.png" alt="dyeary logo" style="width: 28px; height: 28px; display: block; border-radius: 7px;">
+        <span style="font-family: var(--font-display); font-size: 24px; font-weight: 500; letter-spacing: -0.01em; line-height: 1;">dyeary</span>
+      </a>
+      <div class="lp-navcenter" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 30px; font-size: 14px; font-weight: 500;">
+        <div class="sc" data-if="notInSession">
+          <a class="lp-navlink" href="#top" data-act="closeTry">Home</a>
+          <a class="lp-navlink" href="https://affanyfan.github.io/dyeary-privacy/">Privacy</a>
+        </div>
+      </div>
+      <div class="sc" data-if="listening">
+        <button type="button" data-act="closeTry" style="font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--overlayCream); background: transparent; border: 0; padding: 9px 6px; cursor: pointer;">Cancel</button>
+      </div>
+      <div class="sc" data-if="notInSession">
+        <a class="lp-btn" href="https://testflight.apple.com/join/6fTn1Acz" target="_blank" rel="noopener">Get the app</a>
+      </div>
+    </div>
+
+    <div style="position: relative; min-height: calc(100vh - 82px); display: flex; align-items: center; justify-content: center; padding: 12px 24px 72px;">
+      <div style="width: 100%; max-width: 560px; text-align: center;">
+
+        <div class="sc" data-if="isPermission">
+        <div style="text-align: center;">
+
+          <div class="sc" data-if="micGranted">
+          <div class="sc" data-if="listening">
+          <div>
+            <h2 class="cflip" style="font-family: var(--font-display); font-weight: 300; font-size: 46px; line-height: 1.06; letter-spacing: -0.01em; color: var(--ink800); margin: 0 0 30px; white-space: nowrap;">I'm <em style="font-weight: 500;">listening</em>…</h2>
+            <div style="position: relative;">
+              <div style="animation: meterReveal 2.7s ease forwards; color: var(--overlayCream);">
+                <div style="position: relative; height: 100px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                  <img src="uploads/check_once_hd.gif" alt="" style="position: absolute; top: 50%; left: 50%; width: 128px; height: 128px; transform: translate(-50%,-50%); animation: checkOut 2.4s ease forwards;">
+                  <div style="width: 15px; border-radius: 999px; background: currentColor; animation: barA 0.9s ease-in-out -0.1s infinite;"></div>
+                  <div style="width: 15px; border-radius: 999px; background: currentColor; animation: barB 1.15s ease-in-out -0.5s infinite;"></div>
+                  <div style="width: 15px; border-radius: 999px; background: currentColor; animation: barC 0.8s ease-in-out -0.3s infinite;"></div>
+                </div>
+                <div style="font-family: var(--font-ui); font-size: 15px; font-weight: 600; letter-spacing: .02em; font-variant-numeric: tabular-nums; margin-top: 22px; opacity: .92;"><span data-val="recLabel">0:00</span></div>
+                <div data-val="moodRow"></div>
+                <button type="button" data-act="saveEntry" style="margin-top: 26px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-ui); font-size: 15px; font-weight: 500; padding: 14px 32px; border-radius: 999px; border: 0; background: var(--ink900); color: var(--paper0); cursor: pointer;">Save entry</button>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div class="sc" data-if="generating">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div class="try-spin" style="width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--hairline); border-top-color: var(--ink800); animation: trySpin 0.9s linear infinite; margin-bottom: 26px;"></div>
+            <h2 class="cflip" style="font-family: var(--font-display); font-weight: 300; font-size: 42px; line-height: 1.06; letter-spacing: -0.01em; color: var(--ink800); margin: 0 0 12px; white-space: nowrap;">Generating your <em style="font-weight: 500;">entry</em>…</h2>
+            <p class="cflip" style="font-family: var(--font-reading); font-size: 16px; line-height: 1.5; color: var(--ink500); margin: 0; max-width: 34ch;">Transcribing your words and sensing the feeling in your voice.</p>
+          </div>
+          </div>
+
+          <div class="sc" data-if="resultReady">
+          <div style="animation: pop 0.5s cubic-bezier(0.2,0.8,0.2,1) both;">
+            <div class="cflip" style="font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink500); opacity: .8; margin-bottom: 18px;">Your entry</div>
+            <div style="display: flex; gap: 18px; align-items: stretch; text-align: left; flex-wrap: wrap; justify-content: center; max-width: 460px; margin: 0 auto;">
+              <div style="flex: 1; min-width: 240px; background: color-mix(in srgb, var(--m-calm) var(--tint), var(--paper0)); border: 1px solid var(--hairlineSoft); border-radius: var(--r-lg); box-shadow: var(--sh-md); padding: 24px 24px 22px; display: flex; flex-direction: column;">
+                <div style="display: inline-flex; align-self: flex-start; align-items: center; gap: 8px; padding: 6px 13px; border-radius: 999px; background: var(--paper0); font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink800); margin-bottom: 16px;"><span style="width: 11px; height: 11px; border-radius: 50%; background: var(--m-calm);"></span>Calm, with a thread of joy</div>
+                <div style="font-family: var(--font-display); font-size: 26px; font-weight: 500; line-height: 1.12; color: var(--ink900); margin-bottom: 10px;">A gentler evening</div>
+                <p style="font-family: var(--font-reading); font-size: 15.5px; line-height: 1.55; color: var(--ink700); margin: 0;">You slowed down today and let the quiet in. There's a lightness underneath the tiredness, and it sounds like relief.</p>
+                <div style="margin-top: auto; padding-top: 18px; font-size: 13px; color: var(--ink300); font-variant-numeric: tabular-nums;">Today · 9:41 pm · 0:<span data-val="savedSecs">00</span></div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center; justify-content: center; margin-top: 24px;">
+              <button type="button" data-act="closeTry" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-ui); font-size: 14px; font-weight: 500; padding: 12px 26px; border-radius: 999px; border: 1px solid var(--hairline); background: transparent; color: var(--ink700); cursor: pointer;">Done</button>
+              <a href="https://testflight.apple.com/join/6fTn1Acz" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-ui); font-size: 14px; font-weight: 600; padding: 12px 26px; border-radius: 999px; border: none; background: var(--ink900); color: var(--paper0); text-decoration: none;">View in App Store</a>
+            </div>
+          </div>
+          </div>
+          </div>
+
+          <div class="sc" data-if="micPending">
+          <div>
+            <h2 class="cflip" style="font-family: var(--font-display); font-weight: 300; font-size: 46px; line-height: 1.06; letter-spacing: -0.01em; color: var(--ink800); margin: 0 0 16px; white-space: nowrap;">Let dyeary <em style="font-weight: 500;">hear</em> you.</h2>
+            <p class="cflip" style="font-family: var(--font-reading); font-size: 17px; line-height: 1.5; color: var(--ink500); margin: 0 auto 30px; max-width: 34ch;">Allow microphone access so dyeary can listen to your day and sense the feeling in your voice. Audio stays encrypted on your device.</p>
+            <div class="sc" data-if="micDenied">
+              <button type="button" data-act="micRetry" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-ui); font-size: 15px; font-weight: 500; padding: 14px 26px; border-radius: 999px; border: 1px solid transparent; background: var(--ink900); color: var(--paper0); cursor: pointer;">Enable microphone</button>
+            </div>
+          </div>
+          </div>
+        </div>
+        </div>
+
+        <div class="sc" data-if="isForm">
+        <div style="max-width: 420px; margin: 0 auto; background: var(--paper0); border: 1px solid var(--hairlineSoft); border-radius: var(--r-lg); box-shadow: var(--sh-md); padding: 30px 28px; text-align: left;">
+
+          <div class="sc" data-if="isSignin">
+          <div>
+            <div style="font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--ink800); text-align: center; margin-bottom: 6px;">Sign in to try mood sensing</div>
+            <p style="font-size: 14px; line-height: 1.5; color: var(--ink500); text-align: center; margin: 0 0 24px;">Your test entry saves to your dyeary account, so it's already waiting when you open the app. No separate signup.</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <button type="button" data-act="signIn" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; font-family: var(--font-ui); font-size: 15px; font-weight: 500; padding: 13px 18px; border-radius: 999px; border: 1px solid var(--hairline); background: var(--paper0); color: var(--ink800); cursor: pointer;">
+                <svg width="18" height="18" viewBox="0 0 24 24" style="display: block;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1Z"></path><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.65l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.15-4.53H2.18v2.84A11 11 0 0 0 12 23Z"></path><path fill="#FBBC05" d="M5.85 14.11a6.6 6.6 0 0 1 0-4.22V7.05H2.18a11 11 0 0 0 0 9.9l3.67-2.84Z"></path><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.05l3.67 2.84C6.71 7.31 9.14 5.38 12 5.38Z"></path></svg>
+                Continue with Google
+              </button>
+              <button type="button" data-act="signIn" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; font-family: var(--font-ui); font-size: 15px; font-weight: 500; padding: 13px 18px; border-radius: 999px; border: 1px solid var(--hairline); background: var(--paper0); color: var(--ink800); cursor: pointer;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="display: block;"><path d="M17.05 12.54c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.78-3.32-1.8-1.41-.14-2.76.83-3.48.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.75 2.28-1.6 2.78-.41 6.89 1.15 9.14.76 1.1 1.67 2.34 2.86 2.29 1.15-.05 1.58-.74 2.97-.74 1.39 0 1.78.74 2.99.72 1.24-.02 2.02-1.12 2.78-2.23.88-1.28 1.24-2.52 1.26-2.58-.03-.01-2.41-.93-2.43-3.68ZM14.77 5.6c.63-.77 1.06-1.83.94-2.9-.91.04-2.02.61-2.68 1.37-.59.67-1.1 1.76-.96 2.79 1.02.08 2.06-.52 2.7-1.26Z"></path></svg>
+                Continue with Apple
+              </button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; margin: 20px 0;">
+              <div style="flex: 1; height: 1px; background: var(--hairlineSoft);"></div>
+              <span style="font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink300);">or</span>
+              <div style="flex: 1; height: 1px; background: var(--hairlineSoft);"></div>
+            </div>
+            <a href="#email" data-act="emailLink" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; font-family: var(--font-ui); font-size: 15px; font-weight: 500; padding: 13px 18px; border-radius: 999px; border: 1px solid transparent; background: var(--ink900); color: var(--paper0); text-decoration: none; box-sizing: border-box;">Email me a sign-in link</a>
+            <p style="font-size: 12px; line-height: 1.5; color: var(--ink300); text-align: center; margin: 20px 0 0;">Free. Signing in creates your dyeary account and agrees to the <a href="https://dyeary.ai/terms/" style="color: var(--ink500); text-decoration: underline;">Terms</a> and <a href="https://dyeary.ai/privacy/" style="color: var(--ink500); text-decoration: underline;">Privacy Policy</a>.</p>
+          </div>
+          </div>
+
+          <div class="sc" data-if="isEmail">
+          <div>
+            <div style="font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--ink800); text-align: center; margin-bottom: 6px;">Email me a sign-in link</div>
+            <p style="font-size: 14px; line-height: 1.5; color: var(--ink500); text-align: center; margin: 0 0 22px;">We'll send a one-time link. Open it on this device to come back and try it.</p>
+            <label style="display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink500); margin-bottom: 8px;">Email address</label>
+            <input type="email" placeholder="you@example.com" style="width: 100%; font-family: var(--font-ui); font-size: 15px; padding: 13px 16px; border-radius: 14px; border: 1px solid var(--hairline); background: var(--paper1); color: var(--ink800); box-sizing: border-box; margin-bottom: 14px;">
+            <button type="button" id="lp-email-send" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; font-family: var(--font-ui); font-size: 15px; font-weight: 500; padding: 13px 18px; border-radius: 999px; border: 1px solid transparent; background: var(--ink900); color: var(--paper0); cursor: pointer;">Send the link</button>
+            <a href="#signin" data-act="backToSignin" style="display: block; text-align: center; font-size: 14px; font-weight: 500; color: var(--ink500); text-decoration: none; margin-top: 18px;">Use a different method</a>
+          </div>
+          </div>
+
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- (the real browser permission prompt handles this) -->
+
+    <div class="sc" data-if="noteVisible">
+    <div style="position: fixed; top: 150px; left: 14px; z-index: 118; display: flex; flex-direction: column; align-items: center; gap: 0; width: 236px; text-align: center; pointer-events: none;">
+      <img src="uploads/arrow_once.gif" alt="" style="width: 118px; height: auto; transform: rotate(24deg); filter: invert(1); opacity: .85;">
+      <div style="font-family: 'Caveat', cursive; font-size: 31px; font-weight: 600; line-height: 1.05; color: var(--ink700); transform: rotate(-3deg); margin-top: 2px;">enable mic permissions to continue</div>
+    </div>
+    </div>
+
+  </div>
+  </div>
+
+  <footer class="grain-paper" style="background: var(--paper1); border-top: 1px solid var(--hairlineSoft);" data-screen-label="Footer">
     <div style="max-width: 1140px; margin: 0 auto; padding: 44px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
       <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink800);">
         <img src="logo.png" alt="dyeary logo" style="width: 26px; height: 26px; display: block; border-radius: 7px;">
@@ -260,160 +425,8 @@ a.lp-navlink:hover { color: var(--ink800); }
   </footer>
 
 </div>
+</x-dc>
 
-<script>
-(function () {
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  /* ---- seeded year of moods (matches the design's genYear) ---- */
-  function genYear() {
-    var t = { joy:"--m-joy", calm:"--m-calm", love:"--m-love", surprise:"--m-surprise", tired:"--m-tired", sad:"--m-sad", fear:"--m-fear", anger:"--m-anger" };
-    var pool = ["joy","joy","calm","calm","calm","joy","surprise","love","love","tired","tired","sad","fear","anger","calm","joy","surprise","tired"];
-    var s = 20260701;
-    var rnd = function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
-    var cells = [];
-    for (var i = 0; i < 371; i++) {
-      if (rnd() < 0.17) cells.push("var(--paper3)");
-      else cells.push("var(" + t[pool[Math.floor(rnd() * pool.length)]] + ")");
-    }
-    return cells;
-  }
-
-  var grid = document.getElementById("yr-grid");
-  if (grid) {
-    var frag = document.createDocumentFragment();
-    genYear().forEach(function (color) {
-      var d = document.createElement("div");
-      d.className = "yr-cell";
-      d.style.cssText = "aspect-ratio:1;border-radius:5px;opacity:0;transform:scale(0.55);transition:opacity .5s ease, transform .55s var(--ease-soft);will-change:opacity,transform;background:" + color + ";";
-      frag.appendChild(d);
-    });
-    grid.appendChild(frag);
-  }
-
-  /* ---- legend ---- */
-  var legend = [
-    ["Joy","--m-joy"],["Calm","--m-calm"],["Love","--m-love"],["Surprise","--m-surprise"],
-    ["Tired","--m-tired"],["Sad","--m-sad"],["Fear","--m-fear"],["Anger","--m-anger"]
-  ];
-  var leg = document.getElementById("yr-legend");
-  if (leg) {
-    legend.forEach(function (l) {
-      var row = document.createElement("div");
-      row.style.cssText = "display:flex;align-items:center;gap:9px;";
-      row.innerHTML = '<span style="width:14px;height:14px;border-radius:5px;background:var(' + l[1] + ');"></span>' +
-        '<span style="font-family:var(--font-ui);font-size:14px;font-weight:500;color:var(--ink700);">' + l[0] + '</span>';
-      leg.appendChild(row);
-    });
-  }
-
-  /* ---- reveal grid on scroll-in ---- */
-  var revealed = false;
-  function revealGrid() {
-    revealed = true;
-    var cells = [].slice.call(document.querySelectorAll("#yr-grid .yr-cell"));
-    var cols = 53;
-    cells.forEach(function (el, i) {
-      var delay = (i % cols) * 13 + Math.floor(i / cols) * 6;
-      setTimeout(function () { el.style.opacity = "1"; el.style.transform = "scale(1)"; }, delay);
-    });
-  }
-  if (grid && "IntersectionObserver" in window && !reduce) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) { revealGrid(); io.disconnect(); } });
-    }, { threshold: 0.1 });
-    io.observe(grid);
-  } else if (grid) {
-    revealGrid();
-  }
-
-  /* ---- headline positioning (sits centered in the gap above the phone at rest) ---- */
-  var headVW = null, headVH = null;
-  function positionHead() {
-    var head = document.getElementById("lp-head");
-    var phone = document.getElementById("lp-phone");
-    var nav = document.querySelector("nav");
-    if (!head || !phone) return;
-    var vh = window.innerHeight;
-    if (headVW === window.innerWidth && headVH === vh) return;
-    headVW = window.innerWidth; headVH = vh;
-    var bezelH = phone.offsetHeight || 0;
-    var renderedH = bezelH * (window.innerWidth <= 720 ? 1.0 : 1.85);
-    var restTop = vh - renderedH / 2;
-    var navBottom = nav ? nav.getBoundingClientRect().bottom : 64;
-    var mid = (navBottom + restTop) / 2;
-    var headH = head.offsetHeight || 120;
-    var clamped = Math.max(mid, navBottom + headH / 2 + 16);
-    head.style.top = clamped.toFixed(1) + "px";
-  }
-
-  /* ---- scroll-driven pin choreography ---- */
-  var talkOn = false, moodT = null, ticking = false;
-  function update() {
-    ticking = false;
-    var sticky = document.getElementById("lp-sticky");
-    if (!sticky) return;
-    var scrollTop = window.scrollY;
-    var vh = window.innerHeight;
-    var clamp = function (v) { return Math.max(0, Math.min(1, v)); };
-
-    var pinLen = vh * 2.2;               // hero 320vh - 100vh viewport
-    var p = clamp(scrollTop / pinLen);
-
-    // Phase 1 (0 → 0.4): phone rises to center + scales down; headline lifts + fades
-    var rise = Math.min(1, p / 0.4);
-    var eased = 1 - Math.pow(1 - rise, 3);
-    var phone = document.getElementById("lp-phone");
-    var startScale = window.innerWidth <= 720 ? 1.0 : 1.85, endScale = 1.0;
-    var scale = startScale - eased * (startScale - endScale);
-    var offVh = (1 - eased) * 50;
-    if (phone) phone.style.transform = "translate(-50%, calc(-50% + " + offVh.toFixed(1) + "vh)) scale(" + scale.toFixed(4) + ")";
-
-    var head = document.getElementById("lp-head");
-    if (head) {
-      head.style.transform = "translateY(calc(-50% - " + (eased * 130).toFixed(1) + "px))";
-      head.style.opacity = String(1 - rise);
-    }
-
-    // Phase 2 (thresholds): callouts pop in one by one
-    [].forEach.call(document.querySelectorAll(".lp-float"), function (el) {
-      var appear = parseFloat(el.getAttribute("data-appear")) || 0.5;
-      var shown = p > appear;
-      if (el._shown !== shown) {
-        el._shown = shown;
-        el.style.transition = "opacity .4s ease, transform .55s cubic-bezier(0.34,1.55,0.5,1)";
-        el.style.opacity = shown ? "1" : "0";
-        el.style.transform = shown ? "translateY(0) scale(1)" : "translateY(14px) scale(0.6)";
-      }
-    });
-
-    // scroll cue fades quickly
-    var cue = document.getElementById("lp-cue");
-    if (cue) cue.style.opacity = String(Math.max(0, 1 - p * 6));
-
-    // crossfade the recording screen in + trigger the mood shift
-    var talk = document.getElementById("lp-screen-talk");
-    if (talk) {
-      var on = p > 0.5;
-      if (talkOn !== on) {
-        talkOn = on;
-        talk.style.opacity = on ? "1" : "0";
-        if (on) {
-          clearTimeout(moodT);
-          moodT = setTimeout(function () { try { talk.contentWindow.postMessage("dyeary:record", "*"); } catch (e) {} }, 650);
-        } else {
-          clearTimeout(moodT);
-          try { talk.contentWindow.postMessage("dyeary:reset", "*"); } catch (e) {}
-        }
-      }
-    }
-  }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", function () { headVH = null; positionHead(); onScroll(); }, { passive: true });
-  requestAnimationFrame(function () { positionHead(); update(); });
-})();
-</script>
+<script type="module" src="site.js"></script>
 </body>
 </html>
