@@ -125,6 +125,14 @@ a.lp-navlink:hover { color: var(--ink800); }
 @keyframes checkOut { 0%,55% { opacity: 1; } 82%,100% { opacity: 0; } }
 @keyframes meterReveal { 0%,80% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
 #lp-try-bg.try-plain { animation: none !important; background-color: var(--paper1) !important; }
+/* Waiting on the browser's permission prompt: the meter is on screen but held
+   still, so tapping visibly starts the experience and answering the prompt sets
+   it moving. Only the bars freeze — meterReveal has to keep running or there'd
+   be nothing on screen to hold still. */
+#lp-try-bg.paused [style*="barA"],
+#lp-try-bg.paused [style*="barB"],
+#lp-try-bg.paused [style*="barC"] { animation-play-state: paused; }
+#lp-try-bg.paused [style*="checkOut"] { display: none; }
 .cflip { transition: color .5s ease; }
 .mood-layer { position: fixed; inset: 0; z-index: 0; opacity: 0; pointer-events: none; transition: opacity .9s ease, background-color 1.6s ease; background-color: color-mix(in srgb, var(--m-calm) 82%, var(--overlayScrim)); }
 #lp-try-bg.listening .mood-layer { opacity: 1; }

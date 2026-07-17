@@ -51,9 +51,13 @@ function derive() {
     isEmail: state.step === "email",
     isPermission: state.step === "permission",
     micGranted: state.mic === "granted",
-    micPending: state.step === "permission" && state.mic !== "granted",
-    micDenied: state.mic === "denied",
-    listening: inSession && state.listening && !state.phase,
+    // Only a fallback now — you land here if the mic was refused or is missing,
+    // never as a toll booth on the way in.
+    micPending: state.step === "permission" && (state.mic === "denied" || state.mic === "unavailable"),
+    micDenied: state.mic === "denied" || state.mic === "unavailable",
+    // Shown while the prompt is up too, just frozen: tapping starts the
+    // experience, answering the prompt sets it running.
+    listening: !state.phase && (state.asking || (inSession && state.listening)),
     generating: inSession && state.phase === "generating",
     resultReady: inSession && state.phase === "result",
     notInSession: !inSession,
@@ -74,7 +78,10 @@ function render() {
     el.style.display = on ? "" : "none";
   });
   const bg = $("#lp-try-bg");
-  if (bg) bg.classList.toggle("listening", d.listening);
+  if (bg) {
+    bg.classList.toggle("listening", d.listening);
+    bg.classList.toggle("paused", state.asking);   // frozen until the prompt is answered
+  }
   document.body.style.overflow = state.tryOpen ? "hidden" : "";
   const btn = $("#lp-mic-btn");
   if (btn) {
@@ -113,10 +120,9 @@ function openTry(e) {
   // Signed in already? Straight to the mic — the account is the only reason the
   // gate exists.
   set({ tryOpen: true, step: sess ? "permission" : "signin" });
-  // No prompt here: "Start Mood Sensing" raises it, so the click that asks is
-  // always the person's. Firing it automatically is what got the site
-  // auto-blocked (browsers block for good after repeated unprompted requests) —
-  // and it's their call when to start recording anyway.
+  // This click is the gesture, so ask now — synchronously, no await in between,
+  // or the activation is gone and the browser rejects it out of hand.
+  if (state.step === "permission") askMic();
 }
 
 function closeTry(e) {
