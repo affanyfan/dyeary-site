@@ -7,12 +7,23 @@
 <meta name="description" content="Talk for a few seconds and hear what dyeary reads in your voice.">
 <link rel="canonical" href="https://dyeary.ai/?try=1">
 <!--
-  /try is kept because it's been shared, but the flow now lives on the home page
-  as an overlay (that's how the design works), so this hands off rather than
-  keeping a second copy of the same page in sync.
+  /try is kept because it's been shared and because sign-in links already sitting
+  in inboxes point here. The flow itself now lives on the home page as an overlay
+  (that's how the design works), so this hands off rather than keeping a second
+  copy in sync.
+
+  The hand-off MUST carry the URL through. Supabase returns the session in the
+  URL — ?code=… (PKCE) or #access_token=… (implicit) — so a bare redirect to
+  "/?try=1" would drop the token on the floor and land every emailed link
+  signed-out.
 -->
-<meta http-equiv="refresh" content="0; url=/?try=1">
-<script>location.replace("/?try=1");</script>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  q.set("try", "1");                       // land in the flow, keep ?code= etc.
+  location.replace("/?" + q.toString() + location.hash);   // hash carries implicit-flow tokens
+})();
+</script>
 </head>
 <body style="margin:0;font-family:-apple-system,system-ui,sans-serif;background:#F6F1E4;color:#303757;">
 <p style="padding:28px;">Taking you to <a href="/?try=1" style="color:#101430;">dyeary.ai</a>…</p>
