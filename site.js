@@ -75,7 +75,11 @@ function render() {
   });
   const bg = $("#lp-try-bg");
   if (bg) {
-    bg.classList.toggle("listening", d.listening);
+    // The colour treatment (mood wash, dark layer, cream text) belongs to
+    // RECORDING — not to the meter merely being on screen. While we're paused
+    // waiting on the prompt the meter shows, but the background stays put.
+    const recording = state.mic === "granted" && state.listening && !state.asking && !state.phase;
+    bg.classList.toggle("listening", recording);
     bg.classList.toggle("paused", state.asking);   // frozen until the prompt is answered
   }
   document.body.style.overflow = state.tryOpen ? "hidden" : "";

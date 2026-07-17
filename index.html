@@ -115,7 +115,9 @@ a.lp-navlink:hover { color: var(--ink800); }
   83%  { background-color: color-mix(in srgb, var(--m-fear) 82%, var(--overlayScrim)); }
   100% { background-color: color-mix(in srgb, var(--m-calm) 82%, var(--overlayScrim)); }
 }
-#lp-try-bg { animation: moodWash 56s ease-in-out infinite; }
+/* The wash belongs to the recording, not to the overlay: it cycles only while
+   a voice is actually going in. Sitting still, the background sits still. */
+#lp-try-bg.listening { animation: moodWash 56s ease-in-out infinite; }
 @keyframes barA { 0%,100% { height: 18px; } 50% { height: 48px; } }
 @keyframes trySpin { to { transform: rotate(360deg); } }
 .mood-pill { will-change: transform, opacity; }
