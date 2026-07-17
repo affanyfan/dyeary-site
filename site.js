@@ -155,7 +155,16 @@ async function askMic() {
     // NotReadableError is "something else is using it". Reporting all of them as
     // "denied" told people to enable a permission they'd already granted.
     console.warn("[dyeary] microphone unavailable:", err?.name, err?.message);
-    set({ mic: err?.name === "NotAllowedError" ? "denied" : "unavailable" });
+    // A remembered Block rejects instantly and never shows a prompt — no amount
+    // of retrying gets past it, so the copy has to send people to site settings.
+    const hint = $('[data-if="micDenied"] p');
+    if (hint) {
+      if (err?.name === "NotFoundError" || err?.name === "OverconstrainedError")
+        hint.textContent = "No microphone found. Plug one in (or pick one in your system sound settings) and try again.";
+      else if (err?.name === "NotReadableError")
+        hint.textContent = "Another app is holding the microphone. Close it (Zoom, Meet, Voice Memos…) and try again.";
+    }
+    set({ mic: err?.name === "NotFoundError" || err?.name === "NotReadableError" ? "denied" : "denied" });
     return;
   }
   set({ mic: "granted" });
