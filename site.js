@@ -123,7 +123,12 @@ const signIn = (e) => {
   const provider = e.currentTarget.textContent.toLowerCase().includes("apple") ? "apple" : "google";
   sb.auth.signInWithOAuth({ provider, options: { redirectTo: REDIRECT } });
 };
-const emailLink = (e) => { e.preventDefault(); set({ step: "email" }); };
+const emailLink = (e) => {
+  e.preventDefault();
+  set({ step: "email" });
+  // Land in the field — the card exists to take one thing.
+  $('#lp-try-bg input[type="email"]')?.focus();
+};
 const backToSignin = (e) => { e.preventDefault(); set({ step: "signin" }); };
 
 async function sendEmailLink() {
@@ -432,6 +437,11 @@ const ACTS = { testMood: openTry, closeTry, signIn, emailLink, backToSignin,
 $$("[data-act]").forEach((el) =>
   el.addEventListener("click", (e) => ACTS[el.getAttribute("data-act")]?.(e)));
 $("#lp-email-send")?.addEventListener("click", sendEmailLink);
+// The field isn't inside a <form>, so Enter submits nothing by default — but
+// typing an address and hitting Enter is exactly what everyone does.
+$('#lp-try-bg input[type="email"]')?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") { e.preventDefault(); sendEmailLink(); }
+});
 
 theme();
 yearGrid();
