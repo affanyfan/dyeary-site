@@ -87,17 +87,24 @@ const moodColor = (b) =>
   getComputedStyle(document.documentElement).getPropertyValue("--m-" + b).trim() || "var(--ink500)";
 
 /* ---- try flow -------------------------------------------------------- */
+// Kept warm from boot and every auth change. openTry MUST NOT await before it
+// reaches the microphone: awaiting ends the click's transient activation, and
+// getUserMedia then gets rejected — which we'd report as "denied" to someone who
+// had happily allowed it.
+let sess = null;
+sb.auth.getSession().then(({ data }) => { sess = data.session || null; });
 async function session() {
   const { data } = await sb.auth.getSession();
-  return data.session || null;
+  sess = data.session || null;
+  return sess;
 }
 
-async function openTry(e) {
+function openTry(e) {
   e?.preventDefault();
-  // Signed in already? Skip straight to the mic — the account is the only reason
-  // the gate exists.
-  set({ tryOpen: true, step: (await session()) ? "permission" : "signin" });
-  if (state.step === "permission") askMic();
+  // Signed in already? Straight to the mic — the account is the only reason the
+  // gate exists.
+  set({ tryOpen: true, step: sess ? "permission" : "signin" });
+  if (state.step === "permission") askMic();   // still inside the click
 }
 
 function closeTry(e) {
@@ -126,7 +133,11 @@ async function sendEmailLink() {
 
 // Signing in navigates away and comes back to ?try=1; pick the flow back up.
 sb.auth.onAuthStateChange((_e, s) => {
-  if (s && state.tryOpen && state.step !== "permission") { set({ step: "permission" }); askMic(); }
+  sess = s || null;
+  if (s && state.tryOpen && state.step !== "permission") {
+    set({ step: "permission" });
+    autoStartIfGranted();   // no gesture here — only safe if already granted
+  }
 });
 
 /* ---- microphone ------------------------------------------------------ */
@@ -138,8 +149,13 @@ async function askMic() {
   set({ mic: "prompt" });
   try {
     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  } catch {
-    set({ mic: "denied" });
+  } catch (err) {
+    // Not every failure is a refusal. Only NotAllowedError means the person (or
+    // a remembered Block) said no; NotFoundError is "no microphone",
+    // NotReadableError is "something else is using it". Reporting all of them as
+    // "denied" told people to enable a permission they'd already granted.
+    console.warn("[dyeary] microphone unavailable:", err?.name, err?.message);
+    set({ mic: err?.name === "NotAllowedError" ? "denied" : "unavailable" });
     return;
   }
   set({ mic: "granted" });
@@ -147,6 +163,17 @@ async function askMic() {
   startRecording();
 }
 const micRetry = () => askMic();
+
+// Already granted (a previous visit)? Then no prompt is needed, so no user
+// gesture is needed either, and we can just start — which is the whole point of
+// having granted it. Only an actual prompt requires a click.
+async function autoStartIfGranted() {
+  try {
+    const p = await navigator.permissions.query({ name: "microphone" });
+    if (p.state === "granted") askMic();
+    else if (p.state === "denied") set({ mic: "denied" });
+  } catch { /* Firefox/Safari may not expose the microphone permission — the button covers it */ }
+}
 
 function stopTracks() {
   clearInterval(tick); clearTimeout(stopAt);
@@ -411,4 +438,11 @@ choreography();
 render();
 
 // Coming back from a sign-in link (or /try) drops you straight into the flow.
-if (new URLSearchParams(location.search).get("try") === "1") openTry();
+// Arriving from a sign-in link (or /try): no click happened, so only start the
+// mic if it's already granted; otherwise the button provides the gesture.
+if (new URLSearchParams(location.search).get("try") === "1") {
+  session().then(() => {
+    set({ tryOpen: true, step: sess ? "permission" : "signin" });
+    if (state.step === "permission") autoStartIfGranted();
+  });
+}
