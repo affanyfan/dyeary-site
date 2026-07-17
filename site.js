@@ -129,7 +129,16 @@ const emailLink = (e) => {
   // Land in the field — the card exists to take one thing.
   $('#lp-try-bg input[type="email"]')?.focus();
 };
-const backToSignin = (e) => { e.preventDefault(); set({ step: "signin" }); };
+const backToSignin = (e) => { e.preventDefault(); resetEmailCard(); set({ step: "signin" }); };
+
+// Put the card back to a sendable state (they may come back to try another address).
+function resetEmailCard() {
+  const btn = $("#lp-email-send"), sent = $("#lp-email-sent");
+  const input = $('#lp-try-bg input[type="email"]');
+  if (btn) { btn.hidden = false; btn.disabled = false; btn.textContent = "Send the link"; }
+  if (sent) sent.hidden = true;
+  if (input) input.disabled = false;
+}
 
 async function sendEmailLink() {
   const input = $('#lp-try-bg input[type="email"]');
@@ -138,8 +147,18 @@ async function sendEmailLink() {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { input?.focus(); return; }
   btn.disabled = true; btn.textContent = "Sending…";
   const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: REDIRECT } });
-  btn.disabled = false;
-  btn.textContent = error ? "Try again" : "Link sent — check your email";
+  if (error) {
+    // Still something to do, so still a button.
+    btn.disabled = false;
+    btn.textContent = "Try again";
+    return;
+  }
+  // Sent: swap the control for a statement. Leaving a dark pill sitting there
+  // reads as "press me", when the next move is in their inbox.
+  btn.hidden = true;
+  const sent = $("#lp-email-sent");
+  if (sent) sent.hidden = false;
+  if (input) input.disabled = true;
 }
 
 // Signing in navigates away and comes back to ?try=1; pick the flow back up.
