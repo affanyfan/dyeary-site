@@ -27,12 +27,33 @@ const MAX_SECONDS   = 20;
 
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
 
-// One taste per person: after an entry is saved, the flow shows it back rather
-// than handing out another recorder. The point is to prove what dyeary hears
-// once — then the app is the place to keep going.
-const TRIED_KEY = "dyeary.tried";
-const savedTry = () => { try { return JSON.parse(localStorage.getItem(TRIED_KEY) || "null"); } catch { return null; } };
-const rememberTry = (r) => { try { localStorage.setItem(TRIED_KEY, JSON.stringify(r)); } catch {} };
+// One taste per ACCOUNT, not per device. The demo exists to show someone what
+// dyeary hears; once they've got an entry, they've seen it — so hand the entry
+// back and point at the app instead of another recorder. Asking the backend
+// (rather than remembering locally) means a second browser or a cleared cache
+// can't buy another go.
+async function latestEntry() {
+  const s = sess || (await session());
+  if (!s) return null;
+  try {
+    const r = await fetch(BACKEND + "/mood-map?limit=1&slim=1", {
+      headers: { Authorization: "Bearer " + s.access_token },
+    });
+    if (!r.ok) return null;
+    const { days } = await r.json();
+    const d = (days || [])[0];
+    if (!d?.content) return null;
+    return {
+      bucket: d.mood?.bucket || "calm",
+      title: d.content.title,
+      body: d.content.refinedText || d.content.transcript || "",
+      at: d.createdAt ? Date.parse(d.createdAt) : null,
+    };
+  } catch {
+    // Can't tell? Let them record — better a spare entry than a dead end.
+    return null;
+  }
+}
 
 /* ---- state ----------------------------------------------------------- */
 const state = {
@@ -109,7 +130,11 @@ const moodColor = (b) =>
 // getUserMedia then gets rejected — which we'd report as "denied" to someone who
 // had happily allowed it.
 let sess = null;
-sb.auth.getSession().then(({ data }) => { sess = data.session || null; });
+let prior = null;          // their newest entry, if they have one
+sb.auth.getSession().then(({ data }) => { sess = data.session || null; refreshPrior(); });
+// Checked ahead of the tap: openTry must not await before reaching the mic, and
+// a cold backend can take seconds — nobody should watch a blank overlay for it.
+const refreshPrior = () => { if (sess) latestEntry().then((e) => { prior = e; }); };
 async function session() {
   const { data } = await sb.auth.getSession();
   sess = data.session || null;
@@ -120,16 +145,15 @@ function openTry(e) {
   e?.preventDefault();
   // Signed in already? Straight to the mic — the account is the only reason the
   // gate exists.
-  const prev = savedTry();
-  if (prev) {
-    // Already recorded one: hand back what dyeary heard, and point at the app.
-    set({ tryOpen: true, step: "permission", phase: "result", result: prev, savedSecs: prev.secs || 0 });
+  if (!sess) { set({ tryOpen: true, step: "signin" }); return; }
+  if (prior) {
+    // They've already journalled — they know what dyeary hears. Show it back and
+    // point at the app rather than taking another recording.
+    set({ tryOpen: true, step: "permission", phase: "result", result: prior });
     return;
   }
-  set({ tryOpen: true, step: sess ? "permission" : "signin" });
-  // This click is the gesture, so ask now — synchronously, no await in between,
-  // or the activation is gone and the browser rejects it out of hand.
-  if (state.step === "permission") askMic();
+  set({ tryOpen: true, step: "permission", phase: null });
+  askMic();   // still inside the click, so the prompt can actually appear
 }
 
 function closeTry(e) {
@@ -183,6 +207,7 @@ async function sendEmailLink() {
 // Signing in navigates away and comes back to ?try=1; pick the flow back up.
 sb.auth.onAuthStateChange((_e, s) => {
   sess = s || null;
+  refreshPrior();
   if (s && state.tryOpen && state.step !== "permission") set({ step: "permission" });
 });
 
@@ -288,7 +313,7 @@ async function process() {
     if (!transcript.trim() || !reading) return fail();
     const entry = await saveEntry(transcript.trim(), reading);
     const result = { bucket: reading.bucket, ...entry, secs: state.savedSecs, at: Date.now() };
-    rememberTry(result);
+    prior = result;   // that's their entry now — no second recorder
     set({ phase: "result", result });
   } catch { fail(); }
 }
@@ -509,10 +534,10 @@ render();
 // Arriving from a sign-in link (or /try): no click happened, so only start the
 // mic if it's already granted; otherwise the button provides the gesture.
 if (new URLSearchParams(location.search).get("try") === "1") {
-  const prev = savedTry();
-  if (prev) {
-    set({ tryOpen: true, step: "permission", phase: "result", result: prev, savedSecs: prev.secs || 0 });
-  } else {
-    session().then(() => set({ tryOpen: true, step: sess ? "permission" : "signin" }));
-  }
+  session().then(async () => {
+    if (!sess) { set({ tryOpen: true, step: "signin" }); return; }
+    prior = await latestEntry();
+    if (prior) set({ tryOpen: true, step: "permission", phase: "result", result: prior });
+    else set({ tryOpen: true, step: "permission" });   // the tap starts the mic
+  });
 }
