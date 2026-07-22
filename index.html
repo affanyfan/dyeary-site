@@ -176,10 +176,17 @@ a.lp-navlink:hover { color: var(--ink800); }
   /* Popovers show on mobile too, scaled down so they read as callouts over the
      phone rather than crowding it (they were display:none before). */
   .lp-float { display: block !important; zoom: 0.6; }
+  /* Glass cards ("Entry ready", "A gentle nudge") go solid on mobile — the 45%
+     glassFill let the phone's mood colour bleed through and read as half-faded. */
+  .lp-glasscard { background: var(--paper0) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  /* Center the phone in the VISIBLE viewport, not the browser-chrome-inclusive
+     100vh — dvh tracks the real height so the phone's bottom isn't cut off under
+     the mobile toolbars. */
+  #lp-sticky { height: 100dvh !important; }
   /* Phone: bigger on landing and fills more of the screen once it rises to
      center. Both come from the taller base height — the landing peek is half of
      it, the settled state is all of it. */
-  #lp-phone > div { height: min(84vh, 720px) !important; border-radius: 40px !important; }
+  #lp-phone > div { height: min(84dvh, 720px) !important; border-radius: 40px !important; }
   #lp-phone > div > div { border-radius: 30px !important; }
   #year { padding: 84px 0 96px !important; }
   #year > div { padding: 0 16px !important; }
@@ -273,7 +280,7 @@ a.lp-navlink:hover { color: var(--ink800); }
         </div>
 
         <div class="lp-float" data-appear="0.56" style="position: absolute; top: 31%; left: 4%; width: 268px; z-index: 25; opacity: 0; will-change: transform, opacity; transform: translateY(14px) scale(0.6);">
-          <div style="background: var(--glassFill); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glassStroke); border-radius: 18px; box-shadow: var(--sh-md); padding: 15px 17px; display: flex; gap: 12px; align-items: flex-start;">
+          <div class="lp-glasscard" style="background: var(--glassFill); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glassStroke); border-radius: 18px; box-shadow: var(--sh-md); padding: 15px 17px; display: flex; gap: 12px; align-items: flex-start;">
             <div style="width: 34px; height: 34px; border-radius: 50%; background: var(--paper0); border: 1px solid var(--hairlineSoft); display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><div style="width: 12px; height: 12px; border-radius: 50%; background: var(--m-joy);"></div></div>
             <div style="flex: 1;">
               <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;"><span style="font-size: 13px; font-weight: 600; color: var(--ink800);">Entry ready</span><span style="font-size: 11px; color: var(--ink300);">9:41 pm</span></div>
@@ -302,7 +309,7 @@ a.lp-navlink:hover { color: var(--ink800); }
         </div>
 
         <div class="lp-float" data-appear="0.86" style="position: absolute; bottom: 11%; right: 11%; width: 244px; z-index: 25; opacity: 0; will-change: transform, opacity; transform: translateY(14px) scale(0.6);">
-          <div style="background: var(--glassFill); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glassStroke); border-radius: 18px; box-shadow: var(--sh-md); padding: 15px 17px; display: flex; gap: 12px; align-items: flex-start;">
+          <div class="lp-glasscard" style="background: var(--glassFill); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glassStroke); border-radius: 18px; box-shadow: var(--sh-md); padding: 15px 17px; display: flex; gap: 12px; align-items: flex-start;">
             <img src="assets/mark.svg" alt="" style="width: 30px; height: 30px; flex-shrink: 0;">
             <div style="flex: 1;">
               <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;"><span style="font-size: 13px; font-weight: 600; color: var(--ink800);">A gentle nudge</span><span style="font-size: 11px; color: var(--ink300);">9:00 pm</span></div>

@@ -487,6 +487,19 @@ function choreography() {
       head.style.opacity = String(1 - rise);
     }
 
+    // On mobile the fixed header would overlap the phone as it rises, so fade it
+    // out as soon as the pin starts (and let taps through once it's gone).
+    const navEl = $("nav");
+    if (navEl) {
+      if (innerWidth <= 720) {
+        navEl.style.opacity = String(Math.max(0, 1 - p * 6));
+        navEl.style.pointerEvents = p > 0.1 ? "none" : "";
+      } else if (navEl.style.opacity !== "") {
+        navEl.style.opacity = "";
+        navEl.style.pointerEvents = "";
+      }
+    }
+
     $$(".lp-float").forEach((el) => {
       const shown = p > (parseFloat(el.getAttribute("data-appear")) || 0.5);
       if (el._shown === shown) return;
