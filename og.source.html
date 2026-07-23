@@ -1,69 +1,35 @@
 <!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-  @font-face {
-    font-family: "Chillax";
-    src: url("assets/Chillax-Variable.ttf") format("truetype");
-    font-weight: 200 700; font-style: normal; font-display: block;
-  }
-  :root {
-    --paper1:#F6F1E4; --paper0:#FEFCF6; --ink900:#101430; --ink700:#303757; --ink500:#5C6280; --hairline:#CFC9B8;
-    --m-joy:#EFAC00; --m-surprise:#F25C00; --m-anger:#D82F04; --m-love:#E967E2;
-    --m-sad:#2F5CFF; --m-calm:#1B7A55; --m-fear:#6C46D9; --m-tired:#8F94B3;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 1200px; height: 630px; }
-  .card {
-    position: relative; width: 1200px; height: 630px; overflow: hidden;
-    background: var(--paper1);
-    font-family: "Chillax", -apple-system, system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    padding: 76px 90px; display: flex; flex-direction: column; justify-content: space-between;
-  }
-  .grain { position: absolute; inset: 0; pointer-events: none;
-    background: url("assets/grain.png") repeat; background-size: 128px 128px;
-    mix-blend-mode: overlay; opacity: .38; }
-  .card > * { position: relative; z-index: 1; }
+<!--
+  SOURCE OF assets/og.png (the social share / link-preview card).
 
-  .brand { display: flex; align-items: center; gap: 16px; }
-  .brand img { width: 46px; height: 46px; border-radius: 12px; display: block; }
-  .brand .name { font-size: 34px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink900); }
+  As of 2026-07-22 this asset is NO LONGER generated from this file. It is
+  designed and rendered in the Claude Design project:
 
-  .mid { }
-  .eyebrow { font-size: 20px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink500); }
-  h1 { margin-top: 20px; font-size: 104px; line-height: 1.02; letter-spacing: -0.02em; font-weight: 300; color: var(--ink900); }
-  h1 b { font-weight: 600; }
-  .sub { margin-top: 26px; font-size: 28px; font-weight: 400; line-height: 1.45; color: var(--ink700); max-width: 760px; }
+    Project : "social media assets for dyeary"
+    File    : Link Preview.dc.html
+    Project id : a324cf7c-621f-4443-a239-8ba22aeb0eba
+    URL     : https://claude.ai/design/p/a324cf7c-621f-4443-a239-8ba22aeb0eba?file=Link+Preview.dc.html
 
-  .foot { display: flex; align-items: center; justify-content: space-between; }
-  .moods { display: flex; gap: 13px; }
-  .moods i { width: 22px; height: 22px; border-radius: 999px; display: block; box-shadow: 0 0 0 3px var(--paper0); }
-  .url { font-size: 24px; font-weight: 600; letter-spacing: 0.01em; color: var(--ink900); }
-</style>
-</head>
-<body>
-  <div class="card">
-    <div class="grain"></div>
-    <div class="brand">
-      <img src="logo.png" alt="">
-      <span class="name">dyeary</span>
-    </div>
-    <div class="mid">
-      <div class="eyebrow">A voice-first journal</div>
-      <h1>Say it, and&nbsp;<b>we&nbsp;feel</b>&nbsp;it.</h1>
-      <div class="sub">Talk for a minute; dyeary writes the entry and senses how you felt.</div>
-    </div>
-    <div class="foot">
-      <div class="moods">
-        <i style="background:var(--m-calm)"></i><i style="background:var(--m-joy)"></i>
-        <i style="background:var(--m-love)"></i><i style="background:var(--m-surprise)"></i>
-        <i style="background:var(--m-sad)"></i><i style="background:var(--m-fear)"></i>
-        <i style="background:var(--m-anger)"></i><i style="background:var(--m-tired)"></i>
-      </div>
-      <div class="url">dyeary.ai</div>
-    </div>
-  </div>
-</body>
-</html>
+  The card = a faded "year-in-feeling" mood grid, the headline
+  "A voice-first journal.", the dyeary.ai logo, and a 3-phone product hero
+  (recording / home / calendar).
+
+  To regenerate assets/og.png:
+    1. Edit the card in the design project above.
+    2. Export the 1200x630 PNG (a 2400x1260 @2x export also exists).
+    3. Flatten the 14px rounded/transparent corners onto the paper colour so
+       social clients don't render them as black/white notches, then save as
+       assets/og.png (RGB, no alpha):
+
+         from PIL import Image
+         im = Image.open("dyeary-og-1200x630.png").convert("RGBA")
+         bg = Image.new("RGB", im.size, (0xF6, 0xF1, 0xE4))   # --paper1
+         bg.paste(im, mask=im.split()[3])
+         bg.save("assets/og.png", "PNG", optimize=True)
+
+    4. Bump the ?v=N cache-bust on og:image / twitter:image in index.html so
+       scrapers refetch instead of serving the cached previous card.
+
+  The previous purely-typographic card was generated from the HTML that used
+  to live in this file; see git history if you need it.
+-->
