@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Connect Claude to your dyeary journal</title>
-<meta name="description" content="Add dyeary as a Claude connector and ask questions about your own journal — moods, memories, people, patterns. Read-only, private to your account." />
+<title>dyeary MCP server — connect your journal to any AI</title>
+<meta name="description" content="dyeary ships a remote MCP server: connect your journal to Claude, ChatGPT, Cursor, or any MCP client and ask questions about your own entries, moods, and reflections. Read-only, private to your account." />
 <link rel="icon" href="../privacy/logo.png" />
 <link rel="apple-touch-icon" href="../privacy/logo.png" />
 <style>
@@ -46,7 +46,7 @@
   b, strong { font-weight: 600; }
   em { font-style: normal; font-weight: 500; }
   .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px 96px; }
-  header { margin-bottom: 48px; }
+  header { margin-bottom: 40px; }
   .mark { display: inline-flex; align-items: center; gap: 12px; letter-spacing: 0.02em; }
   .logo { width: 30px; height: 30px; border-radius: 8px; display: block; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06); }
   .mark strong { font-size: 20px; font-weight: 600; }
@@ -56,6 +56,7 @@
     font-size: 12px; text-transform: uppercase; letter-spacing: 1.6px;
     color: var(--muted); margin: 44px 0 12px; font-weight: 500;
   }
+  h3 { font-size: 17px; font-weight: 600; margin: 26px 0 8px; }
   p { margin: 0 0 16px; }
   ul, ol { margin: 0 0 16px; padding-left: 22px; }
   li { margin-bottom: 10px; }
@@ -63,22 +64,37 @@
   a:hover { border-bottom-color: var(--accent); }
   .lead { font-size: 19px; color: var(--ink); }
   code {
-    font: 500 14.5px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+    font: 500 14px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
     background: var(--card); border: 1px solid var(--line); border-radius: 8px;
     padding: 2px 8px; word-break: break-all;
   }
-  .urlcard {
-    display: block; background: var(--card); border: 1px solid var(--line);
-    border-radius: 14px; padding: 16px 18px; margin: 8px 0 16px;
-    font: 500 15px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
-    word-break: break-all;
+  pre {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 18px; margin: 8px 0 16px; overflow-x: auto;
+    font: 500 13.5px/1.6 ui-monospace, "SF Mono", Menlo, monospace;
   }
+  pre code { background: none; border: 0; padding: 0; }
+  .urlhero {
+    display: flex; align-items: center; gap: 12px; background: var(--card);
+    border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; margin: 20px 0 8px;
+  }
+  .urlhero code { flex: 1; background: none; border: 0; padding: 0; font-size: 15.5px; }
+  .copy {
+    flex-shrink: 0; border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+    border-radius: 999px; padding: 7px 16px; font: 500 13px "Chillax", sans-serif; cursor: pointer;
+  }
+  .copy:hover { border-color: var(--muted); }
+  .meta { color: var(--muted); font-size: 13.5px; margin-bottom: 24px; }
   .ask {
     background: var(--card); border: 1px solid var(--line); border-radius: 14px;
     padding: 14px 18px; margin: 0 0 10px; font-size: 16px;
   }
   .ask::before { content: "“"; color: var(--muted); }
   .ask::after { content: "”"; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 15px; }
+  th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 1.2px; }
+  td code { font-size: 13px; white-space: nowrap; }
   footer {
     margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line);
     color: var(--muted); font-size: 14px;
@@ -89,50 +105,82 @@
 <div class="wrap">
   <header>
     <div class="mark"><img class="logo" src="../privacy/logo.png" alt="" /><strong>dyeary</strong></div>
-    <h1>Ask Claude about your own journal</h1>
-    <div class="eff">The dyeary connector for Claude</div>
+    <h1>Connect your journal to any AI</h1>
+    <div class="eff">The dyeary MCP server</div>
   </header>
 
-  <p class="lead">dyeary can plug into Claude as a connector. Once connected, Claude can look things up in <strong>your</strong> journal when you ask — your moods, your people, the things you keep coming back to — and answer with your own words as the source.</p>
+  <p class="lead">dyeary ships a remote <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">MCP</a> server. Add it to Claude, ChatGPT, Cursor, or any MCP-capable client, sign in with your dyeary account, and your AI can look things up in <strong>your</strong> journal when you ask — your moods, your people, the things you keep coming back to.</p>
+
+  <div class="urlhero">
+    <code id="mcp-url">https://dyeary-backend.onrender.com/mcp</code>
+    <button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('mcp-url').textContent).then(()=>{this.textContent='Copied';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button>
+  </div>
+  <div class="meta">Streamable HTTP &middot; OAuth 2.1 (sign in with your dyeary account) &middot; read-only</div>
 
   <div class="ask">What was I anxious about last month, and did it pass?</div>
   <div class="ask">Summarize how the job search has been going, in my own words.</div>
   <div class="ask">When did I last feel really good, and what was happening that day?</div>
 
-  <h2>Install in Claude (web, desktop, or mobile)</h2>
-  <ol>
-    <li>Open <a href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">claude.ai &rarr; Settings &rarr; Connectors</a>.</li>
-    <li>Choose <strong>Add custom connector</strong>.</li>
-    <li>Name it <strong>dyeary</strong> and paste this URL:
-      <span class="urlcard">https://dyeary-backend.onrender.com/mcp</span>
-    </li>
-    <li>Click <strong>Add</strong>, then <strong>Connect</strong>. A dyeary sign-in page opens — sign in with the same account you use in the app (Google or email).</li>
-    <li>That's it. In any chat, Claude can now search your journal when you ask it to.</li>
-  </ol>
-  <p>Custom connectors are available on Claude's paid plans. The connection follows your Claude account, so connecting once covers web, desktop, and mobile.</p>
+  <h2>Install</h2>
 
-  <h2>Install in Claude Code</h2>
-  <p>One command in your terminal:</p>
-  <p><code>claude mcp add --transport http dyeary https://dyeary-backend.onrender.com/mcp</code></p>
+  <h3>Claude</h3>
+  <ol>
+    <li>Open <a href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">claude.ai &rarr; Settings &rarr; Connectors</a> &rarr; <strong>Add custom connector</strong>.</li>
+    <li>Name it <strong>dyeary</strong>, paste the server URL above, click <strong>Add</strong>, then <strong>Connect</strong> and sign in.</li>
+  </ol>
+  <p>Connecting once covers Claude on web, desktop, and mobile. Custom connectors are available on Claude's paid plans.</p>
+
+  <h3>Claude Code</h3>
+  <pre><code>claude mcp add --transport http dyeary https://dyeary-backend.onrender.com/mcp</code></pre>
   <p>Then run <code>/mcp</code> inside Claude Code to sign in.</p>
 
-  <h2>What Claude can and cannot do</h2>
-  <ul>
-    <li><strong>Read-only, always.</strong> The connector can search entries, read an entry, summarize your moods over time, and list what you've said about a person or topic. It cannot write, edit, or delete anything — the capability simply doesn't exist on the connection.</li>
-    <li><strong>Only your account.</strong> Every request is tied to your sign-in. There is no way to reach anyone else's journal.</li>
-    <li><strong>Only when you ask.</strong> Claude queries dyeary during your conversation, in response to you. Nothing syncs in the background.</li>
-  </ul>
+  <h3>ChatGPT</h3>
+  <ol>
+    <li>Turn on <strong>Developer mode</strong> (Settings &rarr; Apps &amp; Connectors &rarr; Advanced).</li>
+    <li>Settings &rarr; Connectors &rarr; <strong>Create</strong>: name it <strong>dyeary</strong>, paste the server URL, set Authentication to <strong>OAuth</strong>, and save.</li>
+    <li>Enable the connector in a chat and sign in when prompted.</li>
+  </ol>
+
+  <h3>Cursor</h3>
+  <p>Add to <code>~/.cursor/mcp.json</code> (or the in-app MCP settings):</p>
+  <pre><code>{
+  "mcpServers": {
+    "dyeary": { "url": "https://dyeary-backend.onrender.com/mcp" }
+  }
+}</code></pre>
+
+  <h3>VS Code</h3>
+  <p>Add to your user <code>mcp.json</code> (Command Palette &rarr; "MCP: Open User Configuration"):</p>
+  <pre><code>{
+  "servers": {
+    "dyeary": { "type": "http", "url": "https://dyeary-backend.onrender.com/mcp" }
+  }
+}</code></pre>
+
+  <h3>Anything else</h3>
+  <p>Any client that supports <strong>remote MCP servers over Streamable HTTP with OAuth</strong> works the same way: point it at the server URL and complete the dyeary sign-in it opens. No API keys, no tokens to paste.</p>
+
+  <h2>What your AI can do</h2>
+  <table>
+    <tr><th>Tool</th><th>What it does</th></tr>
+    <tr><td><code>search_entries</code></td><td>Find entries by text, date range, or mood — returns compact snippets.</td></tr>
+    <tr><td><code>get_entry</code></td><td>Read one full entry: transcript, summary, moods, subjects.</td></tr>
+    <tr><td><code>mood_overview</code></td><td>The emotional shape of a date range — distribution, weekly dominants, top feelings.</td></tr>
+    <tr><td><code>quotes_about</code></td><td>Everything you've said about one person, place, or topic, with dates and moods.</td></tr>
+    <tr><td><code>list_categories</code></td><td>Your reflection subjects with quote counts, dominant mood, and life areas.</td></tr>
+  </table>
+  <p>Every tool is <strong>read-only</strong>. The connection cannot write, edit, or delete anything — the capability doesn't exist on the server. Every request is tied to your sign-in; there is no way to reach anyone else's journal. And nothing syncs in the background: your AI queries dyeary only during your conversation, in response to you.</p>
 
   <h2>Privacy, plainly</h2>
-  <p>Whatever Claude reads from your journal becomes part of that Claude conversation, under <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic's privacy terms</a> — the same as if you had pasted the entry yourself. dyeary's own promises hold on our side: entries stay encrypted at rest, nothing is used to train AI, and the connector adds no tracking. See <a href="../how-privacy-works/">how privacy works in dyeary</a>.</p>
+  <p>Whatever your AI reads from your journal becomes part of that conversation, under that AI provider's privacy terms — the same as if you had pasted the entry yourself. dyeary's own promises hold on our side: entries stay encrypted at rest, nothing is used to train AI, and the connector adds no tracking. See <a href="../how-privacy-works/">how privacy works in dyeary</a>.</p>
 
   <h2>Disconnecting</h2>
-  <p>Remove the connector any time in Claude's Settings &rarr; Connectors. Access expires on its own shortly after; nothing about your journal changes.</p>
+  <p>Remove the connector in your AI client's settings any time. Access expires on its own shortly after; nothing about your journal changes.</p>
 
   <h2>If something doesn't work</h2>
   <ul>
-    <li><strong>"Sign-in expired" during connect</strong> — go back to Claude and hit Connect again; the sign-in page is only valid for a few minutes.</li>
-    <li><strong>Claude says it can't reach dyeary</strong> — disconnect and reconnect the connector to refresh its access.</li>
+    <li><strong>"Sign-in expired" during connect</strong> — go back to your client and start the connect again; the sign-in page is only valid for a few minutes.</li>
+    <li><strong>Your AI says it can't reach dyeary</strong> — disconnect and reconnect to refresh its access.</li>
     <li>Still stuck? <a href="mailto:affankhokhar@gmail.com">Email us</a>.</li>
   </ul>
 
