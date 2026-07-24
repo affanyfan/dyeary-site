@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Connect Claude to your dyeary journal</title>
+<meta name="description" content="Add dyeary as a Claude connector and ask questions about your own journal — moods, memories, people, patterns. Read-only, private to your account." />
+<link rel="icon" href="../privacy/logo.png" />
+<link rel="apple-touch-icon" href="../privacy/logo.png" />
+<style>
+  /* dyeary · Prism design system tokens (Theme.swift) */
+  @font-face {
+    font-family: "Chillax";
+    src: url("../assets/Chillax-Variable.ttf") format("truetype");
+    font-weight: 200 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bg: #F6F1E4;
+    --card: #FEFCF6;
+    --ink: #171C3A;
+    --muted: #5C6280;
+    --line: #E0DACA;
+    --accent: #101430;
+  }
+  @media (prefers-color-scheme: dark) { :root {
+    --bg: #0A0B10;
+    --card: #15161E;
+    --ink: #F6F6F9;
+    --muted: #A3A7BE;
+    --line: #272935;
+    --accent: #F1F1F5;
+  } }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Chillax", -apple-system, system-ui, sans-serif;
+    font-synthesis: none; -webkit-font-synthesis: none;
+    line-height: 1.65;
+    font-size: 17px;
+  }
+  b, strong { font-weight: 600; }
+  em { font-style: normal; font-weight: 500; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px 96px; }
+  header { margin-bottom: 48px; }
+  .mark { display: inline-flex; align-items: center; gap: 12px; letter-spacing: 0.02em; }
+  .logo { width: 30px; height: 30px; border-radius: 8px; display: block; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06); }
+  .mark strong { font-size: 20px; font-weight: 600; }
+  h1 { font-size: 34px; line-height: 1.2; margin: 28px 0 6px; font-weight: 350; }
+  .eff { color: var(--muted); font-size: 14px; }
+  h2 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 1.6px;
+    color: var(--muted); margin: 44px 0 12px; font-weight: 500;
+  }
+  p { margin: 0 0 16px; }
+  ul, ol { margin: 0 0 16px; padding-left: 22px; }
+  li { margin-bottom: 10px; }
+  a { color: var(--accent); font-weight: 500; text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+  a:hover { border-bottom-color: var(--accent); }
+  .lead { font-size: 19px; color: var(--ink); }
+  code {
+    font: 500 14.5px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    padding: 2px 8px; word-break: break-all;
+  }
+  .urlcard {
+    display: block; background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 16px 18px; margin: 8px 0 16px;
+    font: 500 15px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+    word-break: break-all;
+  }
+  .ask {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 14px 18px; margin: 0 0 10px; font-size: 16px;
+  }
+  .ask::before { content: "“"; color: var(--muted); }
+  .ask::after { content: "”"; color: var(--muted); }
+  footer {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark"><img class="logo" src="../privacy/logo.png" alt="" /><strong>dyeary</strong></div>
+    <h1>Ask Claude about your own journal</h1>
+    <div class="eff">The dyeary connector for Claude</div>
+  </header>
+
+  <p class="lead">dyeary can plug into Claude as a connector. Once connected, Claude can look things up in <strong>your</strong> journal when you ask — your moods, your people, the things you keep coming back to — and answer with your own words as the source.</p>
+
+  <div class="ask">What was I anxious about last month, and did it pass?</div>
+  <div class="ask">Summarize how the job search has been going, in my own words.</div>
+  <div class="ask">When did I last feel really good, and what was happening that day?</div>
+
+  <h2>Install in Claude (web, desktop, or mobile)</h2>
+  <ol>
+    <li>Open <a href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">claude.ai &rarr; Settings &rarr; Connectors</a>.</li>
+    <li>Choose <strong>Add custom connector</strong>.</li>
+    <li>Name it <strong>dyeary</strong> and paste this URL:
+      <span class="urlcard">https://dyeary-backend.onrender.com/mcp</span>
+    </li>
+    <li>Click <strong>Add</strong>, then <strong>Connect</strong>. A dyeary sign-in page opens — sign in with the same account you use in the app (Google or email).</li>
+    <li>That's it. In any chat, Claude can now search your journal when you ask it to.</li>
+  </ol>
+  <p>Custom connectors are available on Claude's paid plans. The connection follows your Claude account, so connecting once covers web, desktop, and mobile.</p>
+
+  <h2>Install in Claude Code</h2>
+  <p>One command in your terminal:</p>
+  <p><code>claude mcp add --transport http dyeary https://dyeary-backend.onrender.com/mcp</code></p>
+  <p>Then run <code>/mcp</code> inside Claude Code to sign in.</p>
+
+  <h2>What Claude can and cannot do</h2>
+  <ul>
+    <li><strong>Read-only, always.</strong> The connector can search entries, read an entry, summarize your moods over time, and list what you've said about a person or topic. It cannot write, edit, or delete anything — the capability simply doesn't exist on the connection.</li>
+    <li><strong>Only your account.</strong> Every request is tied to your sign-in. There is no way to reach anyone else's journal.</li>
+    <li><strong>Only when you ask.</strong> Claude queries dyeary during your conversation, in response to you. Nothing syncs in the background.</li>
+  </ul>
+
+  <h2>Privacy, plainly</h2>
+  <p>Whatever Claude reads from your journal becomes part of that Claude conversation, under <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic's privacy terms</a> — the same as if you had pasted the entry yourself. dyeary's own promises hold on our side: entries stay encrypted at rest, nothing is used to train AI, and the connector adds no tracking. See <a href="../how-privacy-works/">how privacy works in dyeary</a>.</p>
+
+  <h2>Disconnecting</h2>
+  <p>Remove the connector any time in Claude's Settings &rarr; Connectors. Access expires on its own shortly after; nothing about your journal changes.</p>
+
+  <h2>If something doesn't work</h2>
+  <ul>
+    <li><strong>"Sign-in expired" during connect</strong> — go back to Claude and hit Connect again; the sign-in page is only valid for a few minutes.</li>
+    <li><strong>Claude says it can't reach dyeary</strong> — disconnect and reconnect the connector to refresh its access.</li>
+    <li>Still stuck? <a href="mailto:affankhokhar@gmail.com">Email us</a>.</li>
+  </ul>
+
+  <footer>
+    Questions? <a href="mailto:affankhokhar@gmail.com">affankhokhar@gmail.com</a> &middot; <a href="../how-privacy-works/">How privacy works</a> &middot; <a href="../privacy/">Privacy Policy</a> &middot; <a href="../terms/">Terms of Use</a>
+  </footer>
+</div>
+</body>
+</html>
